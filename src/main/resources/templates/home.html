@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ホーム</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header>
+    <a class="logo" th:href="@{/}">北ノ味</a>
+    <nav>
+      <a th:href="@{/cart}">カート</a> |
+      <a th:href="@{/orders}">注文履歴</a> |
+	  <a th:href="@{/map}">マップ</a> |
+      <a th:href="@{/mypage}" class="btn-mypage">マイページ</a> |
+	  <a th:href="@{/login}" class="btn-login">ログイン</a> |
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- おすすめ商品 -->
+    <h2 class="section-title">おすすめ商品</h2>
+
+    <div class="product-grid" th:if="${products != null and !products.isEmpty()}">
+      <div class="product-card" th:each="product : ${products}">
+        <div class="thumb">No Image</div>
+        <div class="info">
+          <h3 th:text="${product.name}">商品名</h3>
+          <div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
+          <div class="region" th:text="${product.region.name}">地域</div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-secondary" th:href="@{/products/{id}(id=${product.id})}">詳細</a>
+          <a class="btn btn-primary"   th:href="@{/cart/add/{id}(id=${product.id})}">カートへ</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty" th:if="${products == null or products.isEmpty()}">
+      <p>現在表示できる商品がありません。</p>
+    </div>
+
+  </main>
+
+</body>
+</html>
