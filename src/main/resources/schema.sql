@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS cart_items;
 DROP TABLE IF EXISTS carts;
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS categories CASCADE; 
+DROP TABLE IF EXISTS products ;
+DROP TABLE IF EXISTS categories; 
 
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
   id   SERIAL       NOT NULL,
   name VARCHAR(100) NOT NULL,
   PRIMARY KEY (id)

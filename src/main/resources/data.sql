@@ -4,10 +4,6 @@ INSERT INTO categories (name) VALUES ('豚肉'),('牛肉'),('鶏肉'),('ジン�
 -- 2. 次に regions に挿入
 INSERT INTO regions (name) VALUES  ('石狩'), ('胆振'), ('渡島'), ('オホーツク'), ('上川'), ('釧路'), ('後志'), ('宗谷'), ('空知'), ('十勝'), ('根室'), ('日高'), ('檜山'), ('留萌');
 
--- 3. 最後に users を挿入（category_id=1, region_id=1 が存在する状態で）
-INSERT INTO users (name, email, password, category_id, region_id)
-VALUES ('山田太郎', 'yamada@example.com', 'hashed_password_here', 1, 1);
-
 INSERT INTO products (name, weight, price, category_id, region_id) VALUES
 -- 1. 豚肉 (category_id: 1)
 ('十勝産 豚ロースしゃぶしゃぶ用', 500.00, 1280, 1, 10),
