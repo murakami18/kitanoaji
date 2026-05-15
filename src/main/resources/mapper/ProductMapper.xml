@@ -17,4 +17,22 @@
     WHERE id = #{id}
   </select>
 
+  <select id="findByCategoryId" resultType="com.example.demo.entity.Product">
+    SELECT * 
+    FROM products 
+    WHERE category_id = #{categoryId}
+  </select>
+
+  <select id="findByRegionId" resultType="com.example.demo.entity.Product">
+    SELECT * 
+    FROM products 
+    WHERE region_id = #{regionId}
+  </select>
+
+  <select id="findByRegionIdAndCategoryId" resultType="com.example.demo.entity.Product">
+    SELECT * 
+    FROM products
+    WHERE region_id = #{regionId} AND category_id = #{categoryId}
+  </select>
+
 </mapper>
