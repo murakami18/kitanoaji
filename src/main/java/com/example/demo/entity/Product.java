@@ -8,6 +8,25 @@ public class Product {
 	private Integer categoryId;
 	private Integer regionId;
 
+	private String categoryName;
+	private String regionName;
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getRegionName() {
+		return regionName;
+	}
+
+	public void setRegionName(String regionName) {
+		this.regionName = regionName;
+	}
+
 	public Integer getWeight() {
 		return weight;
 	}
