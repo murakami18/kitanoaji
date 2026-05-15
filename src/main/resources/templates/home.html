@@ -8,9 +8,8 @@
 </head>
 <body>
 
-  <!-- ヘッダー -->
   <header>
-    <a class="logo" th:href="@{/}">北ノ味</a>
+    <a>北ノ味</a>
     <nav>
       <a th:href="@{/cart}">カート</a> |
       <a th:href="@{/orders}">注文履歴</a> |
@@ -22,17 +21,20 @@
 
   <main>
 
-    <!-- おすすめ商品 -->
     <h2 class="section-title">おすすめ商品</h2>
 
     <div class="product-grid" th:if="${products != null and !products.isEmpty()}">
       <div class="product-card" th:each="product : ${products}">
-        <div class="thumb">No Image</div>
+        
+        <div class="thumb">
+          <span>No Image</span>
+        </div>
+        
         <div class="info">
           <h3 th:text="${product.name}">商品名</h3>
           <div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
-          <div class="region" th:text="${product.region.name}">地域</div>
         </div>
+        
         <div class="actions">
           <a class="btn btn-secondary" th:href="@{/products/{id}(id=${product.id})}">詳細</a>
           <a class="btn btn-primary"   th:href="@{/cart/add/{id}(id=${product.id})}">カートへ</a>
