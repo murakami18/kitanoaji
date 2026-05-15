@@ -3,37 +3,62 @@
 <head><title>fragment</title></head>
 <body>
 
-<!--
-  =====================================================================
-  共通ヘッダーフラグメント
-  配置先: src/main/resources/templates/layout/_header.html
-  使い方: <div th:replace="~{layout/_header :: header}"></div>
-  =====================================================================
--->
 <div th:fragment="header">
 
-  <!-- サイドバーオーバーレイ -->
   <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
-  <!-- サイドバーメニュー -->
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
       <span class="sidebar-title">メニュー</span>
       <button class="sidebar-close" onclick="closeSidebar()">✕</button>
     </div>
     <div class="sidebar-body">
+      
       <section class="sidebar-section">
         <h4 class="sidebar-section-title">カテゴリ</h4>
-        <!-- 今後追加 -->
-      </section>
+        </section>
+      
       <section class="sidebar-section">
-        <h4 class="sidebar-section-title">地域</h4>
-        <!-- 今後追加 -->
+        <div class="sidebar-section-header" onclick="toggleRegionAccordion()">
+          <h4 class="sidebar-section-title">地域</h4>
+          <button type="button" class="accordion-toggle-btn" id="region-chevron">▼</button>
+        </div>
+        
+        <div class="sidebar-accordion-content" id="region-accordion">
+          <ul class="region-list">
+            <th:block th:if="${regions != null}">
+              <th:block th:each="region : ${regions}">
+                <li>
+                  <a th:href="@{/home(regionId=${region.id})}" 
+                     th:text="${region.name}" 
+                     class="region-link">地域名</a>
+                </li>
+              </th:block>
+            </th:block>
+            
+            <th:block th:if="${regions == null}">
+              <li><a th:href="@{/home(regionId=1)}" class="region-link">石狩</a></li>
+              <li><a th:href="@{/home(regionId=2)}" class="region-link">胆振</a></li>
+              <li><a th:href="@{/home(regionId=3)}" class="region-link">渡島</a></li>
+              <li><a th:href="@{/home(regionId=4)}" class="region-link">オホーツク</a></li>
+              <li><a th:href="@{/home(regionId=5)}" class="region-link">上川</a></li>
+              <li><a th:href="@{/home(regionId=6)}" class="region-link">釧路</a></li>
+              <li><a th:href="@{/home(regionId=7)}" class="region-link">後志</a></li>
+              <li><a th:href="@{/home(regionId=8)}" class="region-link">宗谷</a></li>
+              <li><a th:href="@{/home(regionId=9)}" class="region-link">空知</a></li>
+              <li><a th:href="@{/home(regionId=10)}" class="region-link">十勝</a></li>
+              <li><a th:href="@{/home(regionId=11)}" class="region-link">根室</a></li>
+              <li><a th:href="@{/home(regionId=12)}" class="region-link">日高</a></li>
+              <li><a th:href="@{/home(regionId=13)}" class="region-link">檜山</a></li>
+              <li><a th:href="@{/home(regionId=14)}" class="region-link">留萌</a></li>
+            </th:block>
+          </ul>
+        </div>
       </section>
+
     </div>
   </aside>
 
-  <!-- ヘッダー本体 -->
   <header class="site-header">
     <div class="header-left">
       <button class="hamburger-btn" onclick="toggleSidebar()">
@@ -53,8 +78,8 @@
     </nav>
   </header>
 
-  <!-- サイドバー制御スクリプト -->
   <script>
+    // サイドバー全体の開閉
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
       document.getElementById('sidebar-overlay').classList.toggle('active');
@@ -64,6 +89,14 @@
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebar-overlay').classList.remove('active');
       document.body.classList.remove('sidebar-open');
+    }
+
+    // 地域アコーディオンの開閉
+    function toggleRegionAccordion() {
+      const content = document.getElementById('region-accordion');
+      const chevron = document.getElementById('region-chevron');
+      content.classList.toggle('open');
+      chevron.classList.toggle('rotated');
     }
   </script>
 
