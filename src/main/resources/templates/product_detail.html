@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>商品詳細</title>
+
+	<style>
+		body {
+			font-family: sans-serif;
+			background-color: #f5f5f5;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			width: 80%;
+			margin: 30px auto;
+			background-color: white;
+			padding: 30px;
+			border-radius: 10px;
+		}
+
+		.product-area {
+			display: flex;
+			gap: 40px;
+		}
+
+		.product-image {
+			width: 400px;
+		}
+
+		.product-image img {
+			width: 100%;
+			border-radius: 10px;
+		}
+
+		.product-info {
+			flex: 1;
+		}
+
+		.product-name {
+			font-size: 32px;
+			font-weight: bold;
+			margin-bottom: 20px;
+		}
+
+		.product-price {
+			font-size: 28px;
+			color: red;
+			margin-bottom: 20px;
+		}
+
+		.product-detail {
+			font-size: 20px;
+			margin-bottom: 15px;
+		}
+
+		.quantity-area {
+			margin-top: 20px;
+			margin-bottom: 30px;
+		}
+
+		.quantity-btn {
+			width: 40px;
+			height: 40px;
+			font-size: 20px;
+		}
+
+		.quantity-input {
+			width: 60px;
+			height: 35px;
+			text-align: center;
+			font-size: 18px;
+		}
+
+		.button-area {
+			margin-top: 30px;
+		}
+
+		.button-area button {
+			padding: 12px 20px;
+			font-size: 18px;
+			margin-right: 10px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		.compare-btn {
+			background-color: #ffcc66;
+		}
+
+		.cart-btn {
+			background-color: #66ccff;
+		}
+
+		.buy-btn {
+			background-color: #ff6666;
+			color: white;
+		}
+	</style>
+
+	<script>
+		function increaseQuantity() {
+			let quantity = document.getElementById("quantity");
+			quantity.value = parseInt(quantity.value) + 1;
+		}
+
+		function decreaseQuantity() {
+			let quantity = document.getElementById("quantity");
+
+			if (parseInt(quantity.value) > 1) {
+				quantity.value = parseInt(quantity.value) - 1;
+			}
+		}
+	</script>
+
+</head>
+
+<body>
+
+	<div class="container">
+
+		<div class="product-area">
+
+			<!-- 商品画像 -->
+			<div class="product-image">
+				<img src="/images/sample.jpg" alt="商品画像">
+			</div>
+
+			<!-- 商品情報 -->
+			<div class="product-info">
+
+				<!-- 商品名 -->
+				<div class="product-name" th:text="${product.name}">
+					商品名
+				</div>
+
+				<!-- 価格 -->
+				<div class="product-price">
+					¥<span th:text="${T(java.lang.Integer).valueOf(product.price)}"></span>
+				</div>
+
+				<!-- カテゴリー -->
+				<div class="product-detail">
+					カテゴリー：
+					<span th:text="${product.categoryName}"></span>
+				</div>
+
+				<!-- 地域 -->
+				<div class="product-detail">
+					地域：
+					<span th:text="${product.regionName}"></span>
+				</div>
+
+				<!-- 内容量 -->
+				<div class="product-detail">
+					内容量：
+					<span th:text="${T(java.lang.Integer).valueOf(product.weight)}"></span> g
+				</div>
+
+				<!-- 数量 -->
+				<div class="quantity-area">
+
+					<button type="button" class="quantity-btn" onclick="decreaseQuantity()">
+						-
+					</button>
+
+					<input type="text" id="quantity" class="quantity-input" value="1">
+
+					<button type="button" class="quantity-btn" onclick="increaseQuantity()">
+						+
+					</button>
+
+				</div>
+
+				<!-- ボタン -->
+				<div class="button-area">
+
+					<!-- 商品比較 -->
+					<a th:href="@{/product/compare}">
+						<button type="button" class="compare-btn">
+							商品比較
+						</button>
+					</a>
+
+					<!-- カート追加 -->
+					<form th:action="@{/cart/add}" method="post" style="display:inline">
+
+						<input type="hidden" name="productId" th:value="${product.id}" />
+
+						<button type="submit" class="cart-btn">
+							カートに追加
+						</button>
+
+					</form>
+
+					<!-- 購入 -->
+					<!-- 購入 -->
+					<a th:href="@{/order/confirm}">
+					    <button type="button"
+					            class="buy-btn">
+					        購入する
+					    </button>
+					</a>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
