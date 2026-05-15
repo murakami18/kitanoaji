@@ -1,68 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ホーム</title>
-	<link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ホーム｜北ノ味</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 
-	<header>
-		<a>北ノ味</a>
-		<nav>
-			<a th:href="@{/cart}">カート</a> |
-			<a th:href="@{/orders}">注文履歴</a> |
-			<a th:href="@{/map}">マップ</a> |
-			<a th:href="@{/mypage}" class="btn-mypage">マイページ</a> |
-			<a th:href="@{/login}" class="btn-login">ログイン</a> |
-		</nav>
-	</header>
+  <!-- ヘッダー（layout/_header.html のフラグメントを読み込み） -->
+  <div th:replace="~{layout/_header :: header}"></div>
 
-	<main>
-		<!-- 地方でフィルタリング -->
-		<div class="filter-bar" th:if="${selectedRegion != null}">
-		  <span th:text="'📍 ' + ${selectedRegion.name} + ' の商品を表示中'"></span>
-		  <a class="btn btn-secondary" th:href="@{/home}">すべて表示</a>
-		</div>
+  <main class="main-content">
 
-		<!-- カテゴリでフィルタリング -->
-		<div class="filter-bar" th:if="${selectedCategory != null}">
-		  <span th:text="'🏷️ ' + ${selectedCategory.name} + ' の商品を表示中'"></span>
-		  <a class="btn btn-secondary" th:href="@{/home}">すべて表示</a>
-		</div>
-		
-		<h2 class="section-title">商品一覧</h2>
+    <!-- 地方フィルター表示バー -->
+    <div class="filter-bar" th:if="${selectedRegion != null}">
+      <span th:text="'📍 ' + ${selectedRegion.name} + ' の商品を表示中'"></span>
+      <a class="btn btn-secondary" th:href="@{/home}">すべて表示</a>
+    </div>
 
-		<div class="product-grid" th:if="${products != null and !products.isEmpty()}">
-			<div class="product-card" th:each="product : ${products}">
+    <!-- カテゴリフィルター表示バー -->
+    <div class="filter-bar" th:if="${selectedCategory != null}">
+      <span th:text="'🏷️ ' + ${selectedCategory.name} + ' の商品を表示中'"></span>
+      <a class="btn btn-secondary" th:href="@{/home}">すべて表示</a>
+    </div>
 
-				<div class="thumb">
-					<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
-						onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-					<span style="display:none;">No Image</span>
-				</div>
+    <h2 class="section-title">商品一覧</h2>
 
-				<div class="info">
-					<h3 th:text="${product.name}">商品名</h3>
-					<div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
-				</div>
+    <!-- 商品グリッド -->
+    <div class="product-grid" th:if="${products != null and !products.isEmpty()}">
+      <div class="product-card" th:each="product : ${products}">
 
-				<div class="actions">
-					<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a> |
-					<a class="btn btn-primary" th:href="@{/cart/{id}(id=${product.id})}">カートへ</a>
-				</div>
-			</div>
-		</div>
+        <div class="thumb">
+          <img
+            th:src="@{/image/{id}.jpg(id=${product.id})}"
+            th:alt="${product.name}"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <span class="no-image">No Image</span>
+        </div>
 
-		<div class="empty" th:if="${products == null or products.isEmpty()}">
-			<p>現在表示できる商品がありません。</p>
-		</div>
+        <div class="info">
+          <h3 th:text="${product.name}">商品名</h3>
+          <div class="price"
+               th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
+        </div>
 
-	</main>
+        <div class="actions">
+          <a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
+          <a class="btn btn-primary"   th:href="@{/cart/{id}(id=${product.id})}">カートへ</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 商品なし -->
+    <div class="empty" th:if="${products == null or products.isEmpty()}">
+      <p>現在表示できる商品がありません。</p>
+    </div>
+
+  </main>
 
 </body>
-
 </html>
