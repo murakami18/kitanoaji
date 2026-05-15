@@ -3,9 +3,11 @@ package com.example.demo.form;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class UserForm {
+
 	@NotBlank(message = "名前は必須です")
 	private String name;
 
@@ -20,9 +22,22 @@ public class UserForm {
 	@Size(min = 6, message = "パスワードは6文字以上で入力してください")
 	private String password;
 
+	@NotNull(message = "カテゴリー選択は必須です")
+	private Integer categoryId;
+
 	@AssertTrue(message = "メールアドレスが一致しません")
 	public boolean isEmailConfirmed() {
 		return email != null && email.equals(emailConfirm);
+	}
+
+	private Integer regionId;
+
+	public Integer getRegionId() {
+		return regionId;
+	}
+
+	public void setRegionId(Integer regionId) {
+		this.regionId = regionId;
 	}
 
 	public String getEmailConfirm() {
@@ -55,5 +70,13 @@ public class UserForm {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 }
