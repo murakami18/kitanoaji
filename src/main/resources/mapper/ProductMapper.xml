@@ -11,11 +11,32 @@
     ORDER BY id
   </select>
 
-  <select id="findById" resultType="com.example.demo.entity.Product">
-    SELECT id, name, price
-    FROM products
-    WHERE id = #{id}
-  </select>
+ <select id="findById"
+        parameterType="int"
+        resultType="com.example.demo.entity.Product">
+
+    SELECT
+        p.id,
+        p.name,
+        p.weight,
+        p.price,
+        p.category_id,
+        p.region_id,
+
+        c.name AS category_name,
+        r.name AS region_name
+
+    FROM products p
+
+    JOIN categories c
+        ON p.category_id = c.id
+
+    JOIN regions r
+        ON p.region_id = r.id
+
+    WHERE p.id = #{id}
+
+</select>
 
   <select id="findByCategoryId" resultType="com.example.demo.entity.Product">
     SELECT * 
