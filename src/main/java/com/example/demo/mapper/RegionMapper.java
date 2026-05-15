@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
-import javax.swing.plaf.synth.Region;
-
 import org.apache.ibatis.annotations.Mapper;
+
+import com.example.demo.entity.Region;
 
 @Mapper
 public interface RegionMapper {

@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
-import java.util.Locale.Category;
-
 import org.apache.ibatis.annotations.Mapper;
+
+import com.example.demo.entity.Category;
 
 @Mapper
 public interface CategoryMapper {
