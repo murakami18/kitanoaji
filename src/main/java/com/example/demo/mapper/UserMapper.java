@@ -8,6 +8,7 @@ import com.example.demo.entity.User;
 
 @Mapper
 public interface UserMapper {
+	boolean existsByEmail(String email);
 
 	/** メールアドレスでユーザを検索する */
 	@Select("SELECT * FROM users WHERE email = #{email}")

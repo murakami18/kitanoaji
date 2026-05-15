@@ -20,6 +20,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void register(UserForm form) {
+		if (userMapper.existsByEmail(form.getEmail())) {
+			throw new IllegalArgumentException("このメールは既に使われています");
+		}
 		System.out.println("ユーザ登録：" + form.getName() + " <" + form.getEmail() + ">");
 		User user = new User();
 		user.setName(form.getName());
