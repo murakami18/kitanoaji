@@ -1,218 +1,177 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
-	<meta charset="UTF-8">
-	<title>商品詳細</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品詳細｜北ノ味</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    /* 商品詳細固有スタイル */
+    .product-area {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
 
-	<style>
-		body {
-			font-family: sans-serif;
-			background-color: #f5f5f5;
-			margin: 0;
-			padding: 0;
-		}
+    .product-image {
+      width: 400px;
+      flex-shrink: 0;
+    }
 
-		.container {
-			width: 80%;
-			margin: 30px auto;
-			background-color: white;
-			padding: 30px;
-			border-radius: 10px;
-		}
+    .product-image .thumb {
+      position: relative;
+    }
 
-		.product-area {
-			display: flex;
-			gap: 40px;
-		}
+    .product-image img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+    }
 
-		.product-image {
-			width: 400px;
-		}
+    .product-info {
+      flex: 1;
+    }
 
-		.product-image img {
-			width: 100%;
-			border-radius: 10px;
-		}
+    .product-name {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
 
-		.product-info {
-			flex: 1;
-		}
+    .product-price {
+      font-size: 28px;
+      color: #c0392b;
+      margin-bottom: 20px;
+    }
 
-		.product-name {
-			font-size: 32px;
-			font-weight: bold;
-			margin-bottom: 20px;
-		}
+    .product-detail {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
 
-		.product-price {
-			font-size: 28px;
-			color: red;
-			margin-bottom: 20px;
-		}
+    .quantity-area {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 20px 0 30px;
+    }
 
-		.product-detail {
-			font-size: 20px;
-			margin-bottom: 15px;
-		}
+    .quantity-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-		.quantity-area {
-			margin-top: 20px;
-			margin-bottom: 30px;
-		}
+    .quantity-input {
+      width: 60px;
+      height: 38px;
+      text-align: center;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-		.quantity-btn {
-			width: 40px;
-			height: 40px;
-			font-size: 20px;
-		}
-
-		.quantity-input {
-			width: 60px;
-			height: 35px;
-			text-align: center;
-			font-size: 18px;
-		}
-
-		.button-area {
-			margin-top: 30px;
-		}
-
-		.button-area button {
-			padding: 12px 20px;
-			font-size: 18px;
-			margin-right: 10px;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-		}
-
-		.compare-btn {
-			background-color: #ffcc66;
-		}
-
-		.cart-btn {
-			background-color: #66ccff;
-		}
-
-		.buy-btn {
-			background-color: #ff6666;
-			color: white;
-		}
-	</style>
-
-	<script>
-		function increaseQuantity() {
-			let quantity = document.getElementById("quantity");
-			quantity.value = parseInt(quantity.value) + 1;
-		}
-
-		function decreaseQuantity() {
-			let quantity = document.getElementById("quantity");
-
-			if (parseInt(quantity.value) > 1) {
-				quantity.value = parseInt(quantity.value) - 1;
-			}
-		}
-	</script>
-
+    .button-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
-
 <body>
 
-	<div class="container">
+  <!-- ヘッダー（layout/_header.html のフラグメントを読み込み） -->
+  <div th:replace="~{layout/_header :: header}"></div>
 
-		<div class="product-area">
+  <main class="main-content">
 
-			<!-- 商品画像 -->
-			<div class="product-image">
-				<img src="/images/sample.jpg" alt="商品画像">
-			</div>
+    <h2 class="section-title">商品詳細</h2>
 
-			<!-- 商品情報 -->
-			<div class="product-info">
+    <div class="product-area">
 
-				<!-- 商品名 -->
-				<div class="product-name" th:text="${product.name}">
-					商品名
-				</div>
+      <!-- 商品画像 -->
+      <div class="product-image">
+        <div class="thumb">
+          <img
+            th:src="@{/image/{id}.jpg(id=${product.id})}"
+            th:alt="${product.name}"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <span class="no-image">No Image</span>
+        </div>
+      </div>
 
-				<!-- 価格 -->
-				<div class="product-price">
-					¥<span th:text="${T(java.lang.Integer).valueOf(product.price)}"></span>
-				</div>
+      <!-- 商品情報 -->
+      <div class="product-info">
 
-				<!-- カテゴリー -->
-				<div class="product-detail">
-					カテゴリー：
-					<span th:text="${product.categoryName}"></span>
-				</div>
+        <!-- 商品名 -->
+        <div class="product-name" th:text="${product.name}">商品名</div>
 
-				<!-- 地域 -->
-				<div class="product-detail">
-					地域：
-					<span th:text="${product.regionName}"></span>
-				</div>
+        <!-- 価格 -->
+        <div class="product-price"
+             th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
 
-				<!-- 内容量 -->
-				<div class="product-detail">
-					内容量：
-					<span th:text="${T(java.lang.Integer).valueOf(product.weight)}"></span> g
-				</div>
+        <!-- カテゴリー -->
+        <div class="product-detail">
+          カテゴリー：<span th:text="${product.categoryName}"></span>
+        </div>
 
-				<!-- 数量 -->
-				<div class="quantity-area">
+        <!-- 地域 -->
+        <div class="product-detail">
+          地域：<span th:text="${product.regionName}"></span>
+        </div>
 
-					<button type="button" class="quantity-btn" onclick="decreaseQuantity()">
-						-
-					</button>
+        <!-- 内容量 -->
+        <div class="product-detail">
+          内容量：
+          <span th:text="${#numbers.formatInteger(product.weight, 1, 'COMMA')}"></span> g
+        </div>
 
-					<input type="text" id="quantity" class="quantity-input" value="1">
+        <!-- 数量 -->
+        <div class="quantity-area">
+          <button type="button" class="quantity-btn" onclick="decreaseQuantity()">－</button>
+          <input type="text" id="quantity" class="quantity-input" value="1">
+          <button type="button" class="quantity-btn" onclick="increaseQuantity()">＋</button>
+        </div>
 
-					<button type="button" class="quantity-btn" onclick="increaseQuantity()">
-						+
-					</button>
+        <!-- ボタン -->
+        <div class="button-area">
 
-				</div>
+          <!-- 商品比較 -->
+          <a class="btn btn-secondary" th:href="@{/product/compare}">商品比較</a>
 
-				<!-- ボタン -->
-				<div class="button-area">
+          <!-- カート追加 -->
+          <form th:action="@{/cart/add}" method="post" style="display:inline">
+            <input type="hidden" name="productId" th:value="${product.id}" />
+            <button type="submit" class="btn btn-primary">カートに追加</button>
+          </form>
 
-					<!-- 商品比較 -->
-					<a th:href="@{/product/compare}">
-						<button type="button" class="compare-btn">
-							商品比較
-						</button>
-					</a>
+          <!-- 購入 -->
+          <a class="btn btn-primary" th:href="@{/order/confirm}">購入する</a>
 
-					<!-- カート追加 -->
-					<form th:action="@{/cart/add}" method="post" style="display:inline">
+        </div>
 
-						<input type="hidden" name="productId" th:value="${product.id}" />
+      </div>
 
-						<button type="submit" class="cart-btn">
-							カートに追加
-						</button>
+    </div>
 
-					</form>
+  </main>
 
-					<!-- 購入 -->
-					<!-- 購入 -->
-					<a th:href="@{/order/confirm}">
-					    <button type="button"
-					            class="buy-btn">
-					        購入する
-					    </button>
-					</a>
+  <script>
+    function increaseQuantity() {
+      const q = document.getElementById("quantity");
+      q.value = parseInt(q.value) + 1;
+    }
 
-				</div>
-
-			</div>
-
-		</div>
-
-	</div>
+    function decreaseQuantity() {
+      const q = document.getElementById("quantity");
+      if (parseInt(q.value) > 1) q.value = parseInt(q.value) - 1;
+    }
+  </script>
 
 </body>
-
 </html>
