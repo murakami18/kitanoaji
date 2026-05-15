@@ -8,26 +8,22 @@
 </head>
 <body>
 
-  <!-- ヘッダー（layout/_header.html のフラグメントを読み込み） -->
   <div th:replace="~{layout/_header :: header}"></div>
 
   <main class="main-content">
 
-    <!-- 地方フィルター表示バー -->
-    <div class="filter-bar" th:if="${selectedRegion != null}">
-      <span th:text="'📍 ' + ${selectedRegion.name} + ' の商品を表示中'"></span>
-      <a class="btn btn-secondary" th:href="@{/home}">すべて表示</a>
+    <div class="section-header">
+      <h2 class="section-title">商品一覧</h2>
+      
+      <div class="filter-action" th:if="${selectedRegion != null}">
+        <a class="btn btn-secondary btn-clear" th:href="@{/home}">すべて表示</a>
+      </div>
+
+      <div class="filter-action" th:if="${selectedCategories != null and !selectedCategories.isEmpty()}">
+        <a class="btn btn-secondary btn-clear" th:href="@{/home}">すべて表示</a>
+      </div>
     </div>
 
-    <!-- カテゴリフィルター表示バー -->
-    <div class="filter-bar" th:if="${selectedCategory != null}">
-      <span th:text="'🏷️ ' + ${selectedCategory.name} + ' の商品を表示中'"></span>
-      <a class="btn btn-secondary" th:href="@{/home}">すべて表示</a>
-    </div>
-
-    <h2 class="section-title">商品一覧</h2>
-
-    <!-- 商品グリッド -->
     <div class="product-grid" th:if="${products != null and !products.isEmpty()}">
       <div class="product-card" th:each="product : ${products}">
 
@@ -53,7 +49,6 @@
       </div>
     </div>
 
-    <!-- 商品なし -->
     <div class="empty" th:if="${products == null or products.isEmpty()}">
       <p>現在表示できる商品がありません。</p>
     </div>
