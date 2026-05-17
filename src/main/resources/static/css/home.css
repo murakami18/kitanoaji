@@ -1,0 +1,87 @@
+/* ============================================================
+   北ノ味 — home.css（ホームページ固有スタイル）
+   ============================================================ */
+
+/* ---------- セクションヘッダー ---------- */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.section-header .section-title {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+/* ---------- すべて表示ボタン ---------- */
+.filter-action {
+  display: flex;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.btn-clear {
+  width: auto;
+  padding: 4px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ---------- 商品グリッド ---------- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .product-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- 商品カード ---------- */
+.product-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.product-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ---------- 商品情報・価格 ---------- */
+.info {
+  padding: 12px 14px 8px;
+  flex: 1;
+}
+.info h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+.price {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-price);
+}
+
+/* ---------- アクションボタンエリア ---------- */
+.actions {
+  display: flex;
+  gap: 8px;
+  padding: 0 14px 14px;
+}

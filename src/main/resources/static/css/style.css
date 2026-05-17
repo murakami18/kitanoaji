@@ -1,17 +1,17 @@
 /* ============================================================
-   北ノ味 — style.css (3階層アコーディオン＆商品一覧完全版)
+   北ノ味 — style.css（共通スタイル）
    ============================================================ */
 
 /* ---------- CSS 変数 ---------- */
 :root {
-  --color-primary:     #1b6e7d;   /* ヘッダー・アクセント（ティール） */
-  --color-primary-dk:  #155a68;   /* ホバー */
-  --color-primary-lt:  #e8f4f7;   /* 薄いティール背景 */
-  --color-bg:          #f4f6f8;   /* ページ背景 */
+  --color-primary:     #1b6e7d;
+  --color-primary-dk:  #155a68;
+  --color-primary-lt:  #e8f4f7;
+  --color-bg:          #f4f6f8;
   --color-surface:     #ffffff;
   --color-border:      #d0dce0;
-  --color-text:        #1e2d30;   /* メインの黒（視認性の高いダークトーン） */
-  --color-text-muted:  #5a7278;   /* 補助的なグレー */
+  --color-text:        #1e2d30;
+  --color-text-muted:  #5a7278;
   --color-price:       #c0392b;
 
   --header-h:          56px;
@@ -36,7 +36,7 @@ img { display: block; max-width: 100%; }
 button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
 
 /* ============================================================
-   ヘッheader
+   ヘッダー
    ============================================================ */
 .site-header {
   position: fixed;
@@ -96,7 +96,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 .nav-link--search:hover { background: rgba(255,255,255,.28); }
 
 /* ============================================================
-   サイドバー本体
+   サイドバー
    ============================================================ */
 .sidebar-overlay {
   position: fixed;
@@ -149,7 +149,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 .sidebar-section:last-child { border-bottom: none; }
 
 /* ============================================================
-   アコーディオン共通構造 (CSS Gridによるスライドアニメーション)
+   アコーディオン（CSS Grid スライド）
    ============================================================ */
 .accordion-toggle-trigger {
   display: flex;
@@ -161,7 +161,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   background: none;
   text-align: left;
 }
-
 .accordion-title-text {
   font-size: 13px;
   font-weight: 700;
@@ -169,7 +168,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   text-transform: uppercase;
   letter-spacing: .1em;
 }
-
 .chevron-icon {
   font-size: 10px;
   color: var(--color-text-muted);
@@ -177,7 +175,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 }
 .chevron-icon.rotated { transform: rotate(180deg); }
 
-/* スライドコンテナ */
 .accordion-wrapper {
   display: grid;
   grid-template-rows: 0fr;
@@ -188,7 +185,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 .accordion-inner { min-height: 0; }
 
 /* ============================================================
-   2層目＆3層目：カテゴリ階層専用スタイル（フォント・色統一版）
+   カテゴリ階層
    ============================================================ */
 .category-tree-list { list-style: none; padding: 0 16px 12px; }
 
@@ -204,22 +201,18 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   padding: 10px 4px;
   cursor: pointer;
 }
-
-/* 2層目（親カテゴリ：肉類など） */
 .parent-label-box {
   display: flex;
   align-items: center;
   gap: 8px;
   flex: 1;
   cursor: pointer;
-  
   font-size: 13px;
   font-weight: 700;
   color: var(--color-text);
   letter-spacing: .1em;
 }
 
-/* 3層目：子カテゴリリスト */
 .child-category-container {
   display: grid;
   grid-template-rows: 0fr;
@@ -236,15 +229,12 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   flex-direction: column;
   gap: 9px;
 }
-
-/* 3層目（子カテゴリ：豚肉など） */
 .child-item-label {
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
   transition: color var(--transition);
-
   font-size: 12px;
   font-weight: 700;
   color: var(--color-text);
@@ -252,7 +242,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 }
 .child-item-label:hover { color: var(--color-primary); }
 
-/* チェックボックス形状共通 */
 .parent-label-box input[type="checkbox"],
 .child-item-label input[type="checkbox"] {
   cursor: pointer;
@@ -261,12 +250,13 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   accent-color: var(--color-primary);
 }
 
-/* 1層目：地域リスト用スタイル */
+/* ============================================================
+   地域リスト
+   ============================================================ */
 .region-list { list-style: none; padding: 4px 16px 16px; }
 .region-list li { border-bottom: 1px solid rgba(208, 220, 224, 0.5); }
 .region-list li:last-child { border-bottom: none; }
 
-/* 各地域名（石狩、胆振など） */
 .region-link {
   display: block;
   padding: 12px 8px;
@@ -283,7 +273,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 }
 
 /* ============================================================
-   メインコンテンツ・基本レイアウト（★見出し＆並び調整版）
+   メインコンテンツ共通
    ============================================================ */
 .main-content {
   margin-top: var(--header-h);
@@ -291,74 +281,17 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   min-height: calc(100vh - var(--header-h));
 }
 
-/* 見出しとボタンを横並びにする親コンテナ */
-.section-header {
-  display: flex;
-  align-items: center; 
-  gap: 16px;           
-  margin-bottom: 20px;
-  border-bottom: 2px solid var(--color-primary);
-}
-
-/* メインセクション見出し */
 .section-title {
   font-size: 18px;
   font-weight: 700;
   color: var(--color-text);
   padding-bottom: 8px;
-  margin-bottom: 0;
-  border-bottom: none;
   display: inline-block;
 }
 
-/* すべて表示ボタンのラッパー */
-.filter-action {
-  display: flex;
-  align-items: center;
-  padding-bottom: 8px;
-}
-
-/* 「すべて表示」ボタン専用スタイル */
-.btn-clear {
-  width: auto;         
-  padding: 4px 12px;   
-  font-size: 12px;
-  border-radius: 4px;
-  white-space: nowrap; 
-}
-
 /* ============================================================
-   商品一覧・グリッドシステム
+   サムネイル・No Image（home・product 共用）
    ============================================================ */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 900px) {
-  .product-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 560px) {
-  .product-grid { grid-template-columns: 1fr; }
-}
-
-/* ---------- 商品カード単体 ---------- */
-.product-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow var(--transition), transform var(--transition);
-}
-.product-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
 .thumb {
   position: relative;
   width: 100%;
@@ -382,31 +315,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   border: 2px dashed var(--color-border);
 }
 
-.info {
-  padding: 12px 14px 8px;
-  flex: 1;
-}
-.info h3 {
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: var(--color-text);
-  line-height: 1.4;
-}
-.price {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-price);
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-  padding: 0 14px 14px;
-}
-
 /* ============================================================
-   汎用共通パーツ
+   汎用ボタン
    ============================================================ */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -425,6 +335,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 }
 .btn-secondary:hover { background: var(--color-primary-lt); }
 
+/* ============================================================
+   空状態
+   ============================================================ */
 .empty {
   text-align: center;
   padding: 60px 20px;

@@ -1,59 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ホーム｜北ノ味</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ホーム｜北ノ味</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
+
 <body>
 
-  <div th:replace="~{layout/_header :: header}"></div>
+	<div th:replace="~{layout/_header :: header}"></div>
 
-  <main class="main-content">
+	<main class="main-content">
 
-    <div class="section-header">
-      <h2 class="section-title">商品一覧</h2>
-      
-      <div class="filter-action" th:if="${selectedRegion != null}">
-        <a class="btn btn-secondary btn-clear" th:href="@{/home}">すべて表示</a>
-      </div>
+		<div class="section-header">
+			<h2 class="section-title">商品一覧</h2>
 
-      <div class="filter-action" th:if="${selectedCategories != null and !selectedCategories.isEmpty()}">
-        <a class="btn btn-secondary btn-clear" th:href="@{/home}">すべて表示</a>
-      </div>
-    </div>
+			<div class="filter-action"
+				th:if="${selectedRegion != null or (selectedCategories != null and !selectedCategories.isEmpty())}">
+				<a class="btn btn-secondary btn-clear" th:href="@{/home}">すべて表示</a>
+			</div>
+		</div>
 
-    <div class="product-grid" th:if="${products != null and !products.isEmpty()}">
-      <div class="product-card" th:each="product : ${products}">
+		<div class="product-grid" th:if="${products != null and !products.isEmpty()}">
+			<div class="product-card" th:each="product : ${products}">
 
-        <div class="thumb">
-          <img
-            th:src="@{/image/{id}.jpg(id=${product.id})}"
-            th:alt="${product.name}"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <span class="no-image">No Image</span>
-        </div>
+				<div class="thumb">
+					<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
+						onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+					<span class="no-image">No Image</span>
+				</div>
 
-        <div class="info">
-          <h3 th:text="${product.name}">商品名</h3>
-          <div class="price"
-               th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
-        </div>
+				<div class="info">
+					<h3 th:text="${product.name}">商品名</h3>
+					<div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
+				</div>
 
-        <div class="actions">
-          <a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
-          <a class="btn btn-primary"   th:href="@{/cart/{id}(id=${product.id})}">カートへ</a>
-        </div>
+				<div class="actions">
+					<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
+					<a class="btn btn-primary" th:href="@{/cart/{id}(id=${product.id})}">カートへ</a>
+				</div>
 
-      </div>
-    </div>
+			</div>
+		</div>
 
-    <div class="empty" th:if="${products == null or products.isEmpty()}">
-      <p>現在表示できる商品がありません。</p>
-    </div>
+		<div class="empty" th:if="${products == null or products.isEmpty()}">
+			<p>現在表示できる商品がありません。</p>
+		</div>
 
-  </main>
+	</main>
 
 </body>
+
 </html>
