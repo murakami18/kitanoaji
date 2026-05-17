@@ -14,12 +14,16 @@
 
   <form th:action="@{/login}" th:object="${form}" method="post">
     <p>
+		<label>
       メールアドレス：<input type="email" th:field="*{email}" />
       <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+	  </label>
     </p>
     <p>
+		<label>
       パスワード：<input type="password" th:field="*{password}" />
       <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+	  </label>
     </p>
    <button type="submit">ログイン</button>
   </form>
