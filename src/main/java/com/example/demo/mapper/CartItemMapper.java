@@ -39,4 +39,11 @@ public interface CartItemMapper {
 	//データベースから商品を削除するメソッド
 	@Delete("DELETE FROM cart_items WHERE cart_id = #{cartId} AND product_id = #{productId}")
 	void deleteByCartIdAndProductId(int cartId, int productId);
+
+	// カート内の全商品を削除する
+	@Delete("""
+			    DELETE FROM cart_items
+			    WHERE cart_id = #{cartId}
+			""")
+	void clearCartItems(@Param("cartId") int cartId);
 }

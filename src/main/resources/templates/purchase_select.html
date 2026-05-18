@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>購入方法選択</title>
+</head>
+<body>
+
+<h1>購入方法選択</h1>
+
+<h2>試される大地ルーレット</h2>
+
+<p>
+10%でお会計半額！<br>
+10%でヒグマ襲来！カート消失！<br>
+80%で何もなし！
+</p>
+
+<form th:action="@{/roulette}" method="post">
+	<button type="submit">
+		試される大地に挑戦
+	</button>
+</form>
+
+<hr>
+
+<form th:action="@{/purchase/confirm}" method="get">
+	<button type="submit">
+		通常購入する
+	</button>
+</form>
+
+</body>
+</html>

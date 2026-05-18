@@ -161,7 +161,8 @@ tbody td .nav-form {
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
-.total-box span {
+/* ラベル（「合計金額」）のみに適用 */
+.total-box > span:first-child {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-text-muted);
@@ -169,11 +170,17 @@ tbody td .nav-form {
   text-transform: uppercase;
 }
 
-.total-box strong {
-  font-size: 28px;
+/* 合計金額の数値と「円」を赤・大きく表示 */
+.total-price {
+  font-size: 24px;
   font-weight: 700;
-  color: var(--color-price);
+  color: #c0392b;
   letter-spacing: .04em;
+}
+
+#totalDisplay {
+  color: inherit;
+  font-size: inherit;
 }
 
 /* テーブルと合計欄をひとかたまりに */

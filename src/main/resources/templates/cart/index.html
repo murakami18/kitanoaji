@@ -17,7 +17,7 @@
 		<th:block th:if="${#lists.isEmpty(cart)}">
 			<div class="cart-empty">
 				<p>カートに商品が入っていません。</p>
-				<a href="/home" class="back-link" style="margin-top: 15px; display: inline-block;">▶ 商品一覧に戻る</a>
+				<a th:href="@{/home}" class="back-link" style="margin-top: 15px; display: inline-block;">▶ 商品一覧に戻る</a>
 			</div>
 		</th:block>
 
@@ -51,19 +51,47 @@
 
 				<div class="total-box">
 					<span>合計金額</span>
-					<strong>[[${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]円</strong>
+					<span class="total-price">
+						<span id="totalDisplay">[[${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]</span>円
+					</span>
 				</div>
 			</div>
 
+			<!-- 北海道ガチャチェックボックス -->
+			<div style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border: 2px dashed #ff8c00; border-radius: 8px;">
+				<label>
+					<input type="checkbox" id="gachaCheck" name="useGacha" value="true">
+					<strong>🎲 北海道ガチャを引く（＋100円）</strong>
+				</label>
+				<p style="font-size: 0.9em; margin-top: 5px; color: #555;">何が届くかはお楽しみ！ ※1会計に1つまで</p>
+			</div>
+
 			<div class="cart-actions">
-				<a href="/home" class="back-link">▶ 商品一覧に戻る</a>
+				<a th:href="@{/home}" class="back-link">▶ 商品一覧に戻る</a>
 				<form th:action="@{/purchase}" method="post" class="nav-form">
+					<input type="hidden" name="useGacha" id="useGachaHidden" value="false" />
 					<button type="submit" class="btn-purchase">購入する</button>
 				</form>
 			</div>
 		</th:block>
 	</main>
 
+	<script th:inline="javascript">
+		const baseTotal = /*[[${total != null ? total : 0}]]*/ 0;
+		const gachaCheck = document.getElementById('gachaCheck');
+		const totalDisplay = document.getElementById('totalDisplay');
+		const useGachaHidden = document.getElementById('useGachaHidden');
+
+		if (gachaCheck && totalDisplay) {
+			gachaCheck.addEventListener('change', function () {
+				let currentTotal = this.checked ? baseTotal + 100 : baseTotal;
+				totalDisplay.textContent = currentTotal.toLocaleString();
+				if (useGachaHidden) {
+					useGachaHidden.value = this.checked ? 'true' : 'false';
+				}
+			});
+		}
+	</script>
 </body>
 
 </html>
