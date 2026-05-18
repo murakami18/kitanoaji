@@ -1,28 +1,25 @@
 package com.example.demo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.entity.User;
-import com.example.demo.mapper.UserMapper;
 
 @Controller
 public class MyPageController {
 
-	@Autowired
-	private UserMapper userMapper;
-
 	@GetMapping("/mypage")
-	public String showMyPage(Model model) {
+	public String showMyPage(HttpSession session) {
 
-		User user = userMapper.findById(1);
+		// 1. セッションからログインユーザー情報を取得
+		User loginUser = (User) session.getAttribute("loginUser");
 
-		System.out.println(user);
-		System.out.println(userMapper.findByEmail("test@test.com"));
-
-		model.addAttribute("user", user);
+		// 2. ログイン状態でなければ（nullなら） /login にリダイレクト
+		if (loginUser == null) {
+			return "redirect:/login";
+		}
 
 		return "mypage";
 	}
