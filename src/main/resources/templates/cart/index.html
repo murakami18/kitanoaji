@@ -39,15 +39,41 @@
 				</tr>
 			</table>
 
-			<p><strong>合計：[[${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]円</strong></p>
+			<p><strong>合計：<span id="totalDisplay">[[${#numbers.formatDecimal(total, 0, 'COMMA', 0,
+						'POINT')}]]</span>円</strong></p>
 		</th:block>
 
+		<!-- 購入フォームの中に北海道ガチャのチェックボックスを追加 -->
 		<form th:action="@{/purchase}" method="post">
+			<div
+				style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border: 2px dashed #ff8c00; border-radius: 8px;">
+				<label>
+					<input type="checkbox" id="gachaCheck" name="useGacha" value="true">
+					<strong>🎲 北海道ガチャを引く（＋100円）</strong>
+				</label>
+				<p style="font-size: 0.9em; margin-top: 5px; color: #555;">何が届くかはお楽しみ！ ※1会計に1つまで</p>
+			</div>
+
 			<button type="submit">購入する</button>
 		</form>
 		<a href="/home">▶ 商品一覧に戻る</a>
 	</main>
 
+	<script th:inline="javascript">
+			// Thymeleafから現在の合計金額をJavaScriptの変数に渡す
+			const baseTotal = /*[[${total != null ? total : 0}]]*/ 0;
+			const gachaCheck = document.getElementById('gachaCheck');
+			const totalDisplay = document.getElementById('totalDisplay');
+
+			if (gachaCheck && totalDisplay) {
+				gachaCheck.addEventListener('change', function() {
+					// チェックが入っていれば +100円
+					let currentTotal = this.checked ? baseTotal + 100 : baseTotal;
+					// カンマ区切りで表示を更新
+					totalDisplay.textContent = currentTotal.toLocaleString();
+				});
+			}
+		</script>
 	<!--  <footer th:replace="layout/_footer :: footer"></footer>-->
 </body>
 
