@@ -3,43 +3,194 @@
 <head><title>fragment</title></head>
 <body>
 
-<!--
-  =====================================================================
-  共通ヘッダーフラグメント
-  配置先: src/main/resources/templates/layout/_header.html
-  使い方: <div th:replace="~{layout/_header :: header}"></div>
-  =====================================================================
--->
 <div th:fragment="header">
 
-  <!-- サイドバーオーバーレイ -->
   <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
-  <!-- サイドバーメニュー -->
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
       <span class="sidebar-title">メニュー</span>
       <button class="sidebar-close" onclick="closeSidebar()">✕</button>
     </div>
+    
     <div class="sidebar-body">
+      
       <section class="sidebar-section">
-        <h4 class="sidebar-section-title">カテゴリ</h4>
-        <!-- 今後追加 -->
+        <button type="button" class="accordion-toggle-trigger" onclick="toggleFirstLevelAccordion('category-root-wrapper', 'category-root-chevron')">
+          <span class="accordion-title-text">カテゴリから探す</span>
+          <span class="chevron-icon" id="category-root-chevron">▼</span>
+        </button>
+        
+        <div class="accordion-wrapper" id="category-root-wrapper">
+          <div class="accordion-inner">
+            <form th:action="@{/home}" method="get" id="category-search-form">
+              <input type="hidden" name="regionId" th:value="${param.regionId}" th:if="${param.regionId != null}" />
+
+              <ul class="category-tree-list">
+                
+                <li class="parent-category-node">
+                  <div class="parent-row-container" onclick="handleParentRowClick(event, this)">
+                    <label class="parent-label-box" onclick="event.stopPropagation();">
+                      <input type="checkbox" class="parent-check" onclick="toggleAllChildren(this)">
+                      <span>肉類</span>
+                    </label>
+                    <span class="chevron-icon child-chevron">▼</span>
+                  </div>
+                  <div class="child-category-container">
+                    <div class="accordion-inner">
+                      <ul class="child-category-list">
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="1" onchange="syncParentCheckbox(this)"> 豚肉</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="2" onchange="syncParentCheckbox(this)"> 牛肉</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="3" onchange="syncParentCheckbox(this)"> 鶏肉</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="4" onchange="syncParentCheckbox(this)"> ジンギスカン</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="5" onchange="syncParentCheckbox(this)"> くじら肉</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="6" onchange="syncParentCheckbox(this)"> 加工肉（ハム、ウインナー）</label></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="parent-category-node">
+                  <div class="parent-row-container" onclick="handleParentRowClick(event, this)">
+                    <label class="parent-label-box" onclick="event.stopPropagation();">
+                      <input type="checkbox" class="parent-check" onclick="toggleAllChildren(this)">
+                      <span>魚介・乾物・缶詰</span>
+                    </label>
+                    <span class="chevron-icon child-chevron">▼</span>
+                  </div>
+                  <div class="child-category-container">
+                    <div class="accordion-inner">
+                      <ul class="child-category-list">
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="7" onchange="syncParentCheckbox(this)"> 魚</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="8" onchange="syncParentCheckbox(this)"> 貝</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="9" onchange="syncParentCheckbox(this)"> 海藻</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="10" onchange="syncParentCheckbox(this)"> 缶詰</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="11" onchange="syncParentCheckbox(this)"> 珍味</label></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="parent-category-node">
+                  <div class="parent-row-container" onclick="handleParentRowClick(event, this)">
+                    <label class="parent-label-box" onclick="event.stopPropagation();">
+                      <input type="checkbox" class="parent-check" onclick="toggleAllChildren(this)">
+                      <span>お酒</span>
+                    </label>
+                    <span class="chevron-icon child-chevron">▼</span>
+                  </div>
+                  <div class="child-category-container">
+                    <div class="accordion-inner">
+                      <ul class="child-category-list">
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="12" onchange="syncParentCheckbox(this)"> 日本酒</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="13" onchange="syncParentCheckbox(this)"> ウイスキー</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="14" onchange="syncParentCheckbox(this)"> 焼酎</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="15" onchange="syncParentCheckbox(this)"> チューハイ</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="16" onchange="syncParentCheckbox(this)"> ワイン</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="17" onchange="syncParentCheckbox(this)"> シードル</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="18" onchange="syncParentCheckbox(this)"> ビール</label></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="parent-category-node">
+                  <div class="parent-row-container" onclick="handleParentRowClick(event, this)">
+                    <label class="parent-label-box" onclick="event.stopPropagation();">
+                      <input type="checkbox" class="parent-check" onclick="toggleAllChildren(this)">
+                      <span>乳製品・卵</span>
+                    </label>
+                    <span class="chevron-icon child-chevron">▼</span>
+                  </div>
+                  <div class="child-category-container">
+                    <div class="accordion-inner">
+                      <ul class="child-category-list">
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="19" onchange="syncParentCheckbox(this)"> 牛乳</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="20" onchange="syncParentCheckbox(this)"> チーズ</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="21" onchange="syncParentCheckbox(this)"> ヨーグルト</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="22" onchange="syncParentCheckbox(this)"> バター、乳加工品</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="23" onchange="syncParentCheckbox(this)"> 卵</label></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="parent-category-node">
+                  <div class="parent-row-container" onclick="handleParentRowClick(event, this)">
+                    <label class="parent-label-box" onclick="event.stopPropagation();">
+                      <input type="checkbox" class="parent-check" onclick="toggleAllChildren(this)">
+                      <span>野菜・大豆・米</span>
+                    </label>
+                    <span class="chevron-icon child-chevron">▼</span>
+                  </div>
+                  <div class="child-category-container">
+                    <div class="accordion-inner">
+                      <ul class="child-category-list">
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="24" onchange="syncParentCheckbox(this)"> いも類、里芋、山芋</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="25" onchange="syncParentCheckbox(this)"> 大根、人参、根菜類</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="26" onchange="syncParentCheckbox(this)"> ほうれん草、チンゲン菜、葉物類</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="27" onchange="syncParentCheckbox(this)"> 玉ねぎ、アスパラ、葉茎菜類</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="28" onchange="syncParentCheckbox(this)"> トマト、きゅうり、果菜類</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="29" onchange="syncParentCheckbox(this)"> 納豆、豆腐、豆類</label></li>
+                        <li><label class="child-item-label"><input type="checkbox" name="categoryIds" value="30" onchange="syncParentCheckbox(this)"> 米</label></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+              </ul>
+              
+              <div style="padding: 0 16px 16px;">
+                <button type="submit" class="btn btn-primary">このカテゴリで検索</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </section>
+
       <section class="sidebar-section">
-        <h4 class="sidebar-section-title">地域</h4>
-        <!-- 今後追加 -->
+        <button type="button" class="accordion-toggle-trigger" onclick="toggleFirstLevelAccordion('region-root-wrapper', 'region-root-chevron')">
+          <span class="accordion-title-text">地域から探す</span>
+          <span class="chevron-icon" id="region-root-chevron">▼</span>
+        </button>
+        
+        <div class="accordion-wrapper" id="region-root-wrapper">
+          <div class="accordion-inner">
+            <ul class="region-list">
+              <th:block th:if="${regions != null}">
+                <th:block th:each="region : ${regions}">
+                  <li><a th:href="@{/home(regionId=${region.id})}" th:text="${region.name}" class="region-link">地域名</a></li>
+                </th:block>
+              </th:block>
+              
+              <th:block th:if="${regions == null}">
+                <li><a th:href="@{/home(regionId=1)}" class="region-link">石狩</a></li>
+                <li><a th:href="@{/home(regionId=2)}" class="region-link">胆振</a></li>
+                <li><a th:href="@{/home(regionId=3)}" class="region-link">渡島</a></li>
+                <li><a th:href="@{/home(regionId=4)}" class="region-link">オホーツク</a></li>
+                <li><a th:href="@{/home(regionId=5)}" class="region-link">上川</a></li>
+                <li><a th:href="@{/home(regionId=6)}" class="region-link">釧路</a></li>
+                <li><a th:href="@{/home(regionId=7)}" class="region-link">後志</a></li>
+                <li><a th:href="@{/home(regionId=8)}" class="region-link">宗谷</a></li>
+                <li><a th:href="@{/home(regionId=9)}" class="region-link">空知</a></li>
+                <li><a th:href="@{/home(regionId=10)}" class="region-link">十勝</a></li>
+                <li><a th:href="@{/home(regionId=11)}" class="region-link">根室</a></li>
+                <li><a th:href="@{/home(regionId=12)}" class="region-link">日高</a></li>
+                <li><a th:href="@{/home(regionId=13)}" class="region-link">檜山</a></li>
+                <li><a th:href="@{/home(regionId=14)}" class="region-link">留萌</a></li>
+              </th:block>
+            </ul>
+          </div>
+        </div>
       </section>
+
     </div>
   </aside>
 
-  <!-- ヘッダー本体 -->
   <header class="site-header">
     <div class="header-left">
-      <button class="hamburger-btn" onclick="toggleSidebar()">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button type="button" class="hamburger-btn" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
       </button>
     </div>
     <div class="header-center">
@@ -53,8 +204,8 @@
     </nav>
   </header>
 
-  <!-- サイドバー制御スクリプト -->
   <script>
+    // 1. サイドバー本体の表示切り替え
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
       document.getElementById('sidebar-overlay').classList.toggle('active');
@@ -64,6 +215,44 @@
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebar-overlay').classList.remove('active');
       document.body.classList.remove('sidebar-open');
+    }
+
+    // 2. 1層目の開閉制御 (「カテゴリから探す」など)
+    function toggleFirstLevelAccordion(wrapperId, chevronId) {
+      document.getElementById(wrapperId).classList.toggle('open');
+      document.getElementById(chevronId).classList.toggle('rotated');
+    }
+
+    // 3. 2層目の開閉制御 (親カテゴリの行をクリックした際に動作)
+    function handleParentRowClick(event, rowElement) {
+      const chevron = rowElement.querySelector('.child-chevron');
+      const childContainer = rowElement.nextElementSibling;
+      
+      childContainer.classList.toggle('open');
+      chevron.classList.toggle('rotated');
+    }
+
+    // 4. チェックボックス連動：大枠 ON/OFF で配下の子要素を全選択・全解除
+    function toggleAllChildren(parentInput) {
+      const parentNode = parentInput.closest('.parent-category-node');
+      const childCheckboxes = parentNode.querySelectorAll('.child-category-list input[type="checkbox"]');
+      
+      childCheckboxes.forEach(child => {
+        child.checked = parentInput.checked;
+      });
+    }
+
+    // 5. チェックボックス連動：子要素が変更されたら大枠の状態にフィードバック
+    function syncParentCheckbox(childInput) {
+      const parentNode = childInput.closest('.parent-category-node');
+      const parentCheckbox = parentNode.querySelector('.parent-check');
+      const siblingCheckboxes = parentNode.querySelectorAll('.child-category-list input[type="checkbox"]');
+      
+      const allChecked = Array.from(siblingCheckboxes).every(cb => cb.checked);
+      const anyChecked = Array.from(siblingCheckboxes).some(cb => cb.checked);
+      
+      parentCheckbox.checked = allChecked;
+      parentCheckbox.indeterminate = anyChecked && !allChecked;
     }
   </script>
 

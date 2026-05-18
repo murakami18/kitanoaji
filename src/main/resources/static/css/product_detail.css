@@ -1,0 +1,141 @@
+/* ============================================================
+   北ノ味 — product.css（商品詳細ページ固有スタイル）
+   ============================================================ */
+
+/* ---------- 商品エリア全体 ---------- */
+.product-area {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* ---------- 商品画像 ---------- */
+.product-image {
+  width: 400px;
+  flex-shrink: 0;
+}
+
+.product-image .thumb {
+  position: relative;
+}
+
+.product-image img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+/* ---------- 商品情報 ---------- */
+.product-info {
+  flex: 1;
+}
+
+.product-name {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.product-price {
+  font-size: 28px;
+  color: #c0392b;
+  margin-bottom: 24px;
+}
+
+/* ---------- カテゴリ・地域・内容量などの詳細行 ---------- */
+.product-detail {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.product-detail:first-of-type {
+  border-top: 1px solid var(--color-border);
+}
+
+/* ラベル部分（「カテゴリー：」など） */
+.product-detail .detail-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: .08em;
+  min-width: 72px;
+  flex-shrink: 0;
+}
+
+/* 値部分（「豚肉」「石狩」など） */
+.product-detail .detail-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: .04em;
+}
+
+/* ---------- 数量セレクター ---------- */
+.quantity-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 24px 0 28px;
+}
+
+.quantity-btn {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.quantity-input {
+  width: 60px;
+  height: 38px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* ---------- ボタンエリア ---------- */
+.button-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* カートへ追加・購入する を横並びに */
+.button-area .btn-row-primary {
+  display: flex;
+  gap: 10px;
+}
+
+.button-area .btn-row-primary .btn,
+.button-area .btn-row-primary form {
+  flex: 1;
+}
+
+.button-area .btn-row-primary form .btn {
+  width: 100%;
+}
+
+/* 商品比較：カテゴリ上に配置・控えめなサイズ */
+.btn-compare {
+  width: auto;
+  align-self: flex-start;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+  margin-bottom: 16px;
+}
+
+.btn-compare:hover {
+  background: var(--color-bg);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
