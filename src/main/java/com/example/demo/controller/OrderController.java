@@ -59,6 +59,6 @@ public class OrderController {
 
 		// 5. 画面に注文IDを渡し、完了画面を表示
 		model.addAttribute("orderId", orderId);
-		return "order/complete";
+		return "purchase/checkout";
 	}
 }

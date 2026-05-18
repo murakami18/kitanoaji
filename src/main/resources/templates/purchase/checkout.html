@@ -270,6 +270,20 @@
             </div>
 
         </div>
+		
+		<p>
+		10%：当たり（合計金額半額）<br>
+		10%：ヒグマ襲来（カート全消失）<br>
+		80%：なにもなし
+		</p>
+
+		<form th:action="@{/roulette}" method="post">
+
+			<button type="submit">
+				試される大地に挑戦
+			</button>
+
+		</form>
 
         <!-- 合計 -->
         <div class="total-box">
@@ -283,10 +297,6 @@
 
         <a href="/checkout" class="checkout-btn">
             レジへ進む
-        </a>
-
-        <a href="/lottery" class="lottery-btn">
-            くじを引く
         </a>
 
     </div>

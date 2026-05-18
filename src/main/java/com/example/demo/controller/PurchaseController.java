@@ -9,6 +9,6 @@ public class PurchaseController {
 	@GetMapping("/purchase")
 	public String purchase() {
 
-		return "purchase_method";
+		return "purchase/checkout";
 	}
 }
