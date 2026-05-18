@@ -95,6 +95,19 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 .nav-link--search { background: rgba(255,255,255,.18); font-weight: 600; }
 .nav-link--search:hover { background: rgba(255,255,255,.28); }
 
+/* ヘッダー：ユーザー名・ログアウトフォーム */
+.nav-link--user {
+  font-size: 12px;
+  color: rgba(255, 255, 255, .85);
+  white-space: nowrap;
+}
+
+.nav-form {
+  display: flex;
+  align-items: stretch;
+  height: var(--header-h);
+}
+
 /* ============================================================
    サイドバー
    ============================================================ */

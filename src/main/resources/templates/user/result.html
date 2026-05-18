@@ -1,25 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8" />
   <title>登録結果</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <link rel="stylesheet" th:href="@{/css/result.css}" />
 </head>
+
 <body>
   <header th:replace="layout/_header :: header"></header>
 
-  <main>
-  <h1>登録結果</h1>
-  <ul>
-	<li>名前：[[${form.name}]]</li>
-	<li>メール：[[${form.email}]]</li>
-	<li>パスワード：[[${form.password}]]</li>
-	<li>気になる地域：[[${regionMap[form.regionId]}]]</li>
-	<li>好きなカテゴリー：[[${categoryMap[form.categoryId]}]]</li>
-	
-  </ul>
-  <a href="/register">▶ 戻る</a>
-  </main>
+  <main class="main-content result-page">
+    <h1>登録結果</h1>
 
-  <footer th:replace="layout/_footer :: footer"></footer>
+    <div class="result-success-banner">登録が完了しました</div>
+
+    <div class="result-card">
+      <table class="result-table">
+        <tr>
+          <th>名前</th>
+          <td th:text="${form.name}"></td>
+        </tr>
+        <tr>
+          <th>メール</th>
+          <td th:text="${form.email}"></td>
+        </tr>
+        <tr>
+          <th>パスワード</th>
+          <td class="masked">••••••••</td>
+        </tr>
+        <tr>
+          <th>気になる地域</th>
+          <td th:text="${regionMap[form.regionId]}"></td>
+        </tr>
+        <tr>
+          <th>好きなカテゴリー</th>
+          <td th:text="${categoryMap[form.categoryId]}"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="result-actions">
+      <a class="btn-back" href="/login">▶ ログイン画面に戻る</a>
+    </div>
+
+    <a class="back-link" href="/home">▶ ホームに戻る</a>
+  </main>
 </body>
+
 </html>
