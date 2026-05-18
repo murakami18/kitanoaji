@@ -15,7 +15,7 @@ import com.example.demo.service.CartService;
 import com.example.demo.service.OrderService;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/purchase")
 public class OrderController {
 
 	private final CartService cartService;
@@ -29,7 +29,7 @@ public class OrderController {
 	/**
 	 * 購入を確定する
 	 */
-	@PostMapping("/confirm")
+	@PostMapping("/purchase/check")
 	public String confirm(HttpSession session, Model model) {
 		// 1. セッションからログインユーザー情報を取得
 		User loginUser = (User) session.getAttribute("loginUser");
