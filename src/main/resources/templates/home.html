@@ -52,7 +52,11 @@
 
 				<div class="actions">
 					<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a> |
-					<a class="btn btn-primary" th:href="@{/cart/{id}(id=${product.id})}">カートへ</a>
+					<form th:action="@{/cart/add}" method="post">
+					    <input type="hidden" name="productId" th:value="${product.id}" />
+					    
+					    <button type="submit">カートに追加</button>
+					</form>
 				</div>
 			</div>
 		</div>
