@@ -15,7 +15,8 @@
 
 	<main class="main-content">
 
-		<div class="product-page"> <h2 class="section-title">商品詳細</h2>
+		<div class="product-page">
+			<h2 class="section-title">商品詳細</h2>
 
 			<div class="product-area">
 
@@ -31,7 +32,8 @@
 
 					<div class="product-name" th:text="${product.name}">商品名</div>
 
-					<div class="product-price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
+					<div class="product-price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0
+					</div>
 
 					<a class="btn btn-secondary btn-compare" th:href="@{/product/compare(id=${product.id})}">商品比較</a>
 
@@ -66,7 +68,7 @@
 						<div class="button-area">
 							<div class="btn-row-primary">
 								<button type="submit" class="btn btn-secondary">カートに追加</button>
-								<a class="btn btn-primary" th:href="@{/order/confirm}">購入する</a>
+								<a class="btn btn-primary" th:href="@{/purchase/method}">購入する</a>
 							</div>
 						</div>
 					</form>
