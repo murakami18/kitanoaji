@@ -1,0 +1,146 @@
+/* ============================================================
+   北ノ味 — mypage.css（マイページ専用スタイル）
+   ============================================================ */
+
+.mypage-container {
+  width: 100%;
+  max-width: 760px;
+  margin: 40px auto;
+  background: var(--color-surface);
+  border-radius: calc(var(--radius) * 2); /* 共通の角丸をベースに少し大きめに展開 */
+  padding: 40px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+/* マイページの見出し */
+.mypage-title {
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--color-text);
+  position: relative;
+  padding-bottom: 12px;
+}
+
+/* 見出しの下にさりげないアクセント線（北ノ味スタイル） */
+.mypage-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: var(--color-primary);
+  border-radius: 2px;
+}
+
+/* ユーザー登録情報エリア */
+.user-info-box {
+  background: var(--color-primary-lt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-info-row {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.user-info-label {
+  font-weight: 700;
+  color: var(--color-primary-dk);
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.user-info-value {
+  font-weight: 500;
+}
+
+/* マイページメニューリスト */
+.mypage-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* メニューアイテム（共通スタイルの .region-link や .btn などのホバー感を踏襲） */
+.mypage-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface);
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: .04em;
+  transition: background var(--transition), color var(--transition), border-color var(--transition), padding-left var(--transition);
+}
+
+.mypage-menu-item:hover {
+  background: var(--color-primary-lt);
+  color: var(--color-primary);
+  border-color: var(--color-border);
+  padding-left: 24px; /* ホバー時に少し右にスライドする心地よい動的エフェクト */
+}
+
+/* 右矢印アイコン */
+.mypage-menu-arrow {
+  color: var(--color-text-muted);
+  font-size: 16px;
+  font-weight: 400;
+  transition: color var(--transition);
+}
+
+.mypage-menu-item:hover .mypage-menu-arrow {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   レスポンシブ対応
+   ============================================================ */
+@media (max-width: 768px) {
+  .mypage-container {
+    padding: 24px 16px;
+    margin: 20px auto;
+    border-radius: var(--radius);
+    border-left: none;
+    border-right: none;
+    box-shadow: none; /* スマホ時はフラットにしてすっきり見せる */
+    background: transparent; /* 背景を共通の bg に馴染ませる */
+  }
+
+  .user-info-box {
+    background: var(--color-surface); /* スマホ時は白背景で見やすく */
+    padding: 16px;
+  }
+
+  .user-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .user-info-label {
+    width: auto;
+    font-size: 12px;
+  }
+
+  .mypage-title {
+    font-size: 20px;
+  }
+}
