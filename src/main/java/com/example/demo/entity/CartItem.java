@@ -1,6 +1,16 @@
 package com.example.demo.entity;
 
 public class CartItem {
+	private int cartId;
+
+	public int getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(int cartId) {
+		this.cartId = cartId;
+	}
+
 	private int productId;
 	private String name;
 	private int price;
@@ -56,6 +66,11 @@ public class CartItem {
 
 	public int getSubtotal() {
 		return price * quantity;
+	}
+
+	public void setId(int id) {
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 }

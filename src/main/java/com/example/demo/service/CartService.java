@@ -20,16 +20,19 @@ public class CartService {
 
 	private static final String CART_KEY = "cart";
 
-	// DB操作用のMapperを注入します
 	@Autowired
 	private CartMapper cartMapper;
 
 	@Autowired
 	private CartItemMapper cartItemMapper;
 
+	// ==========================================
+	// セッション（未ログイン）用の処理
+	// ==========================================
+
 	/** セッションからカートを取得する（存在しなければ空のリストを返す） */
 	@SuppressWarnings("unchecked")
-	public List<CartItem> getCart(HttpSession session) {
+	public List<CartItem> getCartFromSession(HttpSession session) {
 		List<CartItem> cart = (List<CartItem>) session.getAttribute(CART_KEY);
 		if (cart == null) {
 			cart = new ArrayList<>();
@@ -38,9 +41,9 @@ public class CartService {
 		return cart;
 	}
 
-	/** カートに商品を追加する（同じ商品が既にあれば数量を増やす） */
+	/** セッションのカートに商品を追加する */
 	public void addItemToSession(HttpSession session, Product product) {
-		List<CartItem> cart = getCart(session);
+		List<CartItem> cart = getCartFromSession(session);
 		for (CartItem item : cart) {
 			if (item.getProductId() == product.getId()) {
 				item.incrementQuantity();
@@ -50,49 +53,74 @@ public class CartService {
 		cart.add(new CartItem(product.getId(), product.getName(), product.getPrice()));
 	}
 
+	/** セッションのカートから商品を削除する */
+	public void removeItemFromSession(HttpSession session, int productId) {
+		List<CartItem> cart = getCartFromSession(session);
+		cart.removeIf(item -> item.getProductId() == productId);
+	}
+
+	/** セッションのカートを空にする */
+	public void clearCart(HttpSession session) {
+		session.removeAttribute(CART_KEY);
+	}
+
+	// ==========================================
+	// データベース（ログイン中）用の処理
+	// ==========================================
+
+	/**
+	 * データベースからログインユーザーのカート情報を取得します。
+	 */
+	public List<CartItem> getCartFromDb(int userId) {
+		// 1. ユーザーのカートが存在するか確認
+		Cart cart = cartMapper.findByUserId(userId);
+
+		if (cart == null) {
+			// カートがまだ作られていなければ空のリストを返す
+			return new ArrayList<>();
+		}
+
+		// 2. カートIDに紐づく商品リストを取得して返す
+		return cartItemMapper.findByCartId(cart.getId());
+	}
+
 	/**
 	 * ログインユーザーのカート情報をデータベースに保存・更新します。
 	 */
-	@Transactional // 複数のテーブルを操作するため、トランザクション管理を行います
+	@Transactional
 	public void addItemToDb(int userId, Product product) {
-
-		// 1. ユーザーに紐づくカート(Cartsテーブル)が存在するか確認
 		Cart cart = cartMapper.findByUserId(userId);
 
-		// 2. カートが存在しない場合は新しく作成
 		if (cart == null) {
 			cart = new Cart();
 			cart.setUserId(userId);
-			cart.setGame_result("NORMAL"); // 初期状態を設定
+			cart.setGameResult("NORMAL");
 			cartMapper.insert(cart);
-			// ※CartMapperの@Optionsにより、自動採番されたIDがcart.getId()で取得可能になります
 		}
 
-		// 3. カート内に同じ商品(CartItemsテーブル)がすでに入っているか確認
 		CartItem existingItem = cartItemMapper.findByCartIdAndProductId(cart.getId(), product.getId());
 
 		if (existingItem != null) {
-			// 4. すでに存在する場合は、数量(quantity)を +1 して更新
 			int newQuantity = existingItem.getQuantity() + 1;
 			cartItemMapper.updateQuantity(cart.getId(), product.getId(), newQuantity);
 		} else {
-			// 5. 存在しない場合は、新しい明細として追加（数量1）
 			CartItem newItem = new CartItem();
-			newItem.setProductId(cart.getId()); // Cartsテーブルと紐づけるためのID[cite: 1]
-			newItem.setProductId(product.getId()); // Productsテーブルと紐づけるためのID[cite: 1]
+			newItem.setCartId(cart.getId());
+			newItem.setProductId(product.getId());
 			newItem.setQuantity(1);
 			cartItemMapper.insert(newItem);
 		}
 	}
 
-	/** カートから商品を削除する */
-	public void removeItem(HttpSession session, int productId) {
-		List<CartItem> cart = getCart(session);
-		cart.removeIf(item -> item.getProductId() == productId);
-	}
-
-	/** カートを空にする */
-	public void clearCart(HttpSession session) {
-		session.removeAttribute(CART_KEY);
+	/**
+	 * データベースのカートから特定の商品を削除します。
+	 */
+	@Transactional
+	public void removeItemFromDb(int userId, int productId) {
+		Cart cart = cartMapper.findByUserId(userId);
+		if (cart != null) {
+			// カートが存在する場合のみ、該当商品を削除
+			cartItemMapper.deleteByCartIdAndProductId(cart.getId(), productId);
+		}
 	}
 }
