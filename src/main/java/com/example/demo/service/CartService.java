@@ -41,16 +41,22 @@ public class CartService {
 		return cart;
 	}
 
-	/** セッションのカートに商品を追加する */
-	public void addItemToSession(HttpSession session, Product product) {
+	/** セッションのカートに商品を追加する（個数指定対応） */
+	public void addItemToSession(HttpSession session, Product product, int quantity) { // ★ 引数に quantity を追加
 		List<CartItem> cart = getCartFromSession(session);
 		for (CartItem item : cart) {
 			if (item.getProductId() == product.getId()) {
-				item.incrementQuantity();
+				// ★ 既存の数量に、画面から送られてきた数量を足す
+				item.setQuantity(item.getQuantity() + quantity);
 				return;
 			}
 		}
-		cart.add(new CartItem(product.getId(), product.getName(), product.getPrice()));
+
+		// ★ 新規追加時、引数の quantity をセットしてインスタンス化
+		// (※CartItemのコンストラクタが引数にquantityを取れる必要があります。詳細は後述)
+		CartItem newItem = new CartItem(product.getId(), product.getName(), product.getPrice());
+		newItem.setQuantity(quantity);
+		cart.add(newItem);
 	}
 
 	/** セッションのカートから商品を削除する */
@@ -72,23 +78,20 @@ public class CartService {
 	 * データベースからログインユーザーのカート情報を取得します。
 	 */
 	public List<CartItem> getCartFromDb(int userId) {
-		// 1. ユーザーのカートが存在するか確認
 		Cart cart = cartMapper.findByUserId(userId);
 
 		if (cart == null) {
-			// カートがまだ作られていなければ空のリストを返す
 			return new ArrayList<>();
 		}
 
-		// 2. カートIDに紐づく商品リストを取得して返す
 		return cartItemMapper.findByCartId(cart.getId());
 	}
 
 	/**
-	 * ログインユーザーのカート情報をデータベースに保存・更新します。
+	 * ログインユーザーのカート情報をデータベースに保存・更新します（個数指定対応）。
 	 */
 	@Transactional
-	public void addItemToDb(int userId, Product product) {
+	public void addItemToDb(int userId, Product product, int quantity) { // ★ 引数に quantity を追加
 		Cart cart = cartMapper.findByUserId(userId);
 
 		if (cart == null) {
@@ -101,13 +104,15 @@ public class CartService {
 		CartItem existingItem = cartItemMapper.findByCartIdAndProductId(cart.getId(), product.getId());
 
 		if (existingItem != null) {
-			int newQuantity = existingItem.getQuantity() + 1;
+			// ★ 既存の数量 ＋ 画面から送られてきた数量
+			int newQuantity = existingItem.getQuantity() + quantity;
 			cartItemMapper.updateQuantity(cart.getId(), product.getId(), newQuantity);
 		} else {
 			CartItem newItem = new CartItem();
 			newItem.setCartId(cart.getId());
 			newItem.setProductId(product.getId());
-			newItem.setQuantity(1);
+			// ★ 新規追加時も 1 固定ではなく quantity をセット
+			newItem.setQuantity(quantity);
 			cartItemMapper.insert(newItem);
 		}
 	}
@@ -119,8 +124,55 @@ public class CartService {
 	public void removeItemFromDb(int userId, int productId) {
 		Cart cart = cartMapper.findByUserId(userId);
 		if (cart != null) {
-			// カートが存在する場合のみ、該当商品を削除
 			cartItemMapper.deleteByCartIdAndProductId(cart.getId(), productId);
 		}
+	}
+	// ==========================================
+	// カートの統合（マージ）処理
+	// ==========================================
+
+	/**
+	 * セッションカートの商品をデータベースのカートにマージ（統合）します。
+	 * ログイン成功直後に呼び出してください。
+	 */
+	@Transactional
+	public void mergeSessionCartToDb(HttpSession session, int userId) {
+		// 1. セッションのカートを取得
+		List<CartItem> sessionCart = getCartFromSession(session);
+
+		// 2. セッションカートが空なら何もしないで終了
+		if (sessionCart == null || sessionCart.isEmpty()) {
+			return;
+		}
+
+		// 3. ユーザーのDBカートを取得（存在しなければ新規作成）
+		Cart cart = cartMapper.findByUserId(userId);
+		if (cart == null) {
+			cart = new Cart();
+			cart.setUserId(userId);
+			cart.setGameResult("NORMAL");
+			cartMapper.insert(cart);
+		}
+
+		// 4. セッションの商品を一つずつDBへ移行
+		for (CartItem sessionItem : sessionCart) {
+			CartItem dbItem = cartItemMapper.findByCartIdAndProductId(cart.getId(), sessionItem.getProductId());
+
+			if (dbItem != null) {
+				// 既にDBカートに同じ商品がある場合は、セッションの数量を「加算」する
+				int newQuantity = dbItem.getQuantity() + sessionItem.getQuantity();
+				cartItemMapper.updateQuantity(cart.getId(), sessionItem.getProductId(), newQuantity);
+			} else {
+				// DBカートにない場合は新規追加
+				CartItem newItem = new CartItem();
+				newItem.setCartId(cart.getId());
+				newItem.setProductId(sessionItem.getProductId());
+				newItem.setQuantity(sessionItem.getQuantity()); // セッションに入っていた数量をセット
+				cartItemMapper.insert(newItem);
+			}
+		}
+
+		// 5. 移行が完了したら、セッションのカートを削除して綺麗にする
+		clearCart(session);
 	}
 }

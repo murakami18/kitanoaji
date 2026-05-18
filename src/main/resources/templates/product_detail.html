@@ -7,7 +7,7 @@
 	<title>商品詳細｜北ノ味</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<link rel="stylesheet" th:href="@{/css/product_detail.css}">
-</head>
+</head> head>
 
 <body>
 
@@ -52,21 +52,25 @@
 						</span>
 					</div>
 
-					<div class="quantity-area">
-						<button type="button" class="quantity-btn" onclick="decreaseQuantity()">－</button>
-						<input type="text" id="quantity" class="quantity-input" value="1">
-						<button type="button" class="quantity-btn" onclick="increaseQuantity()">＋</button>
-					</div>
+					<!-- カート追加フォームの開始 -->
+					<form th:action="@{/cart/add}" method="post">
+						<input type="hidden" name="productId" th:value="${product.id}" />
 
-					<div class="button-area">
-						<div class="btn-row-primary">
-							<form th:action="@{/cart/add}" method="post">
-								<input type="hidden" name="productId" th:value="${product.id}" />
-								<button type="submit" class="btn btn-secondary">カートに追加</button>
-							</form>
-							<a class="btn btn-primary" th:href="@{/order/confirm}">購入する</a>
+						<!-- 数量変更エリアをform内に移動し、name="quantity" を追加 -->
+						<div class="quantity-area">
+							<button type="button" class="quantity-btn" onclick="decreaseQuantity()">－</button>
+							<input type="text" id="quantity" name="quantity" class="quantity-input" value="1" readonly>
+							<button type="button" class="quantity-btn" onclick="increaseQuantity()">＋</button>
 						</div>
-					</div>
+
+						<div class="button-area">
+							<div class="btn-row-primary">
+								<button type="submit" class="btn btn-secondary">カートに追加</button>
+								<a class="btn btn-primary" th:href="@{/order/confirm}">購入する</a>
+							</div>
+						</div>
+					</form>
+					<!-- カート追加フォームの終了 -->
 
 				</div>
 

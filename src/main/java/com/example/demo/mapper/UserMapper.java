@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 import com.example.demo.entity.User;
@@ -22,5 +23,9 @@ public interface UserMapper {
 			VALUES
 			(#{name}, #{email}, #{password}, #{categoryId}, #{regionId})
 			""")
+	@Options(useGeneratedKeys = true, keyProperty = "id")
 	void insert(User user);
+
+	User findById(int id);
 }
+
