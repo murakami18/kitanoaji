@@ -3,14 +3,14 @@ package com.example.demo.entity;
 public class Cart {
 	private int id;
 	private int userId;
-	private String game_result;
+	private String gameResult;
 
-	public String getGame_result() {
-		return game_result;
+	public String getGameResult() {
+		return gameResult;
 	}
 
-	public void setGame_result(String game_result) {
-		this.game_result = game_result;
+	public void setGameResult(String gameResult) {
+		this.gameResult = gameResult;
 	}
 
 	public Cart() {
