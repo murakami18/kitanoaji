@@ -3,6 +3,7 @@ package com.example.demo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param; // 💡 追加
 
 import com.example.demo.entity.Product;
 
@@ -23,4 +24,16 @@ public interface ProductMapper {
 
 	/** IDで商品を1件取得する */
 	Product findById(int id);
+
+	// ==========================================
+	// 💡 以下に複数カテゴリ検索用のメソッドを追加
+	// ==========================================
+
+	/** 複数のカテゴリID（のいずれか）に合致する商品を取得する */
+	List<Product> findByCategoryIds(@Param("categoryIds") List<Integer> categoryIds);
+
+	/** リージョンIDと複数のカテゴリIDに合致する商品を取得する */
+	List<Product> findByRegionIdAndCategoryIds(
+			@Param("regionId") Integer regionId,
+			@Param("categoryIds") List<Integer> categoryIds);
 }

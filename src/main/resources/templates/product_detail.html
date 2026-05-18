@@ -5,87 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>商品詳細｜北ノ味</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
-  <style>
-    /* 商品詳細固有スタイル */
-    .product-area {
-      display: flex;
-      gap: 40px;
-      align-items: flex-start;
-    }
-
-    .product-image {
-      width: 400px;
-      flex-shrink: 0;
-    }
-
-    .product-image .thumb {
-      position: relative;
-    }
-
-    .product-image img {
-      width: 100%;
-      border-radius: 10px;
-      display: block;
-    }
-
-    .product-info {
-      flex: 1;
-    }
-
-    .product-name {
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-
-    .product-price {
-      font-size: 28px;
-      color: #c0392b;
-      margin-bottom: 20px;
-    }
-
-    .product-detail {
-      font-size: 16px;
-      margin-bottom: 12px;
-    }
-
-    .quantity-area {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin: 20px 0 30px;
-    }
-
-    .quantity-btn {
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      border: 1px solid #ccc;
-      background: #fff;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .quantity-input {
-      width: 60px;
-      height: 38px;
-      text-align: center;
-      font-size: 18px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .button-area {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-  </style>
+  <link rel="stylesheet" th:href="@{/css/product_detail.css}">
 </head>
 <body>
 
-  <!-- ヘッダー（layout/_header.html のフラグメントを読み込み） -->
   <div th:replace="~{layout/_header :: header}"></div>
 
   <main class="main-content">
@@ -115,20 +38,27 @@
         <div class="product-price"
              th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
 
+        <!-- 商品比較（補助アクション） -->
+        <a class="btn btn-secondary btn-compare" th:href="@{/product/compare}">商品比較</a>
+
         <!-- カテゴリー -->
         <div class="product-detail">
-          カテゴリー：<span th:text="${product.categoryName}"></span>
+          <span class="detail-label">カテゴリー</span>
+          <span class="detail-value" th:text="${product.categoryName}"></span>
         </div>
 
         <!-- 地域 -->
         <div class="product-detail">
-          地域：<span th:text="${product.regionName}"></span>
+          <span class="detail-label">地域</span>
+          <span class="detail-value" th:text="${product.regionName}"></span>
         </div>
 
         <!-- 内容量 -->
         <div class="product-detail">
-          内容量：
-          <span th:text="${#numbers.formatInteger(product.weight, 1, 'COMMA')}"></span> g
+          <span class="detail-label">内容量</span>
+          <span class="detail-value">
+            <span th:text="${#numbers.formatInteger(product.weight, 1, 'COMMA')}"></span> g
+          </span>
         </div>
 
         <!-- 数量 -->
@@ -141,17 +71,14 @@
         <!-- ボタン -->
         <div class="button-area">
 
-          <!-- 商品比較 -->
-          <a class="btn btn-secondary" th:href="@{/product/compare}">商品比較</a>
-
-          <!-- カート追加 -->
-          <form th:action="@{/cart/add}" method="post" style="display:inline">
-            <input type="hidden" name="productId" th:value="${product.id}" />
-            <button type="submit" class="btn btn-primary">カートに追加</button>
-          </form>
-
-          <!-- 購入 -->
-          <a class="btn btn-primary" th:href="@{/order/confirm}">購入する</a>
+          <!-- カートへ追加・購入する（横並び・等幅） -->
+          <div class="btn-row-primary">
+            <form th:action="@{/cart/add}" method="post">
+              <input type="hidden" name="productId" th:value="${product.id}" />
+              <button type="submit" class="btn btn-secondary">カートに追加</button>
+            </form>
+            <a class="btn btn-primary" th:href="@{/order/confirm}">購入する</a>
+          </div>
 
         </div>
 
