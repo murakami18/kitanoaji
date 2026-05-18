@@ -205,20 +205,20 @@
       <a th:href="@{/cart}"   class="nav-link">カート</a>
       <a th:href="@{/map}"    class="nav-link">マップ</a>
       <a th:href="@{/search}" class="nav-link nav-link--search">検索</a>
-      				<th:block th:if="${session.loginUser != null}">
-					[[${session.loginUser.name}]]さん |
-					<form th:action="@{/logout}" method="post" style="display:inline">
-						<button type="submit">ログアウト</button>
-					</form>
-				</th:block>
-				<th:block th:unless="${session.loginUser != null}">
-					<a href="/login">ログイン</a>
-				</th:block>
+      <th:block th:if="${session.loginUser != null}">
+        <span class="nav-link nav-link--user"
+              th:text="${session.loginUser.name} + 'さん'"></span>
+        <form th:action="@{/logout}" method="post" class="nav-form">
+          <button type="submit" class="nav-link">ログアウト</button>
+        </form>
+      </th:block>
+      <th:block th:unless="${session.loginUser != null}">
+        <a th:href="@{/login}" class="nav-link">ログイン</a>
+      </th:block>
     </nav>
   </header>
 
   <script>
-    // 1. サイドバー本体の表示切り替え
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
       document.getElementById('sidebar-overlay').classList.toggle('active');
@@ -230,46 +230,38 @@
       document.body.classList.remove('sidebar-open');
     }
 
-    // 2. 1層目の開閉制御 (「カテゴリから探す」など)
     function toggleFirstLevelAccordion(wrapperId, chevronId) {
       document.getElementById(wrapperId).classList.toggle('open');
       document.getElementById(chevronId).classList.toggle('rotated');
     }
 
-    // 3. 2層目の開閉制御 (親カテゴリの行をクリックした際に動作)
     function handleParentRowClick(event, rowElement) {
       const chevron = rowElement.querySelector('.child-chevron');
       const childContainer = rowElement.nextElementSibling;
-      
       childContainer.classList.toggle('open');
       chevron.classList.toggle('rotated');
     }
 
-    // 4. チェックボックス連動：大枠 ON/OFF で配下の子要素を全選択・全解除
     function toggleAllChildren(parentInput) {
       const parentNode = parentInput.closest('.parent-category-node');
       const childCheckboxes = parentNode.querySelectorAll('.child-category-list input[type="checkbox"]');
-      
       childCheckboxes.forEach(child => {
         child.checked = parentInput.checked;
       });
     }
 
-    // 5. チェックボックス連動：子要素が変更されたら大枠の状態にフィードバック
     function syncParentCheckbox(childInput) {
       const parentNode = childInput.closest('.parent-category-node');
       const parentCheckbox = parentNode.querySelector('.parent-check');
       const siblingCheckboxes = parentNode.querySelectorAll('.child-category-list input[type="checkbox"]');
-      
       const allChecked = Array.from(siblingCheckboxes).every(cb => cb.checked);
       const anyChecked = Array.from(siblingCheckboxes).some(cb => cb.checked);
-      
       parentCheckbox.checked = allChecked;
       parentCheckbox.indeterminate = anyChecked && !allChecked;
     }
   </script>
 
-	</div>
+</div>
 
 </body>
 

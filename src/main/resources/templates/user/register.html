@@ -4,46 +4,72 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>ユーザ登録</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+	<link rel="stylesheet" th:href="@{/css/register.css}" />
 </head>
 
 <body>
 	<header th:replace="layout/_header :: header"></header>
 
-	<main>
+	<main class="main-content register-page">
 		<h1>ユーザ登録フォーム</h1>
 
-		<form th:action="@{/register}" th:object="${form}" method="post">
-			<p>
-				<label>
-					名前：<input type="text" th:field="*{name}" />
-					<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-				</label>
-			</p>
-			<p>
-				<label>
-					メールアドレス：<input type="email" th:field="*{email}" />
-					<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-				</label>
-			</p>
-			<p>
-				<label>
-					メールアドレス（確認用）：<input type="email" th:field="*{emailConfirm}" />
-					<span th:if="${#fields.hasErrors('emailConfirm')}" th:errors="*{emailConfirm}"></span>
-				</label>
-			</p>
+		<div class="register-card">
+			<form th:action="@{/register}" th:object="${form}" method="post">
 
-			<p th:if="${#fields.hasErrors('emailConfirmed')}" th:errors="*{emailConfirmed}"></p>
-			<p>
-				<label>
-					パスワード：<input type="password" th:field="*{password}" />
-					<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-				</label>
-			</p>
+				<!-- メール一致エラー（クロスフィールド） -->
+				<p class="form-error-block" th:if="${#fields.hasErrors('emailConfirmed')}"
+					th:errors="*{emailConfirmed}"></p>
 
-			<p>
-				<label>
-					気になる地域：
-					<select th:field="*{regionId}">
+				<!-- 名前 -->
+				<div class="form-group">
+					<label class="form-label">
+						名前<span class="required-badge">必須</span>
+					</label>
+					<input type="text" class="form-input" th:field="*{name}"
+						th:classappend="${#fields.hasErrors('name')} ? 'is-error'" />
+					<span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+				</div>
+
+				<!-- メールアドレス -->
+				<div class="form-group">
+					<label class="form-label">
+						メールアドレス<span class="required-badge">必須</span>
+					</label>
+					<input type="email" class="form-input" th:field="*{email}"
+						th:classappend="${#fields.hasErrors('email')} ? 'is-error'" />
+					<span class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+				</div>
+
+				<!-- メールアドレス（確認用） -->
+				<div class="form-group">
+					<label class="form-label">
+						メールアドレス（確認用）<span class="required-badge">必須</span>
+					</label>
+					<input type="email" class="form-input" th:field="*{emailConfirm}"
+						th:classappend="${#fields.hasErrors('emailConfirm')} ? 'is-error'" />
+					<span class="field-error" th:if="${#fields.hasErrors('emailConfirm')}"
+						th:errors="*{emailConfirm}"></span>
+				</div>
+
+				<div class="form-divider"></div>
+
+				<!-- パスワード -->
+				<div class="form-group">
+					<label class="form-label">
+						パスワード<span class="required-badge">必須</span>
+					</label>
+					<input type="password" class="form-input" th:field="*{password}"
+						th:classappend="${#fields.hasErrors('password')} ? 'is-error'" />
+					<span class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+				</div>
+
+				<div class="form-divider"></div>
+
+				<!-- 気になる地域 -->
+				<div class="form-group">
+					<label class="form-label">気になる地域</label>
+					<select class="form-select" th:field="*{regionId}">
 						<option value="">選択してください</option>
 						<option value="1">宗谷</option>
 						<option value="2">留萌</option>
@@ -60,17 +86,16 @@
 						<option value="13">檜山</option>
 						<option value="14">渡島</option>
 					</select>
-				</label>
-			</p>
+				</div>
 
-			<p>
-				<label>
-					好きなカテゴリー：
-					<select th:field="*{categoryId}">
+				<!-- 好きなカテゴリー -->
+				<div class="form-group">
+					<label class="form-label">好きなカテゴリー</label>
+					<select class="form-select" th:field="*{categoryId}">
 						<option value="">選択してください</option>
 						<option value="1">豚肉</option>
 						<option value="2">牛肉</option>
-						<option value="3">鶏肉/option>
+						<option value="3">鶏肉</option>
 						<option value="4">ジンギスカン</option>
 						<option value="5">くじら肉</option>
 						<option value="6">加工肉（ハム、ウインナー）</option>
@@ -99,15 +124,19 @@
 						<option value="29">納豆、豆腐、豆類</option>
 						<option value="30">米</option>
 					</select>
-				</label>
-			</p>
-			<p><button type="submit">登録</button></p>
-		</form>
+				</div>
 
-		<a href="/">▶ トップページへ戻る</a>
+				<!-- 送信 -->
+				<div class="form-actions">
+					<button type="submit" class="btn-submit">登録する</button>
+				</div>
+
+			</form>
+		</div>
+		<div>
+			<a class="back-link" href="/login">▶ ログイン画面に戻る</a>
+		</div>
 	</main>
-
-	<footer th:replace="layout/_footer :: footer"></footer>
 </body>
 
 </html>
