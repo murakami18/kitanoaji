@@ -15,15 +15,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.entity.User;
 import com.example.demo.form.LoginForm;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.CartService;
 
 @Controller
 public class AuthController {
 
 	private final UserMapper userMapper;
+	private final CartService cartService;
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	public AuthController(UserMapper userMapper) {
+	public AuthController(UserMapper userMapper, CartService cartService) {
 		this.userMapper = userMapper;
+		this.cartService = cartService;
 	}
 
 	/** ログイン画面を表示する */
@@ -58,6 +61,11 @@ public class AuthController {
 
 		// ログイン成功：セッションにユーザ情報を保存する
 		session.setAttribute("loginUser", user);
+
+		// ==========================================
+		// ★追加：セッションにあったカートの中身をDBにマージする
+		// ==========================================
+		cartService.mergeSessionCartToDb(session, user.getId());
 
 		// ─── カテゴリIDをクエリパラメータとして渡す ───
 		Integer categoryId = user.getCategoryId(); // 単一のIDを取得

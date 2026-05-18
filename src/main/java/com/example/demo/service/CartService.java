@@ -127,4 +127,52 @@ public class CartService {
 			cartItemMapper.deleteByCartIdAndProductId(cart.getId(), productId);
 		}
 	}
+	// ==========================================
+	// カートの統合（マージ）処理
+	// ==========================================
+
+	/**
+	 * セッションカートの商品をデータベースのカートにマージ（統合）します。
+	 * ログイン成功直後に呼び出してください。
+	 */
+	@Transactional
+	public void mergeSessionCartToDb(HttpSession session, int userId) {
+		// 1. セッションのカートを取得
+		List<CartItem> sessionCart = getCartFromSession(session);
+
+		// 2. セッションカートが空なら何もしないで終了
+		if (sessionCart == null || sessionCart.isEmpty()) {
+			return;
+		}
+
+		// 3. ユーザーのDBカートを取得（存在しなければ新規作成）
+		Cart cart = cartMapper.findByUserId(userId);
+		if (cart == null) {
+			cart = new Cart();
+			cart.setUserId(userId);
+			cart.setGameResult("NORMAL");
+			cartMapper.insert(cart);
+		}
+
+		// 4. セッションの商品を一つずつDBへ移行
+		for (CartItem sessionItem : sessionCart) {
+			CartItem dbItem = cartItemMapper.findByCartIdAndProductId(cart.getId(), sessionItem.getProductId());
+
+			if (dbItem != null) {
+				// 既にDBカートに同じ商品がある場合は、セッションの数量を「加算」する
+				int newQuantity = dbItem.getQuantity() + sessionItem.getQuantity();
+				cartItemMapper.updateQuantity(cart.getId(), sessionItem.getProductId(), newQuantity);
+			} else {
+				// DBカートにない場合は新規追加
+				CartItem newItem = new CartItem();
+				newItem.setCartId(cart.getId());
+				newItem.setProductId(sessionItem.getProductId());
+				newItem.setQuantity(sessionItem.getQuantity()); // セッションに入っていた数量をセット
+				cartItemMapper.insert(newItem);
+			}
+		}
+
+		// 5. 移行が完了したら、セッションのカートを削除して綺麗にする
+		clearCart(session);
+	}
 }

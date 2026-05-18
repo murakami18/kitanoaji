@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.Map;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,15 +12,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.entity.User;
 import com.example.demo.form.UserForm;
+import com.example.demo.service.CartService;
 import com.example.demo.service.UserService;
 
 @Controller
 public class UserController {
 	private final UserService userService;
+	private final CartService cartService;
 
-	public UserController(UserService userService) {
+	public UserController(UserService userService, CartService cartService) {
 		this.userService = userService;
+		this.cartService = cartService;
 	}
 
 	@GetMapping("/register")
@@ -31,14 +37,29 @@ public class UserController {
 	public String submitForm(
 			@Validated @ModelAttribute("form") UserForm form,
 			BindingResult bindingResult,
+			HttpSession session, // ★追加（セッションを操作するため）
 			Model model) {
 
 		if (bindingResult.hasErrors()) {
 			return "user/register"; // エラー時はフォームに戻す
 		}
-		// まとめて受け取れているか確認
+
 		// ビジネスロジックを Service に委譲する
-		userService.register(form);
+		// ★重要: userService.registerで登録したあとのユーザー情報(特にID)が必要です。
+		// 戻り値で User エンティティを受け取れるように UserService を少し修正するとスムーズです。
+		User registeredUser = userService.register(form);
+
+		if (registeredUser != null) {
+			// ==========================================
+			// 1. 会員登録直後に「自動ログイン」状態にする
+			// ==========================================
+			session.setAttribute("loginUser", registeredUser);
+
+			// ==========================================
+			// 2. セッションにあったカートの中身をDBにマージする
+			// ==========================================
+			cartService.mergeSessionCartToDb(session, registeredUser.getId());
+		}
 
 		model.addAttribute("form", form);
 		return "user/result";

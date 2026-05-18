@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void register(UserForm form) {
+	public User register(UserForm form) {
 		if (userMapper.existsByEmail(form.getEmail())) {
 			throw new IllegalArgumentException("このメールは既に使われています");
 		}
@@ -31,5 +31,7 @@ public class UserServiceImpl implements UserService {
 		user.setCategoryId(form.getCategoryId());
 		user.setRegionId(form.getRegionId());
 		userMapper.insert(user);
+
+		return user; // 修正2: 最後に作成した user を返す
 	}
 }
