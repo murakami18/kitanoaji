@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>大当たり</title>
+</head>
+<body>
+
+<h1>
+🎉 大当たり！！ 🎉
+</h1>
+
+<h2>
+合計金額が半額になりました！
+</h2>
+
+<form th:action="@{/purchase/confirm}" method="get">
+	<button type="submit">
+		購入確認へ進む
+	</button>
+</form>
+
+</body>
+</html>
