@@ -1,104 +1,100 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商品詳細｜北ノ味</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/product_detail.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>商品詳細｜北ノ味</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/product_detail.css}">
 </head>
+
 <body>
 
-  <div th:replace="~{layout/_header :: header}"></div>
+	<div th:replace="~{layout/_header :: header}"></div>
 
-  <main class="main-content">
+	<main class="main-content">
 
-    <h2 class="section-title">商品詳細</h2>
+		<div class="product-page"> <h2 class="section-title">商品詳細</h2>
 
-    <div class="product-area">
+			<div class="product-area">
 
-      <!-- 商品画像 -->
-      <div class="product-image">
-        <div class="thumb">
-          <img
-            th:src="@{/image/{id}.jpg(id=${product.id})}"
-            th:alt="${product.name}"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <span class="no-image">No Image</span>
-        </div>
-      </div>
+				<div class="product-image">
+					<div class="thumb">
+						<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
+							onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+						<span class="no-image">No Image</span>
+					</div>
+				</div>
 
-      <!-- 商品情報 -->
-      <div class="product-info">
+				<div class="product-info">
 
-        <!-- 商品名 -->
-        <div class="product-name" th:text="${product.name}">商品名</div>
+					<div class="product-name" th:text="${product.name}">商品名</div>
 
-        <!-- 価格 -->
-        <div class="product-price"
-             th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
+					<div class="product-price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
 
-        <!-- 商品比較（補助アクション） -->
-        <a class="btn btn-secondary btn-compare" th:href="@{/product/compare}">商品比較</a>
+					<a class="btn btn-secondary btn-compare" th:href="@{/product/compare(id=${product.id})}">商品比較</a>
 
-        <!-- カテゴリー -->
-        <div class="product-detail">
-          <span class="detail-label">カテゴリー</span>
-          <span class="detail-value" th:text="${product.categoryName}"></span>
-        </div>
+					<div class="product-detail">
+						<span class="detail-label">カテゴリー</span>
+						<span class="detail-value" th:text="${product.categoryName}"></span>
+					</div>
 
-        <!-- 地域 -->
-        <div class="product-detail">
-          <span class="detail-label">地域</span>
-          <span class="detail-value" th:text="${product.regionName}"></span>
-        </div>
+					<div class="product-detail">
+						<span class="detail-label">地域</span>
+						<span class="detail-value" th:text="${product.regionName}"></span>
+					</div>
 
-        <!-- 内容量 -->
-        <div class="product-detail">
-          <span class="detail-label">内容量</span>
-          <span class="detail-value">
-            <span th:text="${#numbers.formatInteger(product.weight, 1, 'COMMA')}"></span> g
-          </span>
-        </div>
+					<div class="product-detail">
+						<span class="detail-label">内容量</span>
+						<span class="detail-value">
+							<span th:text="${#numbers.formatInteger(product.weight, 1, 'COMMA')}"></span> g
+						</span>
+					</div>
 
-        <!-- 数量 -->
-        <div class="quantity-area">
-          <button type="button" class="quantity-btn" onclick="decreaseQuantity()">－</button>
-          <input type="text" id="quantity" class="quantity-input" value="1">
-          <button type="button" class="quantity-btn" onclick="increaseQuantity()">＋</button>
-        </div>
+					<div class="quantity-area">
+						<button type="button" class="quantity-btn" onclick="decreaseQuantity()">－</button>
+						<input type="text" id="quantity" class="quantity-input" value="1">
+						<button type="button" class="quantity-btn" onclick="increaseQuantity()">＋</button>
+					</div>
 
-        <!-- ボタン -->
-        <div class="button-area">
+					<div class="button-area">
+						<div class="btn-row-primary">
+							<form th:action="@{/cart/add}" method="post">
+								<input type="hidden" name="productId" th:value="${product.id}" />
+								<button type="submit" class="btn btn-secondary">カートに追加</button>
+							</form>
+							<a class="btn btn-primary" th:href="@{/order/confirm}">購入する</a>
+						</div>
+					</div>
 
-          <!-- カートへ追加・購入する（横並び・等幅） -->
-          <div class="btn-row-primary">
-            <form th:action="@{/cart/add}" method="post">
-              <input type="hidden" name="productId" th:value="${product.id}" />
-              <button type="submit" class="btn btn-secondary">カートに追加</button>
-            </form>
-            <a class="btn btn-primary" th:href="@{/order/confirm}">購入する</a>
-          </div>
+				</div>
 
-        </div>
+			</div>
 
-      </div>
+			<div class="product-footer">
+				<a th:href="@{/home}" class="product-back-link">
+					<span class="arrow">←</span>
+					ホームに戻る
+				</a>
+			</div>
 
-    </div>
+		</div>
 
-  </main>
+	</main>
 
-  <script>
-    function increaseQuantity() {
-      const q = document.getElementById("quantity");
-      q.value = parseInt(q.value) + 1;
-    }
+	<script>
+		function increaseQuantity() {
+			const q = document.getElementById("quantity");
+			q.value = parseInt(q.value) + 1;
+		}
 
-    function decreaseQuantity() {
-      const q = document.getElementById("quantity");
-      if (parseInt(q.value) > 1) q.value = parseInt(q.value) - 1;
-    }
-  </script>
+		function decreaseQuantity() {
+			const q = document.getElementById("quantity");
+			if (parseInt(q.value) > 1) q.value = parseInt(q.value) - 1;
+		}
+	</script>
 
 </body>
+
 </html>

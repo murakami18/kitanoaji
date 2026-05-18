@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import com.example.demo.mapper.RegionMapper;
 
 @Controller
 public class HomeController {
+
 	private final ProductMapper productMapper;
 	private final RegionMapper regionMapper;
 	private final CategoryMapper categoryMapper;
@@ -30,27 +33,22 @@ public class HomeController {
 	@GetMapping("/home")
 	public String homeView(
 			@RequestParam(name = "regionId", required = false) Integer regionId,
-			// 💡 引数を Integer から List<Integer> に変更し、名前を categoryIds に
 			@RequestParam(name = "categoryIds", required = false) List<Integer> categoryIds,
+			HttpSession session,
 			Model model) {
 
 		List<Product> products;
-
-		// 💡 カテゴリが空リストで送られてきた場合（[]）の扱いを null と同じにするための判定
 		boolean hasCategories = (categoryIds != null && !categoryIds.isEmpty());
 
 		if (regionId != null && hasCategories) {
-			// regionId と 複数の categoryIds で絞り込み（新メソッド）
+			// regionId と 複数の categoryIds で絞り込み
 			products = productMapper.findByRegionIdAndCategoryIds(regionId, categoryIds);
-
 		} else if (regionId != null) {
 			// regionId のみ指定
 			products = productMapper.findByRegionId(regionId);
-
 		} else if (hasCategories) {
-			// 複数の categoryIds のみ指定（新メソッド）
+			// 複数の categoryIds のみ指定
 			products = productMapper.findByCategoryIds(categoryIds);
-
 		} else {
 			// 両方未指定の場合は全件取得
 			products = productMapper.findAll();
@@ -62,7 +60,7 @@ public class HomeController {
 			model.addAttribute("selectedRegion", selectedRegion);
 		}
 
-		// 💡 絞り込み中のカテゴリー（複数）をバナー表示用にモデルへ渡す
+		// 絞り込み中のカテゴリー（複数）をバナー表示用にモデルへ渡す
 		if (hasCategories) {
 			List<Category> selectedCategories = new ArrayList<>();
 			for (Integer id : categoryIds) {
@@ -71,7 +69,6 @@ public class HomeController {
 					selectedCategories.add(cat);
 				}
 			}
-			// 修正後のHTMLで使う「selectedCategories」という名前でモデルに追加
 			model.addAttribute("selectedCategories", selectedCategories);
 		}
 

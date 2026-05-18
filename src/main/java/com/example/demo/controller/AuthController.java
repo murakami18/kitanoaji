@@ -58,7 +58,16 @@ public class AuthController {
 
 		// ログイン成功：セッションにユーザ情報を保存する
 		session.setAttribute("loginUser", user);
-		return "redirect:/products";
+
+		// ─── カテゴリIDをクエリパラメータとして渡す ───
+		Integer categoryId = user.getCategoryId(); // 単一のIDを取得
+
+		if (categoryId != null) {
+			// パラメータ名は「categoryIds」のまま、1つのIDを渡す
+			// 例: redirect:/home?categoryIds=1
+			return "redirect:/home?categoryIds=" + categoryId;
+		}
+		return "redirect:/home";
 	}
 
 	/** ログアウト処理を行う */
