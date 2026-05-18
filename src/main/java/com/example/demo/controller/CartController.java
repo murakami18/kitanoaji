@@ -43,11 +43,10 @@ public class CartController {
 			cart = cartService.getCartFromDb(loginUser.getId());
 		} else {
 			// ログインしていない場合：セッションからカート情報を取得
-			// （以前の getCart(session) に相当するメソッド）
 			cart = cartService.getCartFromSession(session);
 		}
 
-		// 合計金額の計算（NullPointerException防止のため、cartがnullでないかチェック）
+		// 合計金額の計算
 		int total = 0;
 		if (cart != null && !cart.isEmpty()) {
 			total = cart.stream().mapToInt(CartItem::getSubtotal).sum();
@@ -55,23 +54,27 @@ public class CartController {
 
 		model.addAttribute("cart", cart);
 		model.addAttribute("total", total);
-		return "cart/index"; // HTMLのパスに合わせて変更してください (例: "cart" など)
+		return "cart/index";
 	}
 
 	/** カートに商品を追加する */
 	@PostMapping("/add")
-	public String addToCart(@RequestParam("productId") int productId, HttpSession session) {
+	public String addToCart(
+			@RequestParam("productId") int productId,
+			@RequestParam(value = "quantity", defaultValue = "1") int quantity, // ★引数に個数(quantity)を追加
+			HttpSession session) {
+
 		Product product = productMapper.findById(productId);
 
 		if (product != null) {
 			User loginUser = (User) session.getAttribute("loginUser");
 
 			if (loginUser != null) {
-				// ログインしている場合：データベースへ保存
-				cartService.addItemToDb(loginUser.getId(), product);
+				// ログインしている場合：データベースへ保存（引数に quantity を追加）
+				cartService.addItemToDb(loginUser.getId(), product, quantity);
 			} else {
-				// ログインしていない場合：セッションへ保存
-				cartService.addItemToSession(session, product);
+				// ログインしていない場合：セッションへ保存（引数に quantity を追加）
+				cartService.addItemToSession(session, product, quantity);
 			}
 		}
 		return "redirect:/cart";
