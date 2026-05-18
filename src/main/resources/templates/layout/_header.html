@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-<head><title>fragment</title></head>
+
+<head>
+	<title>fragment</title>
+</head>
+
 <body>
 
 <div th:fragment="header">
@@ -201,6 +205,15 @@
       <a th:href="@{/cart}"   class="nav-link">カート</a>
       <a th:href="@{/map}"    class="nav-link">マップ</a>
       <a th:href="@{/search}" class="nav-link nav-link--search">検索</a>
+      				<th:block th:if="${session.loginUser != null}">
+					[[${session.loginUser.name}]]さん |
+					<form th:action="@{/logout}" method="post" style="display:inline">
+						<button type="submit">ログアウト</button>
+					</form>
+				</th:block>
+				<th:block th:unless="${session.loginUser != null}">
+					<a href="/login">ログイン</a>
+				</th:block>
     </nav>
   </header>
 
@@ -256,7 +269,8 @@
     }
   </script>
 
-</div>
+	</div>
 
 </body>
+
 </html>
