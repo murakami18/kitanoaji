@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import com.example.demo.mapper.ProductMapper;
 import com.example.demo.service.CartService;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/cart") // パスは適宜合わせてください
 public class CartController {
 
 	private final CartService cartService;
@@ -38,13 +39,22 @@ public class CartController {
 		return "cart/index";
 	}
 
-	/** カートに商品を追加する */
 	@PostMapping("/add")
-	public String addToCart(@RequestParam("productId") int productId,
-			HttpSession session) {
+	public String addToCart(@RequestParam("productId") int productId, HttpSession session) {
 		Product product = productMapper.findById(productId);
+
 		if (product != null) {
-			cartService.addItem(session, product);
+			// セッションからログインユーザー情報を取得
+			// ※Userクラスはご自身のEntityクラス名に合わせてください
+			User loginUser = (User) session.getAttribute("loginUser");
+
+			if (loginUser != null) {
+				// ログインしている場合：データベースへ保存
+				//cartService.addItemToDb(loginUser.getId(), product);
+			} else {
+				// ログインしていない場合：セッションへ保存
+				cartService.addItemToSession(session, product);
+			}
 		}
 		return "redirect:/cart";
 	}
