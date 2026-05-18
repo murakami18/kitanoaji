@@ -11,4 +11,18 @@
     </select>
     
 
+     <select id="findById" resultType="com.example.demo.entity.User">
+
+        SELECT
+            id,
+            name,
+            email,
+            password,
+            category_id AS categoryId,
+            region_id AS regionId
+        FROM users
+        WHERE id = #{id}
+
+    </select>
+
 </mapper>
