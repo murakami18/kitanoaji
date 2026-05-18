@@ -23,4 +23,6 @@ public interface UserMapper {
 			(#{name}, #{email}, #{password}, #{categoryId}, #{regionId})
 			""")
 	void insert(User user);
+
+	User findById(int id);
 }

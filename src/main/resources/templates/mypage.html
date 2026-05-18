@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>マイページ</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Yu Gothic", sans-serif;
+        background: linear-gradient(to bottom, #f4f7f2, #fcfcfa);
+        color: #333;
+    }
+
+    .mypage-container {
+        width: 90%;
+        max-width: 760px;
+        margin: 50px auto;
+        background-color: rgba(255,255,255,0.95);
+        border-radius: 24px;
+        padding: 45px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e6eee2;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #4f6b4f;
+        font-size: 32px;
+        letter-spacing: 2px;
+    }
+
+    .user-info {
+        background: linear-gradient(to right, #edf5e8, #f7faf5);
+        border-radius: 18px;
+        padding: 24px;
+        margin-bottom: 35px;
+        line-height: 2.2;
+        border: 1px solid #dbe7d5;
+    }
+
+    .user-info strong {
+        color: #587258;
+    }
+
+    .menu-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .menu-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-decoration: none;
+        color: #333;
+        background-color: #fafcf8;
+        padding: 20px 24px;
+        border-radius: 16px;
+        transition: all 0.25s ease;
+        border: 1px solid #e4ece0;
+        font-size: 16px;
+    }
+
+    .menu-item:hover {
+        background-color: #eef5ea;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(100, 130, 100, 0.12);
+    }
+
+    .arrow {
+        color: #7d9b7d;
+        font-size: 18px;
+    }
+
+    @media screen and (max-width: 600px) {
+
+        .mypage-container {
+            padding: 28px;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+
+        .menu-item {
+            padding: 16px 18px;
+            font-size: 15px;
+        }
+    }
+
+</style>
+</head>
+
+<body>
+	<header th:replace="layout/_header :: header"></header>
+<div class="mypage-container">
+
+    <h1>マイページ</h1>
+
+    <!-- 登録情報 -->
+	<div class="user-info">
+	    <div>
+			<a th:text="${session.loginUser.name}">
+
+<!--	    <div>-->
+<!--	        <strong>メールアドレス：</strong>-->
+<!--	        <span th:text="${user.email}"></span>-->
+	    </div>
+	</div>
+
+    <!-- メニュー -->
+    <div class="menu-list">
+
+        <a href="#" class="menu-item">
+            <span>注文履歴一覧</span>
+            <span class="arrow">›</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <span>気になるカテゴリーの再選択</span>
+            <span class="arrow">›</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <span>気になる地域の再選択</span>
+            <span class="arrow">›</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <span>ヘルプ・よくある質問</span>
+            <span class="arrow">›</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <span>アプリの機能に関するご意見・ご要望</span>
+            <span class="arrow">›</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <span>北ノ味サービス利用規約</span>
+            <span class="arrow">›</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <span>プライバシーポリシー</span>
+            <span class="arrow">›</span>
+        </a>
+
+    </div>
+
+</div>
+<footer th:replace="layout/_footer :: footer"></footer>
+</body>
+</html>
