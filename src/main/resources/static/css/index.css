@@ -1,0 +1,240 @@
+/* ============================================================
+   北ノ味 — index.css（カートページ）
+   ============================================================ */
+
+/* ---------- メインレイアウト ---------- */
+main {
+  max-width: 860px;
+  margin: calc(var(--header-h) + 32px) auto 48px;
+  padding: 0 24px;
+}
+
+main h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-primary);
+  letter-spacing: .06em;
+}
+
+/* ---------- カートが空の場合 ---------- */
+.cart-empty {
+  padding: 56px 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 15px;
+}
+
+.cart-empty p {
+  margin-bottom: 20px;
+}
+
+/* ---------- テーブル ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+}
+
+thead {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+thead th {
+  padding: 16px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-align: left;
+  white-space: nowrap;
+}
+
+thead th:nth-child(2),
+thead th:nth-child(3),
+thead th:nth-child(4) {
+  text-align: right;
+}
+
+thead th:last-child {
+  text-align: center;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background var(--transition);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--color-primary-lt);
+}
+
+tbody td {
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+/* 商品名 */
+tbody td:first-child {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* 単価・小計 */
+tbody td:nth-child(2),
+tbody td:nth-child(4) {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* 小計のみ強調 */
+tbody td:nth-child(4) {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-price);
+}
+
+/* 数量 */
+tbody td:nth-child(3) {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+tbody td:nth-child(2),
+tbody td:nth-child(3),
+tbody td:nth-child(4) {
+  text-align: right;
+}
+
+tbody td:last-child {
+  text-align: center;
+}
+
+/* 削除ボタン */
+tbody td button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  background: #fff;
+  color: #c0392b;
+  border: 1px solid #c0392b;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+tbody td button[type="submit"]:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+tbody td .nav-form {
+  height: auto;
+  display: inline-flex;
+}
+
+/* ---------- 合計金額 ---------- */
+.total-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0;
+  padding: 20px 24px;
+  background: var(--color-surface);
+  border-top: 2px solid var(--color-primary);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.total-box span {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.total-box strong {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-price);
+  letter-spacing: .04em;
+}
+
+/* テーブルと合計欄をひとかたまりに */
+.table-wrapper {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* ---------- アクションエリア ---------- */
+.cart-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+  gap: 16px;
+}
+
+/* 戻るリンク */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  transition: color var(--transition), gap var(--transition);
+}
+
+.back-link:hover {
+  color: var(--color-primary-dk);
+  gap: 10px;
+}
+
+/* 購入するボタン */
+.btn-purchase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 36px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition), transform .1s, box-shadow var(--transition);
+}
+
+.btn-purchase:hover {
+  background: var(--color-primary-dk);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-purchase:active {
+  transform: scale(.98);
+}
+
+.cart-actions .nav-form {
+  height: auto;
+}
