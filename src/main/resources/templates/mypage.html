@@ -105,11 +105,13 @@
 
 		<!-- 登録情報 -->
 		<div class="user-info">
+			<div>
+		 	 名前：<span th:text="${session.loginUser.name}"></span>
+			</div>
 
-			<div> なまえ：<span th:text="${user.name}"></span>
-				<br> メール：<span th:text="${user.email}"></span>
-			 </div>
-
+			<div>
+		  	メールアドレス：<span th:text="${session.loginUser.email}"></span>
+			</div>
 		</div>
 
 		<!-- メニュー -->

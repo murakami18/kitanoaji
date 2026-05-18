@@ -27,8 +27,4 @@ public class MyPageController {
 		return "mypage";
 	}
 
-	//	@GetMapping("/mypage")
-	//	public String showMyPage() {
-	//		return "mypage";
-	//	}
 }
