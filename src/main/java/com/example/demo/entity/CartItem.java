@@ -4,6 +4,23 @@ public class CartItem {
 	private int productId;
 	private String name;
 	private int price;
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	private int quantity;
 
 	public CartItem(int productId, String name, int price) {
@@ -11,6 +28,10 @@ public class CartItem {
 		this.name = name;
 		this.price = price;
 		this.quantity = 1;
+	}
+
+	public CartItem() {
+		// TODO 自動生成されたコンストラクター・スタブ
 	}
 
 	public int getProductId() {

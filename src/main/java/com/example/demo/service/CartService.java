@@ -78,7 +78,7 @@ public class CartService {
 		} else {
 			// 5. 存在しない場合は、新しい明細として追加（数量1）
 			CartItem newItem = new CartItem();
-			newItem.setCartId(cart.getId()); // Cartsテーブルと紐づけるためのID[cite: 1]
+			newItem.setProductId(cart.getId()); // Cartsテーブルと紐づけるためのID[cite: 1]
 			newItem.setProductId(product.getId()); // Productsテーブルと紐づけるためのID[cite: 1]
 			newItem.setQuantity(1);
 			cartItemMapper.insert(newItem);
