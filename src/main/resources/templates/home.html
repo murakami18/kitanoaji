@@ -4,45 +4,33 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ホーム</title>
+	<title>ホーム｜北ノ味</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 
 <body>
 
-	<header>
-		<a>北ノ味</a>
-		<nav>
-			<a th:href="@{/cart}">カート</a> |
-			<a th:href="@{/orders}">注文履歴</a> |
-			<a th:href="@{/map}">マップ</a> |
-			<a th:href="@{/mypage}" class="btn-mypage">マイページ</a> |
-			<a th:href="@{/login}" class="btn-login">ログイン</a> |
-		</nav>
-	</header>
+	<div th:replace="~{layout/_header :: header}"></div>
 
-	<main>
-		<!-- 地方でフィルタリング -->
-		<div class="filter-bar" th:if="${selectedRegion != null}">
-		  <span th:text="'📍 ' + ${selectedRegion.name} + ' の商品を表示中'"></span>
-		  <a class="btn btn-secondary" th:href="@{/home}">すべて表示</a>
-		</div>
+	<main class="main-content">
 
-		<!-- カテゴリでフィルタリング -->
-		<div class="filter-bar" th:if="${selectedCategory != null}">
-		  <span th:text="'🏷️ ' + ${selectedCategory.name} + ' の商品を表示中'"></span>
-		  <a class="btn btn-secondary" th:href="@{/home}">すべて表示</a>
+		<div class="section-header">
+			<h2 class="section-title">商品一覧</h2>
+
+			<div class="filter-action"
+				th:if="${selectedRegion != null or (selectedCategories != null and !selectedCategories.isEmpty())}">
+				<a class="btn btn-secondary btn-clear" th:href="@{/home}">すべて表示</a>
+			</div>
 		</div>
-		
-		<h2 class="section-title">商品一覧</h2>
 
 		<div class="product-grid" th:if="${products != null and !products.isEmpty()}">
 			<div class="product-card" th:each="product : ${products}">
 
 				<div class="thumb">
 					<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
-						onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-					<span style="display:none;">No Image</span>
+						onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+					<span class="no-image">No Image</span>
 				</div>
 
 				<div class="info">
@@ -58,6 +46,7 @@
 					    <button type="submit">カートに追加</button>
 					</form>
 				</div>
+
 			</div>
 		</div>
 
