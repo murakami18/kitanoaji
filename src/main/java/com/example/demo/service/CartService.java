@@ -62,8 +62,8 @@ public class CartService {
 		// 2. カートが存在しない場合は新しく作成
 		if (cart == null) {
 			cart = new Cart();
-			//cart.setUserId(userId);
-			//cart.setGameResult("NORMAL"); // 初期状態を設定
+			cart.setUserId(userId);
+			cart.setGame_result("NORMAL"); // 初期状態を設定
 			cartMapper.insert(cart);
 			// ※CartMapperの@Optionsにより、自動採番されたIDがcart.getId()で取得可能になります
 		}
@@ -74,7 +74,7 @@ public class CartService {
 		if (existingItem != null) {
 			// 4. すでに存在する場合は、数量(quantity)を +1 して更新
 			int newQuantity = existingItem.getQuantity() + 1;
-			//cartItemMapper.updateQuantity(cart.getId(), product.getId(), newQuantity);
+			cartItemMapper.updateQuantity(cart.getId(), product.getId(), newQuantity);
 		} else {
 			// 5. 存在しない場合は、新しい明細として追加（数量1）
 			CartItem newItem = new CartItem();

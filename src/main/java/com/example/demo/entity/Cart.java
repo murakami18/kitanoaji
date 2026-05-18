@@ -3,6 +3,15 @@ package com.example.demo.entity;
 public class Cart {
 	private int id;
 	private int userId;
+	private String game_result;
+
+	public String getGame_result() {
+		return game_result;
+	}
+
+	public void setGame_result(String game_result) {
+		this.game_result = game_result;
+	}
 
 	public Cart() {
 		// TODO 自動生成されたコンストラクター・スタブ
