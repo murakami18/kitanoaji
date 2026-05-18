@@ -3,20 +3,45 @@ package com.example.demo.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.entity.Cart;
 
 @Mapper
 public interface CartMapper {
 
-	// ユーザーIDからカート情報を取得する 
-	@Select("SELECT id, user_id AS userId, game_result AS gameResult FROM Carts WHERE user_id = #{userId}")
+	@Select("""
+				SELECT
+					id,
+					user_id AS userId,
+					game_result AS gameResult
+				FROM carts
+				WHERE user_id = #{userId}
+			""")
 	Cart findByUserId(int userId);
 
-	// 新しいカートを作成する 
-	// Optionsを使用することで、DBで自動採番された id を Entity に書き戻せます
-	@Insert("INSERT INTO Carts (user_id, game_result) VALUES (#{userId}, #{gameResult})")
+	@Insert("""
+				INSERT INTO carts (
+					user_id,
+					game_result
+				)
+				VALUES (
+					#{userId},
+					#{gameResult}
+				)
+			""")
 	@Options(useGeneratedKeys = true, keyProperty = "id")
 	void insert(Cart cart);
+
+	// ルーレット結果保存
+	@Update("""
+				UPDATE carts
+				SET game_result = #{gameResult}
+				WHERE id = #{cartId}
+			""")
+	void updateGameResult(
+			@Param("cartId") int cartId,
+			@Param("gameResult") String gameResult);
 }
