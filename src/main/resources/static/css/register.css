@@ -1,0 +1,208 @@
+/* ============================================================
+   北ノ味 — register.css（ユーザ登録フォーム）
+   ============================================================ */
+
+/* ---------- ページレイアウト ---------- */
+.main-content.register-page {
+  max-width: 560px;
+  margin-top: var(--header-h);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 40px 24px 60px;
+}
+
+/* ---------- ページタイトル ---------- */
+.register-page h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: .06em;
+  margin-bottom: 28px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-primary);
+  position: relative;
+}
+.register-page h1::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--color-primary);
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+}
+
+/* ---------- フォームカード ---------- */
+.register-card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 32px 28px;
+}
+
+/* ---------- フォームグループ ---------- */
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group:last-of-type {
+  margin-bottom: 0;
+}
+
+/* ---------- ラベル ---------- */
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: .08em;
+  margin-bottom: 6px;
+}
+.form-label .required-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 5px;
+  background: var(--color-price);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 3px;
+  letter-spacing: .04em;
+  vertical-align: middle;
+}
+
+/* ---------- テキスト・メール・パスワード入力 ---------- */
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text);
+  background: #fff;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+.form-input::placeholder {
+  color: #aec0c5;
+}
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(27, 110, 125, .15);
+}
+.form-input.is-error {
+  border-color: var(--color-price);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, .12);
+}
+
+/* ---------- セレクト ---------- */
+.form-select {
+  display: block;
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text);
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a7278'/%3E%3C/svg%3E") no-repeat right 12px center;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+  cursor: pointer;
+}
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(27, 110, 125, .15);
+}
+.form-select.is-error {
+  border-color: var(--color-price);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, .12);
+}
+
+/* ---------- バリデーションエラー ---------- */
+.field-error {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-price);
+}
+.form-error-block {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: #fdf2f0;
+  border: 1px solid #f0c3bc;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-price);
+}
+
+/* ---------- セクション区切り ---------- */
+.form-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 24px 0;
+}
+
+/* ---------- 送信ボタンエリア ---------- */
+.form-actions {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition), transform .1s, box-shadow var(--transition);
+  box-shadow: 0 2px 8px rgba(27, 110, 125, .30);
+}
+.btn-submit:hover {
+  background: var(--color-primary-dk);
+  box-shadow: 0 4px 14px rgba(27, 110, 125, .38);
+}
+.btn-submit:active { transform: scale(.98); }
+
+/* ---------- 戻るリンク ---------- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  transition: color var(--transition), gap var(--transition);
+}
+.back-link:hover {
+  color: var(--color-primary-dk);
+  gap: 8px;
+}
+
+/* ---------- レスポンシブ ---------- */
+@media (max-width: 600px) {
+  .main-content.register-page {
+    padding: 24px 16px 48px;
+  }
+  .register-card {
+    padding: 24px 16px;
+  }
+}

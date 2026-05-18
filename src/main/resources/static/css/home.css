@@ -1,0 +1,123 @@
+@charset "UTF-8";
+
+/* ============================================================
+   北ノ味 — home.css（ホームページ固有スタイル）
+   ============================================================ */
+
+/* ---------- セクションヘッダー ---------- */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.section-header .section-title {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+/* ---------- すべて表示ボタン ---------- */
+.filter-action {
+  display: flex;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.btn-clear {
+  width: auto;
+  padding: 4px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ---------- 商品グリッド ---------- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .product-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- 商品カード ---------- */
+.product-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.product-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ---------- 商品情報・価格（ガタつき防止の修正） ---------- */
+.info {
+  padding: 12px 14px 8px;
+  flex: 1;
+  display: flex;         /* 追加：中の要素（h3とprice）を柔軟に配置するため */
+  flex-direction: column;/* 追加 */
+}
+.info h3 {
+  font-size: 14px; /* 15pxから、一般的なカードサイズに合わせて微調整 */
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--color-text);
+  line-height: 1.5;
+  
+  /* 追加：商品名が長すぎる場合は2行で省略し、3点リーダーにする */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 42px; /* 2行分の高さを完全に固定し、カードの高さのガタつきを防止 */
+}
+.price {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-price);
+  margin-top: auto; /* 追加：商品名が1行のときでも、価格を常に最下部に押し下げる */
+}
+
+/* ---------- アクションボタンエリア（ボタンレイアウトの修正） ---------- */
+.actions {
+  display: flex;
+  gap: 8px;
+  padding: 0 14px 14px;
+  align-items: center; /* 追加：縦のズレを防ぐ */
+}
+
+/* 追加：詳細(a)とカートへ(form)を横幅50%ずつに均等割り */
+.actions > a,
+.actions > form {
+  flex: 1;
+  min-width: 0; /* 文字溢れ・崩れ防止 */
+}
+
+/* 追加：フォームの中のボタンを親（50%）いっぱいに広げる */
+.actions > form button {
+  width: 100%;
+}
+
+/* 追加：ボタン自体のサイズと高さを完全に同期させる */
+.actions .btn {
+  height: 38px;      /* 高さをカチッと数値で固定 */
+  padding: 0 4px;    /* 横幅が狭まった時も文字が溢れないようにタイトに */
+  font-size: 13px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

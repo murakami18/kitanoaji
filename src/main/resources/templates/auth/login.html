@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>ログイン</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <link rel="stylesheet" th:href="@{/css/login.css}" />
+</head>
+<body>
+  <header th:replace="layout/_header :: header"></header>
+
+  <main class="main-content login-page">
+    <h1>ログイン</h1>
+
+    <div class="login-card">
+
+      <!-- ログインエラー -->
+      <div class="login-error-banner"
+           th:if="${loginError}"
+           th:text="${loginError}"></div>
+
+      <form th:action="@{/login}" th:object="${form}" method="post">
+
+        <!-- メールアドレス -->
+        <div class="form-group">
+          <label class="form-label">メールアドレス</label>
+          <input type="email"
+                 class="form-input"
+                 th:field="*{email}"
+                 th:classappend="${#fields.hasErrors('email')} ? 'is-error'" />
+          <span class="field-error"
+                th:if="${#fields.hasErrors('email')}"
+                th:errors="*{email}"></span>
+        </div>
+
+        <!-- パスワード -->
+        <div class="form-group">
+          <label class="form-label">パスワード</label>
+          <input type="password"
+                 class="form-input"
+                 th:field="*{password}"
+                 th:classappend="${#fields.hasErrors('password')} ? 'is-error'" />
+          <span class="field-error"
+                th:if="${#fields.hasErrors('password')}"
+                th:errors="*{password}"></span>
+        </div>
+
+        <button type="submit" class="btn-submit">ログイン</button>
+
+      </form>
+    </div>
+
+    <p class="register-link-wrap">
+      <a href="/register">▶ 新規会員登録はこちら</a>
+    </p>
+  </main>
+</body>
+</html>
