@@ -1,158 +1,159 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>マイページ</title>
+	<meta charset="UTF-8">
+	<title>マイページ</title>
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: "Yu Gothic", sans-serif;
-        background: linear-gradient(to bottom, #f4f7f2, #fcfcfa);
-        color: #333;
-    }
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: "Yu Gothic", sans-serif;
+			background: linear-gradient(180deg, #f6f8f3 0%, #ffffff 100%);
+			color: #3b3b3b;
+		}
 
-    .mypage-container {
-        width: 90%;
-        max-width: 760px;
-        margin: 50px auto;
-        background-color: rgba(255,255,255,0.95);
-        border-radius: 24px;
-        padding: 45px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-        border: 1px solid #e6eee2;
-    }
+		.mypage-container {
+			width: 90%;
+			max-width: 760px;
+			margin: 60px auto;
+			background: #ffffffcc;
+			backdrop-filter: blur(6px);
+			border-radius: 26px;
+			padding: 48px;
+			border: 1px solid #e8efe3;
+			box-shadow: 0 10px 30px rgba(60, 80, 60, 0.08);
+		}
 
-    h1 {
-        text-align: center;
-        margin-bottom: 40px;
-        color: #4f6b4f;
-        font-size: 32px;
-        letter-spacing: 2px;
-    }
+		h1 {
+			text-align: center;
+			margin-bottom: 40px;
+			font-size: 30px;
+			letter-spacing: 2px;
+			color: #4a614a;
+			font-weight: 600;
+		}
 
-    .user-info {
-        background: linear-gradient(to right, #edf5e8, #f7faf5);
-        border-radius: 18px;
-        padding: 24px;
-        margin-bottom: 35px;
-        line-height: 2.2;
-        border: 1px solid #dbe7d5;
-    }
+		.user-info {
+			background: linear-gradient(135deg, #f3f7f0, #ffffff);
+			border: 1px solid #dde7d8;
+			border-radius: 18px;
+			padding: 22px 26px;
+			margin-bottom: 36px;
+			line-height: 2;
+			color: #4b4b4b;
+		}
 
-    .user-info strong {
-        color: #587258;
-    }
+		.user-info strong {
+			color: #5c7a5c;
+		}
 
-    .menu-list {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
+		.menu-list {
+			display: flex;
+			flex-direction: column;
+			gap: 14px;
+		}
 
-    .menu-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        text-decoration: none;
-        color: #333;
-        background-color: #fafcf8;
-        padding: 20px 24px;
-        border-radius: 16px;
-        transition: all 0.25s ease;
-        border: 1px solid #e4ece0;
-        font-size: 16px;
-    }
+		.menu-item {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			text-decoration: none;
+			color: #3d3d3d;
+			background: #fbfcfa;
+			padding: 18px 22px;
+			border-radius: 14px;
+			border: 1px solid #e6eee2;
+			transition: 0.2s ease;
+			font-size: 15.5px;
+		}
 
-    .menu-item:hover {
-        background-color: #eef5ea;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(100, 130, 100, 0.12);
-    }
+		.menu-item:hover {
+			background: #f1f6ee;
+			transform: translateY(-1px);
+			border-color: #cfdcc9;
+		}
 
-    .arrow {
-        color: #7d9b7d;
-        font-size: 18px;
-    }
+		.arrow {
+			color: #8aa38a;
+		}
 
-    @media screen and (max-width: 600px) {
+		/* ほんのり区切り感（自然UIっぽさ） */
+		.menu-item + .menu-item {
+			position: relative;
+		}
 
-        .mypage-container {
-            padding: 28px;
-        }
+		@media (max-width: 600px) {
+			.mypage-container {
+				padding: 26px;
+				margin: 30px auto;
+			}
 
-        h1 {
-            font-size: 26px;
-        }
-
-        .menu-item {
-            padding: 16px 18px;
-            font-size: 15px;
-        }
-    }
-
-</style>
+			h1 {
+				font-size: 24px;
+			}
+		}
+	</style>
 </head>
 
 <body>
 	<header th:replace="layout/_header :: header"></header>
-<div class="mypage-container">
+	<div class="mypage-container">
 
-    <h1>マイページ</h1>
+		<h1>マイページ</h1>
 
-    <!-- 登録情報 -->
-	<div class="user-info">
-	    <div>
-			<a th:text="${session.loginUser.name}">
+		<!-- 登録情報 -->
+		<div class="user-info">
 
-<!--	    <div>-->
-<!--	        <strong>メールアドレス：</strong>-->
-<!--	        <span th:text="${user.email}"></span>-->
-	    </div>
+			<div> なまえ：<span th:text="${user.name}"></span>
+				<br> メール：<span th:text="${user.email}"></span>
+			 </div>
+
+		</div>
+
+		<!-- メニュー -->
+		<div class="menu-list">
+
+			<a href="#" class="menu-item">
+				<span>注文履歴一覧</span>
+				<span class="arrow">›</span>
+			</a>
+
+			<a href="#" class="menu-item">
+				<span>気になるカテゴリーの再選択</span>
+				<span class="arrow">›</span>
+			</a>
+
+			<a href="#" class="menu-item">
+				<span>気になる地域の再選択</span>
+				<span class="arrow">›</span>
+			</a>
+
+			<a href="#" class="menu-item">
+				<span>ヘルプ・よくある質問</span>
+				<span class="arrow">›</span>
+			</a>
+
+			<a href="#" class="menu-item">
+				<span>アプリの機能に関するご意見・ご要望</span>
+				<span class="arrow">›</span>
+			</a>
+
+			<a href="#" class="menu-item">
+				<span>北ノ味サービス利用規約</span>
+				<span class="arrow">›</span>
+			</a>
+
+			<a href="#" class="menu-item">
+				<span>プライバシーポリシー</span>
+				<span class="arrow">›</span>
+			</a>
+
+		</div>
+
 	</div>
-
-    <!-- メニュー -->
-    <div class="menu-list">
-
-        <a href="#" class="menu-item">
-            <span>注文履歴一覧</span>
-            <span class="arrow">›</span>
-        </a>
-
-        <a href="#" class="menu-item">
-            <span>気になるカテゴリーの再選択</span>
-            <span class="arrow">›</span>
-        </a>
-
-        <a href="#" class="menu-item">
-            <span>気になる地域の再選択</span>
-            <span class="arrow">›</span>
-        </a>
-
-        <a href="#" class="menu-item">
-            <span>ヘルプ・よくある質問</span>
-            <span class="arrow">›</span>
-        </a>
-
-        <a href="#" class="menu-item">
-            <span>アプリの機能に関するご意見・ご要望</span>
-            <span class="arrow">›</span>
-        </a>
-
-        <a href="#" class="menu-item">
-            <span>北ノ味サービス利用規約</span>
-            <span class="arrow">›</span>
-        </a>
-
-        <a href="#" class="menu-item">
-            <span>プライバシーポリシー</span>
-            <span class="arrow">›</span>
-        </a>
-
-    </div>
-
-</div>
-<footer th:replace="layout/_footer :: footer"></footer>
+	<footer th:replace="layout/_footer :: footer"></footer>
 </body>
+
 </html>
