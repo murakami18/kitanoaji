@@ -11,14 +11,10 @@
 
 <body>
 
-	<!-- 共通ヘッダー -->
 	<div th:replace="~{layout/_header :: header}"></div>
 
 	<main class="main-content">
 
-		<!-- ============================================================
-		   おすすめ商品セクション（横スクロール）
-		   ============================================================ -->
 		<div class="recommend-section" th:if="${recommendProducts != null and !recommendProducts.isEmpty()}">
 			<div class="section-header">
 				<h2 class="section-title">おすすめ商品</h2>
@@ -27,20 +23,17 @@
 			<div class="recommend-scroll">
 				<div class="product-card" th:each="product : ${recommendProducts}">
 
-					<!-- サムネイル画像エリア -->
 					<div class="thumb">
 						<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
 							onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
 						<span class="no-image" style="display: none;">No Image</span>
 					</div>
 
-					<!-- 商品情報エリア -->
 					<div class="info">
 						<h3 th:text="${product.name}">商品名</h3>
 						<div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
 					</div>
 
-					<!-- アクションボタンエリア -->
 					<div class="actions">
 						<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
 						<form th:action="@{/cart/add}" method="post">
@@ -53,37 +46,27 @@
 			</div>
 		</div>
 
-		<!-- ============================================================
-		   通常のメイン商品一覧セクション
-		   ============================================================ -->
-		<!-- セクションヘッダー -->
 		<div class="section-header">
 			<h2 class="section-title">商品一覧</h2>
-
-			<div class="filter-action"
-				th:if="${selectedRegion != null or (selectedCategories != null and !selectedCategories.isEmpty())}">
-				<a class="btn btn-secondary btn-clear" th:href="@{/home}">すべて表示</a>
+			<div class="filter-action" th:if="${param.categoryId != null or param.regionId != null or currentCategoryId != null or currentRegionId != null}">
+				<a th:href="@{/home}" class="btn btn-clear btn-secondary">すべてを表示</a>
 			</div>
 		</div>
 
-		<!-- 商品グリッド一覧 -->
 		<div class="product-grid" th:if="${products != null and !products.isEmpty()}">
 			<div class="product-card" th:each="product : ${products}">
 
-				<!-- サムネイル画像エリア -->
 				<div class="thumb">
 					<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
 						onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
 					<span class="no-image" style="display: none;">No Image</span>
 				</div>
 
-				<!-- 商品情報エリア -->
 				<div class="info">
 					<h3 th:text="${product.name}">商品名</h3>
 					<div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
 				</div>
 
-				<!-- アクションボタンエリア -->
 				<div class="actions">
 					<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
 					<form th:action="@{/cart/add}" method="post">
@@ -95,7 +78,6 @@
 			</div>
 		</div>
 
-		<!-- 空状態 -->
 		<div class="empty" th:if="${products == null or products.isEmpty()}">
 			<p>現在表示できる商品がありません。</p>
 		</div>

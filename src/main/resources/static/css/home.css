@@ -8,7 +8,8 @@
 .section-header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: flex-start; /* ★変更：左詰めに並べてタイトルとボタンを隣り合わせにする */
+  gap: 12px;                   /* ★変更：タイトルとボタンの間の隙間を12pxに調整 */
   margin-bottom: 20px;
   border-bottom: 2px solid var(--color-primary);
 }
@@ -22,7 +23,7 @@
 .filter-action {
   display: flex;
   align-items: center;
-  padding-bottom: 8px;
+  padding-bottom: 4px; /* タイトル文字の下ラインとボタンの高さを綺麗に合わせるための微調整 */
 }
 
 .btn-clear {
@@ -31,6 +32,7 @@
   font-size: 12px;
   border-radius: 4px;
   white-space: nowrap;
+  text-decoration: none; /* aタグの下線を無効化 */
 }
 
 /* ============================================================
