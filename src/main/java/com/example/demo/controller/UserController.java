@@ -37,32 +37,32 @@ public class UserController {
 	public String submitForm(
 			@Validated @ModelAttribute("form") UserForm form,
 			BindingResult bindingResult,
-			HttpSession session, // ★追加（セッションを操作するため）
+			HttpSession session,
 			Model model) {
 
+		// 元からある入力チェック（未入力など）
 		if (bindingResult.hasErrors()) {
-			return "user/register"; // エラー時はフォームに戻す
+			return "user/register";
 		}
 
-		// ビジネスロジックを Service に委譲する
-		// ★重要: userService.registerで登録したあとのユーザー情報(特にID)が必要です。
-		// 戻り値で User エンティティを受け取れるように UserService を少し修正するとスムーズです。
-		User registeredUser = userService.register(form);
+		try {
+			User registeredUser = userService.register(form);
 
-		if (registeredUser != null) {
-			//			// ==========================================
-			//			// 1. 会員登録直後に「自動ログイン」状態にする
-			//			// ==========================================
-			//			session.setAttribute("loginUser", registeredUser);
-			//
-			//			// ==========================================
-			//			// 2. セッションにあったカートの中身をDBにマージする
-			//			// ==========================================
-			//			cartService.mergeSessionCartToDb(session, registeredUser.getId());
+			if (registeredUser != null) {
+				// 登録成功時の処理（セッション保存など）
+			}
+
+			model.addAttribute("form", form);
+			return "user/result"; // 成功したら結果画面へ
+
+		} catch (IllegalArgumentException e) {
+
+			// 発生したエラーメッセージ（e.getMessage()）を、メールアドレスの入力欄（"email"）に紐付けます。
+			bindingResult.rejectValue("email", "error.form", e.getMessage());
+
+			// エラーを持たせたまま、登録画面（フォーム）に押し戻します
+			return "user/register";
 		}
-
-		model.addAttribute("form", form);
-		return "user/result";
 	}
 
 	@PostMapping("/confirm")
