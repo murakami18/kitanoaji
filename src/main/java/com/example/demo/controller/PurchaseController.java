@@ -85,7 +85,7 @@ public class PurchaseController {
 		int orderId = orderService.placeOrder(loginUser.getId(), cart);
 
 		// カートのクリア処理
-		cartService.clearCart(session);
+		cartService.removeAllItemFromDb(loginUser.getId());
 
 		model.addAttribute("orderId", orderId);
 		return "purchase/complete";
