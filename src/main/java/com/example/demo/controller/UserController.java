@@ -20,11 +20,11 @@ import com.example.demo.service.UserService;
 @Controller
 public class UserController {
 	private final UserService userService;
-	private final CartService cartService;
+	//	private final CartService cartService;
 
 	public UserController(UserService userService, CartService cartService) {
 		this.userService = userService;
-		this.cartService = cartService;
+		//		this.cartService = cartService;
 	}
 
 	@GetMapping("/register")
@@ -50,15 +50,15 @@ public class UserController {
 		User registeredUser = userService.register(form);
 
 		if (registeredUser != null) {
-			// ==========================================
-			// 1. 会員登録直後に「自動ログイン」状態にする
-			// ==========================================
-			session.setAttribute("loginUser", registeredUser);
-
-			// ==========================================
-			// 2. セッションにあったカートの中身をDBにマージする
-			// ==========================================
-			cartService.mergeSessionCartToDb(session, registeredUser.getId());
+			//			// ==========================================
+			//			// 1. 会員登録直後に「自動ログイン」状態にする
+			//			// ==========================================
+			//			session.setAttribute("loginUser", registeredUser);
+			//
+			//			// ==========================================
+			//			// 2. セッションにあったカートの中身をDBにマージする
+			//			// ==========================================
+			//			cartService.mergeSessionCartToDb(session, registeredUser.getId());
 		}
 
 		model.addAttribute("form", form);
