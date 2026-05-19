@@ -44,22 +44,22 @@ public class RouletteController {
 				"result",
 				result);
 
-		// 既に実行済み
+		// 既に実行済み「２かいはできないよ」
 		if (result.equals("already")) {
-			return "already";
+			return "roulette/already";
 		}
 
 		// ハズレ
 		if (result.equals("lose")) {
-			return "roulette_lose";
+			return "roulette/lose";
 		}
 
 		// 当たり
 		if (result.equals("win")) {
-			return "roulette_win";
+			return "roulette/win";
 		}
 
 		// 通常
-		return "purchase_confirm";
+		return "purchase/complete";
 	}
 }
