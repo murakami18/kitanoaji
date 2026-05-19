@@ -97,7 +97,7 @@ public class CartService {
 		if (cart == null) {
 			cart = new Cart();
 			cart.setUserId(userId);
-			cart.setGameResult("NORMAL");
+			cart.setGameResult(null);
 			cartMapper.insert(cart);
 		}
 
@@ -150,7 +150,7 @@ public class CartService {
 		if (cart == null) {
 			cart = new Cart();
 			cart.setUserId(userId);
-			cart.setGameResult("NORMAL");
+			cart.setGameResult(null);
 			cartMapper.insert(cart);
 		}
 
