@@ -11,7 +11,7 @@
   padding: 60px 24px 60px;
 }
 
-/* ---------- ページタイトル ---------- */
+/* ---------- ページタイトル（テキスト中央・線は元通り） ---------- */
 .login-page h1 {
   font-size: 22px;
   font-weight: 700;
@@ -19,8 +19,9 @@
   letter-spacing: .06em;
   margin-bottom: 28px;
   padding-bottom: 12px;
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary); /* 元のメインカラーの線に戻しました */
   position: relative;
+  text-align: center; /* テキストの中央寄せは維持 */
 }
 .login-page h1::after {
   content: '';
@@ -30,7 +31,8 @@
   background: var(--color-primary);
   position: absolute;
   bottom: -2px;
-  left: 0;
+  left: 0; /* 位置を左端に戻しました */
+  transform: none; /* 中央寄せのスタイルを解除 */
 }
 
 /* ---------- ログインカード ---------- */

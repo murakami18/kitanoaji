@@ -201,13 +201,12 @@
       <a th:href="@{/home}" class="site-logo">北ノ味</a>
     </div>
     <nav class="header-right">
-      <a th:href="@{/mypage}" class="nav-link">マイページ</a>
       <a th:href="@{/cart}"   class="nav-link">カート</a>
       <a th:href="@{/map}"    class="nav-link">マップ</a>
       <a th:href="@{/search}" class="nav-link nav-link--search">検索</a>
       <th:block th:if="${session.loginUser != null}">
-        <span class="nav-link nav-link--user"
-              th:text="${session.loginUser.name} + 'さん'"></span>
+        <a th:href="@{/mypage}" class="nav-link nav-link--user"
+           th:text="${session.loginUser.name} + 'さん'"></a>
         <form th:action="@{/logout}" method="post" class="nav-form">
           <button type="submit" class="nav-link">ログアウト</button>
         </form>

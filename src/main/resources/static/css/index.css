@@ -9,14 +9,16 @@ main {
   padding: 0 24px;
 }
 
+/* ---------- ページタイトル（テキストのみ中央寄せ） ---------- */
 main h1 {
   font-size: 22px;
   font-weight: 700;
   color: var(--color-text);
   margin-bottom: 24px;
   padding-bottom: 12px;
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary); /* 全体に広がるメインカラーの線 */
   letter-spacing: .06em;
+  text-align: center; /* テキストのみ中央寄せ */
 }
 
 /* ---------- カートが空の場合 ---------- */
