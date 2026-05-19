@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.Region;
-import com.example.demo.entity.User; // ★追加：Userエンティティのインポート
+import com.example.demo.entity.User;
 import com.example.demo.mapper.CategoryMapper;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.mapper.RegionMapper;
@@ -27,7 +27,6 @@ public class HomeController {
 	private final RegionMapper regionMapper;
 	private final CategoryMapper categoryMapper;
 
-	// UserMapperはセッションからUserオブジェクトが取れるため、ここではインジェクション不要になりました
 	public HomeController(ProductMapper productMapper, RegionMapper regionMapper, CategoryMapper categoryMapper) {
 		this.productMapper = productMapper;
 		this.regionMapper = regionMapper;
@@ -41,29 +40,37 @@ public class HomeController {
 			HttpSession session,
 			Model model) {
 
-		// ========================================================
-		// 0. セッションからログインユーザー情報を取得
-		// ========================================================
-		// セッションに「loginUser」というキーで User オブジェクトが保存されている前提
+		boolean hasCategories = (categoryIds != null && !categoryIds.isEmpty());
+
+		// 両方のパラメータが存在する場合、カテゴリ優先でリダイレクト（URLをクリーンにする）
+		if (regionId != null && hasCategories) {
+			String params = categoryIds.stream()
+					.map(id -> "categoryIds=" + id)
+					.collect(Collectors.joining("&"));
+			return "redirect:/home?" + params;
+		}
+
+		// 排他制御：どちらか一方のみ有効にする（カテゴリ優先）
+		if (hasCategories) {
+			regionId = null;
+		} else {
+			categoryIds = null;
+			hasCategories = false;
+		}
+
 		User loginUser = (User) session.getAttribute("loginUser");
 		boolean isLoggedIn = (loginUser != null);
 
-		// ========================================================
-		// 1. おすすめ商品（上段：横スクロール）のロジック
-		// ========================================================
 		List<Product> recommendProducts = new ArrayList<>();
 
 		if (isLoggedIn) {
-			// ログインしている場合：ユーザーの持つカテゴリID（Integer）を取得
 			Integer userCategoryId = loginUser.getCategoryId();
 
 			if (userCategoryId != null) {
-				// ProductMapperのfindByCategoryIdsはList<Integer>を期待するため、単一のIDをリストに変換して渡す
 				List<Integer> searchCategoryIds = Collections.singletonList(userCategoryId);
 				recommendProducts = productMapper.findByCategoryIds(searchCategoryIds);
 			}
 
-			// ユーザーにカテゴリが設定されていない、または該当する商品が0件の場合は、全件からランダムで最大10件を表示（常時表示のフォールバック）
 			if (recommendProducts == null || recommendProducts.isEmpty()) {
 				List<Product> allProducts = productMapper.findAll();
 				if (allProducts != null && !allProducts.isEmpty()) {
@@ -75,35 +82,21 @@ public class HomeController {
 				}
 			}
 		} else {
-			// ログインしていない場合：おすすめ商品は表示しない
 			recommendProducts = null;
 		}
 		model.addAttribute("recommendProducts", recommendProducts);
 
-		// ========================================================
-		// 2. メイン商品一覧（下段）：カテゴリIDやリージョンIDでのフィルタリングを適用
-		// ========================================================
 		List<Product> products;
-		boolean hasCategories = (categoryIds != null && !categoryIds.isEmpty());
 
-		if (regionId != null || hasCategories) {
-			// フィルタリング条件（地域またはカテゴリ）が指定されている場合
-			if (regionId != null && hasCategories) {
-				products = productMapper.findByRegionIdAndCategoryIds(regionId, categoryIds);
-			} else if (regionId != null) {
-				products = productMapper.findByRegionId(regionId);
-			} else {
-				products = productMapper.findByCategoryIds(categoryIds);
-			}
+		if (regionId != null) {
+			products = productMapper.findByRegionId(regionId);
+		} else if (hasCategories) {
+			products = productMapper.findByCategoryIds(categoryIds);
 		} else {
-			// フィルタリング条件が何も指定されていない場合：全件表示
 			products = productMapper.findAll();
 		}
 		model.addAttribute("products", products);
 
-		// ========================================================
-		// 3. 絞り込み中情報の処理（既存のまま維持）
-		// ========================================================
 		if (regionId != null) {
 			Region selectedRegion = regionMapper.findById(regionId);
 			model.addAttribute("selectedRegion", selectedRegion);

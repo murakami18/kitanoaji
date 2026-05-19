@@ -48,8 +48,12 @@
 
 		<div class="section-header">
 			<h2 class="section-title">商品一覧</h2>
-			<div class="filter-action" th:if="${param.categoryId != null or param.regionId != null or currentCategoryId != null or currentRegionId != null}">
-				<a th:href="@{/home}" class="btn btn-clear btn-secondary">すべてを表示</a>
+			<div class="filter-action" 
+			     th:if="${(param.categoryIds != null and param.categoryIds[0] != '') or 
+			              (param.regionId != null and param.regionId[0] != '') or 
+			              currentCategoryIds != null or 
+			              currentRegionId != null}">
+			    <a th:href="@{/home}" class="btn btn-clear btn-secondary">すべてを表示</a>
 			</div>
 		</div>
 

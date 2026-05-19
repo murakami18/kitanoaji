@@ -142,6 +142,8 @@
   align-items: center;
   gap: 4px;
   margin-top: 20px;
+  margin-left: auto;  /* 左右autoでFlexbox内での中央配置を実現 */
+  margin-right: auto; /* 左右autoでFlexbox内での中央配置を実現 */
   font-size: 13px;
   font-weight: 600;
   color: var(--color-primary);
