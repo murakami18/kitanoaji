@@ -60,21 +60,15 @@ public class AuthController {
 		}
 
 		// ログイン成功：セッションにユーザ情報を保存する
+		// これにより、HomeController側で「session.getAttribute("loginUser")」から安全にUser情報を取得できます
 		session.setAttribute("loginUser", user);
 
-		// ==========================================
-		// ★追加：セッションにあったカートの中身をDBにマージする
-		// ==========================================
+		// ========================================================
+		// セッションにあったカートの中身をDBにマージする
+		// ========================================================
 		cartService.mergeSessionCartToDb(session, user.getId());
 
-		// ─── カテゴリIDをクエリパラメータとして渡す ───
-		Integer categoryId = user.getCategoryId(); // 単一のIDを取得
-
-		if (categoryId != null) {
-			// パラメータ名は「categoryIds」のまま、1つのIDを渡す
-			// 例: redirect:/home?categoryIds=1
-			return "redirect:/home?categoryIds=" + categoryId;
-		}
+		// ─── 【修正】URLパラメータは付与せず、シンプルにホーム画面へリダイレクト ───
 		return "redirect:/home";
 	}
 

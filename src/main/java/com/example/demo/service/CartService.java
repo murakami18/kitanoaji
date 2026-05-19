@@ -127,6 +127,18 @@ public class CartService {
 			cartItemMapper.deleteByCartIdAndProductId(cart.getId(), productId);
 		}
 	}
+
+	/**
+	 * データベースのカートからすべての商品を削除します。
+	 */
+	@Transactional
+	public void removeAllItemFromDb(int userId) {
+		Cart cart = cartMapper.findByUserId(userId);
+
+		cartItemMapper.clearCartItems(cart.getId());
+
+	}
+
 	// ==========================================
 	// カートの統合（マージ）処理
 	// ==========================================
