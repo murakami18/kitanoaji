@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.Region;
+import com.example.demo.entity.User;
 import com.example.demo.mapper.CategoryMapper;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.mapper.RegionMapper;
@@ -37,30 +40,68 @@ public class HomeController {
 			HttpSession session,
 			Model model) {
 
-		List<Product> products;
 		boolean hasCategories = (categoryIds != null && !categoryIds.isEmpty());
 
+		// 両方のパラメータが存在する場合、カテゴリ優先でリダイレクト（URLをクリーンにする）
 		if (regionId != null && hasCategories) {
-			// regionId と 複数の categoryIds で絞り込み
-			products = productMapper.findByRegionIdAndCategoryIds(regionId, categoryIds);
-		} else if (regionId != null) {
-			// regionId のみ指定
-			products = productMapper.findByRegionId(regionId);
-		} else if (hasCategories) {
-			// 複数の categoryIds のみ指定
-			products = productMapper.findByCategoryIds(categoryIds);
-		} else {
-			// 両方未指定の場合は全件取得
-			products = productMapper.findAll();
+			String params = categoryIds.stream()
+					.map(id -> "categoryIds=" + id)
+					.collect(Collectors.joining("&"));
+			return "redirect:/home?" + params;
 		}
 
-		// 絞り込み中のリージョン名をバナー表示用にモデルへ渡す
+		// 排他制御：どちらか一方のみ有効にする（カテゴリ優先）
+		if (hasCategories) {
+			regionId = null;
+		} else {
+			categoryIds = null;
+			hasCategories = false;
+		}
+
+		User loginUser = (User) session.getAttribute("loginUser");
+		boolean isLoggedIn = (loginUser != null);
+
+		List<Product> recommendProducts = new ArrayList<>();
+
+		if (isLoggedIn) {
+			Integer userCategoryId = loginUser.getCategoryId();
+
+			if (userCategoryId != null) {
+				List<Integer> searchCategoryIds = Collections.singletonList(userCategoryId);
+				recommendProducts = productMapper.findByCategoryIds(searchCategoryIds);
+			}
+
+			if (recommendProducts == null || recommendProducts.isEmpty()) {
+				List<Product> allProducts = productMapper.findAll();
+				if (allProducts != null && !allProducts.isEmpty()) {
+					List<Product> shuffledList = new ArrayList<>(allProducts);
+					Collections.shuffle(shuffledList);
+					recommendProducts = shuffledList.stream().limit(10).collect(Collectors.toList());
+				} else {
+					recommendProducts = new ArrayList<>();
+				}
+			}
+		} else {
+			recommendProducts = null;
+		}
+		model.addAttribute("recommendProducts", recommendProducts);
+
+		List<Product> products;
+
+		if (regionId != null) {
+			products = productMapper.findByRegionId(regionId);
+		} else if (hasCategories) {
+			products = productMapper.findByCategoryIds(categoryIds);
+		} else {
+			products = productMapper.findAll();
+		}
+		model.addAttribute("products", products);
+
 		if (regionId != null) {
 			Region selectedRegion = regionMapper.findById(regionId);
 			model.addAttribute("selectedRegion", selectedRegion);
 		}
 
-		// 絞り込み中のカテゴリー（複数）をバナー表示用にモデルへ渡す
 		if (hasCategories) {
 			List<Category> selectedCategories = new ArrayList<>();
 			for (Integer id : categoryIds) {
@@ -72,7 +113,6 @@ public class HomeController {
 			model.addAttribute("selectedCategories", selectedCategories);
 		}
 
-		model.addAttribute("products", products);
 		return "home";
 	}
 }

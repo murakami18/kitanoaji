@@ -203,7 +203,6 @@
     <nav class="header-right">
       <a th:href="@{/cart}"   class="nav-link">カート</a>
       <a th:href="@{/map}"    class="nav-link">マップ</a>
-      <a th:href="@{/search}" class="nav-link nav-link--search">検索</a>
       <th:block th:if="${session.loginUser != null}">
         <a th:href="@{/mypage}" class="nav-link nav-link--user"
            th:text="${session.loginUser.name} + 'さん'"></a>
