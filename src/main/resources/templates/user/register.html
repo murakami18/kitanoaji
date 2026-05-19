@@ -15,7 +15,7 @@
 		<h1>ユーザ登録フォーム</h1>
 
 		<div class="register-card">
-			<form th:action="@{/register}" th:object="${form}" method="post">
+			<form th:action="@{/confirm}" th:object="${form}" method="post">
 
 				<!-- メール一致エラー（クロスフィールド） -->
 				<p class="form-error-block" th:if="${#fields.hasErrors('emailConfirmed')}"
@@ -129,7 +129,7 @@
 
 				<!-- 送信 -->
 				<div class="form-actions">
-					<button type="submit" class="btn-submit">登録する</button>
+					<button type="submit" class="btn-submit">入力情報を確認する</button>
 				</div>
 
 			</form>
