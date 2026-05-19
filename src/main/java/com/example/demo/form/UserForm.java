@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 public class UserForm {
 
 	@NotBlank(message = "名前は必須です")
+	@Size(max = 10, message = "名前は10文字以下で入力して下さい")
 	private String name;
 
 	@NotBlank(message = "メールアドレスは必須です")

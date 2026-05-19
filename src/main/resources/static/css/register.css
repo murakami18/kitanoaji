@@ -21,6 +21,7 @@
   padding-bottom: 12px;
   border-bottom: 2px solid var(--color-primary);
   position: relative;
+  text-align: center;
 }
 .register-page h1::after {
   content: '';
@@ -30,7 +31,8 @@
   background: var(--color-primary);
   position: absolute;
   bottom: -2px;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* ---------- フォームカード ---------- */
@@ -183,7 +185,8 @@
 
 /* ---------- 戻るリンク ---------- */
 .back-link {
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   align-items: center;
   gap: 4px;
   margin-top: 20px;

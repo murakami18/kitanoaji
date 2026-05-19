@@ -31,17 +31,20 @@
               <th class="label-col"></th>
               <th th:each="p, iter : ${compareList}"
                   th:classappend="${iter.index == 0} ? 'product-col product-col--base' : 'product-col'">
-                
+
                 <div class="compare-product-thumb">
                   <span th:if="${iter.index == 0}" class="compare-base-label">選択中</span>
-                  <div class="no-image">No Image</div>
+                  <img th:src="@{/image/{id}.jpg(id=${p.id})}"
+                       th:alt="${p.name}"
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <div class="no-image" style="display:none;">No Image</div>
                 </div>
-                
+
                 <p class="compare-product-name" th:text="${p.name}">商品名</p>
 
                 <div class="compare-action-area">
-                  <a th:if="${iter.index != 0}" 
-                     th:href="@{/product/{id}(id=${p.id})}" 
+                  <a th:if="${iter.index != 0}"
+                     th:href="@{/product/{id}(id=${p.id})}"
                      class="compare-btn-detail">
                     商品詳細
                   </a>
@@ -83,7 +86,7 @@
       </div>
 
     </div>
-    
+
     <div class="compare-page" th:unless="${compareList != null && !compareList.empty}">
       <p>比較する商品が選択されていません。<a th:href="@{/home}">ホームへ戻る</a></p>
     </div>
