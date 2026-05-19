@@ -61,4 +61,9 @@ public class OrderController {
 		model.addAttribute("orderId", orderId);
 		return "purchase/checkout";
 	}
+
+	@PostMapping("purchase/complete")
+	public String complete() {
+		return "purchase/complete";
+	}
 }
