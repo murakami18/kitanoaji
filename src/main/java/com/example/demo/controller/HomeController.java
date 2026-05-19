@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.util.ArrayList;
+import java.util.Collections; // 追加：シャッフル用
 import java.util.List;
+import java.util.stream.Collectors; // 追加：10件抽出用
 
 import jakarta.servlet.http.HttpSession;
 
@@ -37,6 +39,26 @@ public class HomeController {
 			HttpSession session,
 			Model model) {
 
+		// --------------------------------------------------------
+		// 1. 【追加】おすすめ商品（ランダム10件）の取得処理
+		// --------------------------------------------------------
+		// 全商品を一度取得
+		List<Product> allProducts = productMapper.findAll();
+		List<Product> recommendProducts = new ArrayList<>();
+
+		if (allProducts != null && !allProducts.isEmpty()) {
+			// 一度別のリストにコピーしてシャッフル（元データを壊さないため）
+			List<Product> shuffledList = new ArrayList<>(allProducts);
+			Collections.shuffle(shuffledList);
+			// 先頭から最大10件を切り出す
+			recommendProducts = shuffledList.stream().limit(10).collect(Collectors.toList());
+		}
+		// Thymeleafへ渡す
+		model.addAttribute("recommendProducts", recommendProducts);
+
+		// --------------------------------------------------------
+		// 2. 既存のメイン商品一覧の絞り込み処理（変更なし）
+		// --------------------------------------------------------
 		List<Product> products;
 		boolean hasCategories = (categoryIds != null && !categoryIds.isEmpty());
 
