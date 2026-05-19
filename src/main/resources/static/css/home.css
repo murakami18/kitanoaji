@@ -61,7 +61,7 @@ summary.section-header::-webkit-details-marker {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 矢印回転のイージングを滑らかに */
   flex-shrink: 0;
 }
 
@@ -76,18 +76,42 @@ summary.section-header::-webkit-details-marker {
   margin-top: 4px; /* 上向き時の上下中央の微調整 */
 }
 
+/* 
+   ★滑らかな閉じる・開くスライドアニメーションの仕組み
+   通常、height: auto に transition は効きませんが、CSS Gridの 0fr ↔ 1fr を使うことで実現できます。
+*/
+.accordion-content {
+  display: grid;
+  grid-template-rows: 1fr; /* 開いている時は高さを100%分確保 */
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+}
+
+.accordion-inner {
+  overflow: hidden; /* 閉じている最中に中身がはみ出さないようにマスクする */
+}
+
 /* ---------- アコーディオンが閉じているときのスタイル調整 ---------- */
-/* 閉じているときは「下向き（▼）」にする（180度回転） */
+/* 閉じているときは矢印を「下向き（▼）」にする（180度回転） */
 details:not([open]) .accordion-icon {
   transform: rotate(180deg);
 }
 
-details:not([open]).accordion-section {
-  margin-bottom: 20px; /* 閉じている時は下のセクションとの余白を縮小 */
+/* 閉じているときは グリッドの高さを 0fr に絞り、フェードアウトさせる */
+details:not([open]) .accordion-content {
+  grid-template-rows: 0fr;
+  opacity: 0;
 }
 
+/* 閉じている時も下線の下に少しマージンを確保 */
 details:not([open]) .section-header {
-  margin-bottom: 20px; /* 閉じている時も下線の下に少しマージンを確保 */
+  margin-bottom: 20px;
+}
+
+/* 閉じている時は下の通常セクション（商品一覧）との余白を縮小 */
+details:not([open]).accordion-section {
+  margin-bottom: 20px;
 }
 
 /* ============================================================
