@@ -8,10 +8,10 @@
 .section-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* ★変更：左詰めに並べてタイトルとボタンを隣り合わせにする */
-  gap: 12px;                   /* ★変更：タイトルとボタンの間の隙間を12pxに調整 */
+  justify-content: flex-start; /* 左詰めに並べてタイトルとボタンを隣り合わせにする */
+  gap: 12px;                   /* タイトルとボタンの間の隙間を12pxに調整 */
   margin-bottom: 20px;
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary); /* 閉じてもこの線を維持 */
 }
 
 .section-header .section-title {
@@ -36,12 +36,70 @@
 }
 
 /* ============================================================
-   追加：おすすめ商品（横スクロールレイアウト）
+   おすすめ商品専用：アコーディオン（details/summary）スタイル
    ============================================================ */
-.recommend-section {
-  margin-bottom: 40px; /* メイン商品一覧との間に十分な余白を確保 */
+.accordion-section {
+  display: block;
+  margin-bottom: 40px;
 }
 
+/* ヘッダー全体をクリック可能にし、標準の矢印（三角形）を隠す */
+summary.section-header {
+  cursor: pointer;
+  list-style: none;             /* 標準の矢印を非表示（Chrome / Firefox） */
+  user-select: none;            /* 文字の誤選択を防止 */
+}
+
+summary.section-header::-webkit-details-marker {
+  display: none;                /* 標準の矢印を非表示（Safari） */
+}
+
+/* 一番左（タイトルの前）に配置する開閉アイコン（矢印） */
+.accordion-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* 開いているとき（デフォルト）のアイコンを「上向き（▲）」の形状に設定 */
+.accordion-icon::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid var(--color-text);
+  border-top: 2px solid var(--color-text);
+  transform: rotate(45deg);
+  margin-top: 4px; /* 上向き時の上下中央の微調整 */
+}
+
+/* ---------- アコーディオンが閉じているときのスタイル調整 ---------- */
+/* 閉じているときは「下向き（▼）」にする（180度回転） */
+details:not([open]) .accordion-icon {
+  transform: rotate(180deg);
+}
+
+details:not([open]).accordion-section {
+  margin-bottom: 20px; /* 閉じている時は下のセクションとの余白を縮小 */
+}
+
+details:not([open]) .section-header {
+  margin-bottom: 20px; /* 閉じている時も下線の下に少しマージンを確保 */
+}
+
+/* ============================================================
+   通常セクション（アコーディオンなし）用の余白
+   ============================================================ */
+.normal-section {
+  margin-bottom: 40px;
+}
+
+/* ============================================================
+   おすすめ商品（横スクロールレイアウト）
+   ============================================================ */
 .recommend-scroll {
   display: flex;
   gap: 20px;
@@ -55,7 +113,7 @@
   flex: 0 0 260px;
 }
 
-/* （カスタム）スクロールバーのスタイリング（不要なら削除してOKです） */
+/* スクロールバーのスタイリング */
 .recommend-scroll::-webkit-scrollbar {
   height: 6px;
 }
