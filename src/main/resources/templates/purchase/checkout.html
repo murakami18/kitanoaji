@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>注文確認</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
 
 <style>
     body {
@@ -185,7 +186,7 @@
 </head>
 
 <body>
-
+	<div th:replace="~{layout/_header :: header}"></div>
 <div class="order-container">
 
     <h1>注文確認</h1>
