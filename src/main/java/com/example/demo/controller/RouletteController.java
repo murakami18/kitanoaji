@@ -59,6 +59,10 @@ public class RouletteController {
 			return "roulette/win";
 		}
 
+		if (result.equals("normal")) {
+			return "purchase_confirm";
+		}
+
 		// 通常
 		return "purchase/complete";
 	}
