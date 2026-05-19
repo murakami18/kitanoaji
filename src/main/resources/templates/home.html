@@ -15,10 +15,16 @@
 
 	<main class="main-content">
 
-		<div class="recommend-section" th:if="${recommendProducts != null and !recommendProducts.isEmpty()}">
-			<div class="section-header">
+		<!-- ============================================================
+		   おすすめ商品セクション（アコーディオン：デフォルトでオープン）
+		   ============================================================ -->
+		<details open class="accordion-section recommend-section" th:if="${recommendProducts != null and !recommendProducts.isEmpty()}">
+			
+			<!-- ヘッダー部分をクリックすると開閉します -->
+			<summary class="section-header">
+				<span class="accordion-icon"></span>
 				<h2 class="section-title">おすすめ商品</h2>
-			</div>
+			</summary>
 			
 			<div class="recommend-scroll">
 				<div class="product-card" th:each="product : ${recommendProducts}">
@@ -44,46 +50,52 @@
 
 				</div>
 			</div>
-		</div>
+		</details>
 
-		<div class="section-header">
-			<h2 class="section-title">商品一覧</h2>
-			<div class="filter-action" 
-			     th:if="${(param.categoryIds != null and param.categoryIds[0] != '') or 
-			              (param.regionId != null and param.regionId[0] != '') or 
-			              currentCategoryIds != null or 
-			              currentRegionId != null}">
-			    <a th:href="@{/home}" class="btn btn-clear btn-secondary">すべてを表示</a>
+		<!-- ============================================================
+		   商品一覧セクション（★通常表示：アコーディオンなし）
+		   ============================================================ -->
+		<div class="normal-section">
+			
+			<div class="section-header">
+				<h2 class="section-title">商品一覧</h2>
+				<div class="filter-action" 
+				     th:if="${(param.categoryIds != null and param.categoryIds[0] != '') or 
+				              (param.regionId != null and param.regionId[0] != '') or 
+				              currentCategoryIds != null or 
+				              currentRegionId != null}">
+				    <a th:href="@{/home}" class="btn btn-clear btn-secondary">すべてを表示</a>
+				</div>
 			</div>
-		</div>
 
-		<div class="product-grid" th:if="${products != null and !products.isEmpty()}">
-			<div class="product-card" th:each="product : ${products}">
+			<div class="product-grid" th:if="${products != null and !products.isEmpty()}">
+				<div class="product-card" th:each="product : ${products}">
 
-				<div class="thumb">
-					<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
-						onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-					<span class="no-image" style="display: none;">No Image</span>
+					<div class="thumb">
+						<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
+							onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+						<span class="no-image" style="display: none;">No Image</span>
+					</div>
+
+					<div class="info">
+						<h3 th:text="${product.name}">商品名</h3>
+						<div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
+					</div>
+
+					<div class="actions">
+						<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
+						<form th:action="@{/cart/add}" method="post">
+							<input type="hidden" name="productId" th:value="${product.id}"/>
+							<button type="submit" class="btn btn-primary">カートへ</button>
+						</form>
+					</div>
+
 				</div>
-
-				<div class="info">
-					<h3 th:text="${product.name}">商品名</h3>
-					<div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
-				</div>
-
-				<div class="actions">
-					<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
-					<form th:action="@{/cart/add}" method="post">
-						<input type="hidden" name="productId" th:value="${product.id}"/>
-						<button type="submit" class="btn btn-primary">カートへ</button>
-					</form>
-				</div>
-
 			</div>
-		</div>
 
-		<div class="empty" th:if="${products == null or products.isEmpty()}">
-			<p>現在表示できる商品がありません。</p>
+			<div class="empty" th:if="${products == null or products.isEmpty()}">
+				<p>現在表示できる商品がありません。</p>
+			</div>
 		</div>
 
 	</main>

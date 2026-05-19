@@ -1,0 +1,373 @@
+/* ============================================================
+   北ノ味 — checkout.css（注文確認ページ専用スタイル）
+   style.css の CSS 変数を継承・拡張
+   ============================================================ */
+
+/* ---------- checkout 専用変数 ---------- */
+:root {
+  --checkout-accent:      #e65100;   /* ルーレット系アクセント */
+  --checkout-accent-lt:   #fff3e0;
+  --checkout-win:         #f57f17;
+  --checkout-win-lt:      #fff8e1;
+  --checkout-win-border:  #ffb300;
+  --checkout-danger:      var(--color-price);  /* 合計金額 */
+  --checkout-success:     #2e7d32;
+  --checkout-success-lt:  #f1f8e9;
+  --checkout-section-bar: 5px;
+}
+
+/* ============================================================
+   ページレイアウト
+   ============================================================ */
+.order-container {
+  max-width: 820px;
+  margin: calc(var(--header-h) + 40px) auto 80px;
+  padding: 0 16px;
+}
+
+.order-container h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: .06em;
+  position: relative;
+}
+
+.order-container h1::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  margin: 10px auto 0;
+}
+
+/* ============================================================
+   セクション共通
+   ============================================================ */
+.section {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 28px;
+  margin-bottom: 24px;
+  border: 1px solid var(--color-border);
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 20px;
+  padding-left: 14px;
+  border-left: var(--checkout-section-bar) solid var(--color-primary);
+  display: block;  /* style.css の inline-block を上書き */
+}
+
+/* ============================================================
+   お届け先情報
+   ============================================================ */
+.info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.info-item,
+.delivery-date {
+  width: 100%;
+  max-width: 480px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-item label,
+.info-item strong {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: .06em;
+}
+
+.info-item input[type="text"],
+.info-item input[type="date"],
+.delivery-date input[type="date"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font-size: 14px;
+  color: var(--color-text);
+  font-family: inherit;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  box-sizing: border-box;
+}
+
+.info-item input[type="text"]:focus,
+.info-item input[type="date"]:focus,
+.delivery-date input[type="date"]:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(27, 110, 125, .15);
+}
+
+.delivery-date {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ============================================================
+   支払い方法
+   ============================================================ */
+.payment-method {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center; /* ラジオボタンの選択肢全体を中央に配置 */
+}
+
+.payment-method label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.payment-method label:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-lt);
+}
+
+.payment-method input[type="radio"] {
+  accent-color: var(--color-primary);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* ============================================================
+   商品カード
+   ============================================================ */
+.product-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+  background: var(--color-bg);
+  transition: box-shadow var(--transition);
+}
+
+.product-card:last-of-type {
+  margin-bottom: 0;
+}
+
+.product-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.product-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.product-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-price);
+}
+
+/* ============================================================
+   ガチャ特典
+   ============================================================ */
+.gacha-box {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: var(--checkout-win-lt);
+  border: 1px dashed var(--checkout-win-border);
+  border-radius: var(--radius);
+}
+
+.gacha-box label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.gacha-box input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--checkout-win);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   合計金額
+   ============================================================ */
+.total-box {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  text-align: right;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--checkout-danger);
+  letter-spacing: .02em;
+}
+
+/* ============================================================
+   注文確定ボタン
+   ============================================================ */
+.button-area {
+  margin-top: 8px;
+}
+
+.checkout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition), transform .1s;
+}
+
+.checkout-btn:hover {
+  background: var(--color-primary-dk);
+}
+
+.checkout-btn:active {
+  transform: scale(.98);
+}
+
+/* ============================================================
+   ルーレットセクション
+   ============================================================ */
+.roulette-box {
+  border-color: rgba(230, 81, 0, .25);
+}
+
+.roulette-box .section-title {
+  color: var(--checkout-accent);
+  border-left-color: var(--checkout-accent);
+}
+
+.roulette-box p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.roulette-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 28px;
+  background: var(--checkout-accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition), transform .1s;
+}
+
+.roulette-btn:hover:not(:disabled) {
+  background: #bf360c;
+}
+
+.roulette-btn:active:not(:disabled) {
+  transform: scale(.98);
+}
+
+.roulette-btn:disabled {
+  background: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   レスポンシブ
+   ============================================================ */
+@media (max-width: 600px) {
+  .order-container {
+    padding: 0 12px;
+  }
+
+  .section {
+    padding: 20px 16px;
+  }
+
+  .product-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .payment-method {
+    flex-direction: column;
+  }
+
+  .total-box {
+    font-size: 18px;
+  }
+}
