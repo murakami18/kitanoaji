@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 🌟 namespace を com.example.ecsample から com.example.demo へ修正 -->
+<mapper namespace="com.example.demo.mapper.OrderMapper">
+
+  <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO orders (user_id)
+    VALUES (#{userId})
+  </insert>
+
+  <insert id="insertOrderItems">
+    INSERT INTO order_items (order_id, product_id, product_price, quantity)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.orderId}, #{item.productId}, #{item.productPrice}, #{item.quantity})
+    </foreach>
+  </insert>
+
+</mapper>
