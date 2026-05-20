@@ -16,44 +16,49 @@
 	<main class="main-content">
 
 		<!-- ============================================================
-		   おすすめ商品セクション（アコーディオン：デフォルトでオープン）
+		   おすすめ商品セクション（CSSスライドアニメーション対応版）
 		   ============================================================ -->
 		<details open class="accordion-section recommend-section" th:if="${recommendProducts != null and !recommendProducts.isEmpty()}">
 			
-			<!-- ヘッダー部分をクリックすると開閉します -->
+			<!-- ヘッダー（クリックで開閉） -->
 			<summary class="section-header">
 				<span class="accordion-icon"></span>
 				<h2 class="section-title">おすすめ商品</h2>
 			</summary>
 			
-			<div class="recommend-scroll">
-				<div class="product-card" th:each="product : ${recommendProducts}">
+			<!-- 滑らかな開閉を実現するためのアニメーションラッパー -->
+			<div class="accordion-content">
+				<div class="accordion-inner">
+					<div class="recommend-scroll">
+						<div class="product-card" th:each="product : ${recommendProducts}">
 
-					<div class="thumb">
-						<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
-							onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-						<span class="no-image" style="display: none;">No Image</span>
+							<div class="thumb">
+								<img th:src="@{/image/{id}.jpg(id=${product.id})}" th:alt="${product.name}"
+									onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+								<span class="no-image" style="display: none;">No Image</span>
+							</div>
+
+							<div class="info">
+								<h3 th:text="${product.name}">商品名</h3>
+								<div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
+							</div>
+
+							<div class="actions">
+								<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
+								<form th:action="@{/cart/add}" method="post">
+									<input type="hidden" name="productId" th:value="${product.id}"/>
+									<button type="submit" class="btn btn-primary">カートへ</button>
+								</form>
+							</div>
+
+						</div>
 					</div>
-
-					<div class="info">
-						<h3 th:text="${product.name}">商品名</h3>
-						<div class="price" th:text="'¥' + ${#numbers.formatInteger(product.price, 1, 'COMMA')}">¥0</div>
-					</div>
-
-					<div class="actions">
-						<a class="btn btn-secondary" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
-						<form th:action="@{/cart/add}" method="post">
-							<input type="hidden" name="productId" th:value="${product.id}"/>
-							<button type="submit" class="btn btn-primary">カートへ</button>
-						</form>
-					</div>
-
 				</div>
 			</div>
 		</details>
 
 		<!-- ============================================================
-		   商品一覧セクション（★通常表示：アコーディオンなし）
+		   商品一覧セクション（通常表示：アコーディオンなし）
 		   ============================================================ -->
 		<div class="normal-section">
 			

@@ -18,19 +18,19 @@
   color: var(--color-text);
   letter-spacing: .06em;
   margin-bottom: 28px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 16px;
   position: relative;
+  text-align: center; /* 文字を中央寄せ */
 }
 .result-page h1::after {
   content: '';
   display: block;
-  width: 48px;
-  height: 2px;
-  background: var(--color-primary);
+  width: 100%;           /* 【変更】線の幅をタイトル幅全体に広げる */
+  height: 4px;           /* 【変更】線の太さを太く（例: 4px） */
+  background: var(--color-primary); /* 緑の太い線（緑はvarで定義済みと想定） */
   position: absolute;
-  bottom: -2px;
-  left: 0;
+  bottom: 0;             /* 【変更】下線の位置をタイトルの直下に調整 */
+  left: 0;               /* left: 0に設定（width: 100%のため中央揃えは不要） */
 }
 
 /* ---------- 完了メッセージ ---------- */
@@ -142,8 +142,8 @@
   align-items: center;
   gap: 4px;
   margin-top: 20px;
-  margin-left: auto;  /* 左右autoでFlexbox内での中央配置を実現 */
-  margin-right: auto; /* 左右autoでFlexbox内での中央配置を実現 */
+  margin-left: auto;
+  margin-right: auto;
   font-size: 13px;
   font-weight: 600;
   color: var(--color-primary);

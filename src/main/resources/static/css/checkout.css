@@ -5,12 +5,12 @@
 
 /* ---------- checkout 専用変数 ---------- */
 :root {
-  --checkout-accent:      #e65100;   /* ルーレット系アクセント */
+  --checkout-accent:      #e65100;
   --checkout-accent-lt:   #fff3e0;
   --checkout-win:         #f57f17;
   --checkout-win-lt:      #fff8e1;
   --checkout-win-border:  #ffb300;
-  --checkout-danger:      var(--color-price);  /* 合計金額 */
+  --checkout-danger:      var(--color-price);
   --checkout-success:     #2e7d32;
   --checkout-success-lt:  #f1f8e9;
   --checkout-section-bar: 5px;
@@ -66,7 +66,7 @@
   margin-bottom: 20px;
   padding-left: 14px;
   border-left: var(--checkout-section-bar) solid var(--color-primary);
-  display: block;  /* style.css の inline-block を上書き */
+  display: block;
 }
 
 /* ============================================================
@@ -135,7 +135,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  justify-content: center; /* ラジオボタンの選択肢全体を中央に配置 */
+  justify-content: center;
 }
 
 .payment-method label {
@@ -215,6 +215,22 @@
   font-size: 15px;
   font-weight: 600;
   color: var(--color-price);
+}
+
+/* ============================================================
+   ガチャ商品カード（オレンジ）
+   ============================================================ */
+.product-card--gacha {
+  background: var(--checkout-accent-lt);
+  border-color: var(--checkout-accent);
+}
+
+.product-card--gacha .product-name {
+  color: var(--checkout-accent);
+}
+
+.product-card--gacha .product-price {
+  color: var(--checkout-accent);
 }
 
 /* ============================================================
