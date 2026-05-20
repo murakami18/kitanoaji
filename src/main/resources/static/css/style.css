@@ -4,15 +4,36 @@
 
 /* ---------- CSS 変数 ---------- */
 :root {
-  --color-primary:     #1b6e7d;
-  --color-primary-dk:  #155a68;
-  --color-primary-lt:  #e8f4f7;
-  --color-bg:          #f4f6f8;
-  --color-surface:     #ffffff;
-  --color-border:      #d0dce0;
-  --color-text:        #1e2d30;
-  --color-text-muted:  #5a7278;
-  --color-price:       #c0392b;
+
+  /* メイン */
+  --color-primary: #8b8177;
+
+  /* 濃いめ */
+  --color-primary-dk: #72685f;
+
+  /* 超薄いアクセント */
+  --color-primary-lt: #faf8f5;
+
+  /* ← 全体背景をかなり白く */
+  --color-bg: #fcfbf9;
+
+  /* ヘッダー */
+  --color-header: #ffffff;
+
+  /* カード */
+  --color-surface: #ffffff;
+
+  /* 線 */
+  --color-border: #ece8e2;
+
+  /* 文字 */
+  --color-text: #7a7066;
+
+  /* 薄文字 */
+  --color-text-muted: #b1a79d;
+
+  /* 価格 */
+  --color-price: #85796e;
 
   --header-h:          56px;
   --sidebar-w:         240px;
