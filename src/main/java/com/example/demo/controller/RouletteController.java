@@ -36,10 +36,6 @@ public class RouletteController {
 		String result = rouletteService.challenge(
 				loginUser.getId());
 
-		session.setAttribute(
-				"rouletteResult",
-				result);
-
 		model.addAttribute(
 				"result",
 				result);
