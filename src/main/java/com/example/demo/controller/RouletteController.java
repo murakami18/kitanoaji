@@ -36,10 +36,6 @@ public class RouletteController {
 		String result = rouletteService.challenge(
 				loginUser.getId());
 
-		session.setAttribute(
-				"rouletteResult",
-				result);
-
 		model.addAttribute(
 				"result",
 				result);
@@ -57,6 +53,10 @@ public class RouletteController {
 		// 当たり
 		if (result.equals("win")) {
 			return "roulette/win";
+		}
+
+		if (result.equals("normal")) {
+			return "purchase_confirm";
 		}
 
 		// 通常

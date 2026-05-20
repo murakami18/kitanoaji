@@ -73,6 +73,15 @@ public class CartService {
 	// ==========================================
 	// データベース（ログイン中）用の処理
 	// ==========================================
+	/**
+	 * 
+	 * データベースからログインユーザーのユーザーIdを取得
+	 * 
+	 */
+	public Cart getCartByUserId(int userId) {
+
+		return cartMapper.findByUserId(userId);
+	}
 
 	/**
 	 * データベースからログインユーザーのカート情報を取得します。

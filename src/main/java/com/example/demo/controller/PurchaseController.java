@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Cart;
 import com.example.demo.entity.CartItem;
 import com.example.demo.entity.User;
 import com.example.demo.service.CartService;
@@ -23,71 +24,109 @@ public class PurchaseController {
 	private final CartService cartService;
 	private final OrderService orderService;
 
-	public PurchaseController(CartService cartService, OrderService orderService) {
+	public PurchaseController(
+			CartService cartService,
+			OrderService orderService) {
+
 		this.cartService = cartService;
 		this.orderService = orderService;
 	}
 
 	/**
-	 * 購入画面（手続き・確認画面）を表示する
-	 * カート情報と合計金額を動的に取得する
+	 * 購入画面（確認画面）
 	 */
 	@GetMapping
-	public String purchase(HttpSession session, Model model) {
+	public String purchase(
+			HttpSession session,
+			Model model) {
 
-		// 1. セッションからログインユーザー情報を取得
+		// ログインユーザー取得
 		User loginUser = (User) session.getAttribute("loginUser");
+
+		// 未ログイン
 		if (loginUser == null) {
 			return "redirect:/login";
 		}
 
-		// 2. ログインユーザーのカート情報をデータベースから取得
-		List<CartItem> cart = cartService.getCartFromDb(loginUser.getId());
+		// カート商品取得
+		List<CartItem> cartItems = cartService.getCartFromDb(
+				loginUser.getId());
 
-		// カートが空なら確認画面に行かせずカートに戻す（ガード処理）
-		if (cart == null || cart.isEmpty()) {
+		// カートが空
+		if (cartItems == null || cartItems.isEmpty()) {
 			return "redirect:/cart";
 		}
 
-		// 3. 【要件】合計金額の計算（CartControllerと同じく小計の合計を算出）
-		int totalPrice = cart.stream().mapToInt(CartItem::getSubtotal).sum();
+		// 合計金額
+		int totalPrice = cartItems.stream()
+				.mapToInt(CartItem::getSubtotal)
+				.sum();
 
-		// 4. HTML(Thymeleaf)にデータを渡す
-		model.addAttribute("cart", cart);
-		model.addAttribute("totalPrice", totalPrice);
+		// カート情報取得
+		Cart cart = cartService.getCartByUserId(
+				loginUser.getId());
+
+		// HTMLへ渡す
+		model.addAttribute(
+				"cartItems",
+				cartItems);
+
+		model.addAttribute(
+				"totalPrice",
+				totalPrice);
+
+		model.addAttribute(
+				"cart",
+				cart);
 
 		return "purchase/checkout";
 	}
 
 	/**
-	 * 購入を確定する
+	 * 購入確定
 	 */
 	@PostMapping("/check")
 	public String confirm(
 			@RequestParam(name = "customerName") String customerName,
+
 			@RequestParam(name = "address") String address,
+
 			@RequestParam(name = "useGacha", required = false) boolean useGacha,
+
 			HttpSession session,
 			Model model) {
 
+		// ログインユーザー取得
 		User loginUser = (User) session.getAttribute("loginUser");
+
+		// 未ログイン
 		if (loginUser == null) {
 			return "redirect:/login";
 		}
 
-		List<CartItem> cart = cartService.getCartFromDb(loginUser.getId());
+		// カート取得
+		List<CartItem> cart = cartService.getCartFromDb(
+				loginUser.getId());
+
+		// カート空
 		if (cart.isEmpty()) {
 			return "redirect:/cart";
 		}
 
-		// 注文処理を実行（おまけガチャフラグを連携させる想定）
-		// 必要に応じて、orderService.placeOrder(..., useGacha) のように引数を拡張してください
-		int orderId = orderService.placeOrder(loginUser.getId(), cart);
+		// 注文処理
+		int orderId = orderService.placeOrder(
+				loginUser.getId(),
+				cart);
 
-		// カートのクリア処理
-		cartService.removeAllItemFromDb(loginUser.getId());
+		// カート全削除
+		cartService.removeAllItemFromDb(
+				loginUser.getId());
 
-		model.addAttribute("orderId", orderId);
+		// 完了画面へ
+		model.addAttribute(
+				"orderId",
+				orderId);
+
 		return "purchase/complete";
 	}
 }
