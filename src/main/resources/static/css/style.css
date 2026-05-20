@@ -78,7 +78,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 .header-center {
   display: flex;
   align-items: center;
-  margin-left: 12px; /* 追加 */
+  margin-left: 12px;
+  height: 100%; /* ヘッダーの高さに合わせる */
 }
 
 .site-logo {
@@ -87,8 +88,18 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   color: #fff;
   letter-spacing: .08em;
   transition: opacity var(--transition);
+  display: flex;       
+  align-items: center; 
+  height: 100%; /* ヘッダーの高さに合わせる */
 }
 .site-logo:hover { opacity: .85; }
+
+/* ロゴ画像用スタイル */
+.logo-image {
+  height: var(--header-h); /* 変数を使ってヘッダーの高さ(56px)と完全に同じにする */
+  width: auto;
+  object-fit: contain;
+}
 
 .header-right {
   display: flex;

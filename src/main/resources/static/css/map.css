@@ -2,6 +2,16 @@
    北ノ味 — map.css（マップページ固有スタイル）
    ============================================================ */
 
+/* ---------- タイトル（マップより長めの幅で中央寄せ＆下線を伸ばす） ---------- */
+.section-title {
+  display: block;                /* インラインからブロック要素に変更して横に広げる */
+  width: 100%;
+  max-width: 960px;              /* マップ(800px)より少し広めの最大幅に設定 */
+  margin: 0 auto;                /* 左右中央寄せにする */
+  text-align: center;            /* 文字を中央に寄せる */
+  border-bottom: 2px solid var(--color-primary);
+}
+
 /* ---------- 地図ラッパー ---------- */
 .map-wrapper {
   display: flex;
@@ -12,11 +22,14 @@
 /* ---------- 地図コンテナ ---------- */
 .map-container {
   position: relative;
-  width: 800px;
+  width: 100%;       /* 画面に合わせて縮むように変更 */
+  max-width: 800px;  /* 最大サイズは元の800pxを維持 */
 }
 
 .map-container img {
   width: 100%;
+  height: auto;      /* 縦横比を維持 */
+  display: block;
 }
 
 /* ---------- 地域ボタン共通 ---------- */
@@ -29,24 +42,42 @@
   text-decoration: none;
   color: saddlebrown;
   font-weight: bold;
+  white-space: nowrap; /* 画面が狭くなっても文字が改行されないように */
 }
 
 .region-button:hover {
   background-color: #eeeeee;
 }
 
-/* ---------- 地域ごとの座標 ---------- */
-.souya      { top:  15px; left: 330px; }
-.okhotsk    { top: 170px; left: 450px; }
-.nemuro     { top: 220px; left: 610px; }
-.kushiro    { top: 270px; left: 510px; }
-.tokachi    { top: 280px; left: 420px; }
-.hidaka     { top: 360px; left: 350px; }
-.iburi      { top: 360px; left: 265px; }
-.oshima     { top: 440px; left: 230px; }
-.hiyama     { top: 430px; left: 110px; }
-.shiribeshi { top: 310px; left: 180px; }
-.ishikari   { top: 240px; left: 235px; }
-.sorachi    { top: 240px; left: 307px; }
-.kamikawa   { top: 180px; left: 360px; }
-.rumoi      { top:  85px; left: 270px; }
+/* ---------- 地域ごとの座標（%表記に変更） ---------- */
+/* ※top は画像の高さが「530px」だった場合の計算値です */
+.souya      { top: 2.8%;   left: 41.25%; }
+.okhotsk    { top: 32.1%;  left: 56.25%; }
+.nemuro     { top: 41.5%;  left: 76.25%; }
+.kushiro    { top: 50.9%;  left: 63.75%; }
+.tokachi    { top: 52.8%;  left: 52.5%;  }
+.hidaka     { top: 67.9%;  left: 43.75%; }
+.iburi      { top: 67.9%;  left: 33.1%;  }
+.oshima     { top: 83.0%;  left: 28.75%; }
+.hiyama     { top: 81.1%;  left: 13.75%; }
+.shiribeshi { top: 58.5%;  left: 22.5%;  }
+.ishikari   { top: 45.3%;  left: 29.375%;}
+.sorachi    { top: 45.3%;  left: 38.375%;}
+.kamikawa   { top: 34.0%;  left: 45.0%;  }
+.rumoi      { top: 16.0%;  left: 33.75%; }
+
+/* ---------- タブレット・スマホ用の調整 ---------- */
+@media (max-width: 768px) {
+  .region-button {
+    padding: 4px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    border-width: 1px;
+  }
+}
+@media (max-width: 480px) {
+  .region-button {
+    padding: 2px 6px;
+    font-size: 11px;
+  }
+}
