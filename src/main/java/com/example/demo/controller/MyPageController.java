@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.List; // 🌟 これが抜けていたため「List を型に解決できません」が発生
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -75,5 +75,10 @@ public class MyPageController {
 	@GetMapping("/mypage/opinion/thanks")
 	public String thanks() {
 		return "mypage/thanks";
+	}
+
+	@GetMapping("/mypage/question")
+	public String question() {
+		return "mypage/question";
 	}
 }
