@@ -44,4 +44,12 @@ public interface CartMapper {
 	void updateGameResult(
 			@Param("cartId") int cartId,
 			@Param("gameResult") String gameResult);
+
+	// ルーレット結果リセット
+	@Update("""
+				UPDATE carts
+				SET game_result = NULL
+				WHERE user_id = #{userId}
+			""")
+	void resetGameResult(int userId);
 }
