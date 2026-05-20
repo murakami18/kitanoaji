@@ -45,10 +45,11 @@
 
 			<div class="section">
 				<div class="section-title">購入商品</div>
+				<div th:each="item : ${cartItems}" class="product-card">
 
-				<div th:each="item : ${cart}" class="product-card">
 					<div class="thumb" style="flex-shrink: 0; width: 100px; height: 100px;">
-						<img th:src="@{/image/{id}.jpg(id=${item.productId})}" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--color-border); display: block;">
+						<img th:src="@{/image/{id}.jpg(id=${item.productId})}"
+							style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--color-border); display: block;">
 						<span class="no-image" style="display: none;">No Image</span>
 					</div>
 					<div class="product-info">
@@ -91,7 +92,7 @@
 					80%：なにもなし
 				</p>
 				<button type="submit" form="rouletteForm" class="roulette-btn"
-					th:disabled="${session.rouletteResult != null}">
+					th:disabled="${cart != null and cart.gameResult != null}">
 					試される大地に挑戦
 				</button>
 			</div>
