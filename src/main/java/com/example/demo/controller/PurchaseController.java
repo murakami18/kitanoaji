@@ -29,7 +29,8 @@ public class PurchaseController {
 
 	public PurchaseController(
 			CartService cartService,
-			OrderService orderService, ProductMapper productMapper) {
+			OrderService orderService,
+			ProductMapper productMapper) {
 
 		this.cartService = cartService;
 		this.orderService = orderService;
@@ -42,7 +43,8 @@ public class PurchaseController {
 	@GetMapping
 	public String purchase(
 			@RequestParam(name = "useGacha", defaultValue = "false") boolean useGacha,
-			HttpSession session, Model model) {
+			HttpSession session,
+			Model model) {
 
 		// ログインユーザー取得
 		User loginUser = (User) session.getAttribute("loginUser");
@@ -60,22 +62,43 @@ public class PurchaseController {
 		if (cartItems == null || cartItems.isEmpty()) {
 			return "redirect:/cart";
 		}
-		// 3. 合計金額の計算
-		int totalPrice = cartItems.stream().mapToInt(CartItem::getSubtotal).sum();
 
-		// ★ガチャチェックが入っていたら+100円
+		// ルーレット結果取得
+		Cart cart = cartService.getCartByUserId(
+				loginUser.getId());
+
+		// 商品合計
+		int totalPrice = cartItems.stream()
+				.mapToInt(CartItem::getSubtotal)
+				.sum();
+
+		// ★ winなら半額
+		if (cart != null && "win".equals(cart.getGameResult())) {
+			totalPrice = totalPrice / 2;
+		}
+
+		// ★ ガチャ利用なら最後に+100円
 		if (useGacha) {
 			totalPrice += 100;
 		}
-		Cart cart = cartService.getCartByUserId(loginUser.getId());
 
-		// 4. HTML(Thymeleaf)にデータを渡す
+		// HTMLへ渡す
 		model.addAttribute(
 				"cartItems",
 				cartItems);
-		model.addAttribute("totalPrice", totalPrice);
-		model.addAttribute("cart", cart);
-		model.addAttribute("useGacha", useGacha); // ★購入確認画面にも引き継ぐ
+
+		model.addAttribute(
+				"totalPrice",
+				totalPrice);
+
+		model.addAttribute(
+				"cart",
+				cart);
+
+		model.addAttribute(
+				"useGacha",
+				useGacha);
+
 		return "purchase/checkout";
 	}
 
@@ -88,7 +111,7 @@ public class PurchaseController {
 
 			@RequestParam(name = "address") String address,
 
-			@RequestParam(name = "useGacha", required = false) boolean useGacha,
+			@RequestParam(name = "useGacha", required = false, defaultValue = "false") boolean useGacha,
 
 			HttpSession session,
 			Model model) {
@@ -110,8 +133,10 @@ public class PurchaseController {
 			return "redirect:/cart";
 		}
 
-		// 注文処理を実行
-		int orderId = orderService.placeOrder(loginUser.getId(), cart);
+		// 注文処理
+		int orderId = orderService.placeOrder(
+				loginUser.getId(),
+				cart);
 
 		// カート全削除
 		cartService.removeAllItemFromDb(
@@ -136,16 +161,27 @@ public class PurchaseController {
 			HttpSession session) {
 
 		Product product = productMapper.findById(productId);
+
 		if (product != null) {
+
 			User loginUser = (User) session.getAttribute("loginUser");
+
 			if (loginUser != null) {
-				// ログインしている場合：データベースへ保存
-				cartService.addItemToDb(loginUser.getId(), product, quantity);
+				// DB保存
+				cartService.addItemToDb(
+						loginUser.getId(),
+						product,
+						quantity);
+
 			} else {
-				// ログインしていない場合：セッションへ保存
-				cartService.addItemToSession(session, product, quantity);
+				// セッション保存
+				cartService.addItemToSession(
+						session,
+						product,
+						quantity);
 			}
 		}
+
 		return "redirect:/purchase";
 	}
 }
