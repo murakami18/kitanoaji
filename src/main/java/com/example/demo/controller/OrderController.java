@@ -66,4 +66,5 @@ public class OrderController {
 	public String complete() {
 		return "purchase/complete";
 	}
+
 }
