@@ -1,75 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>ヒグマ襲来 - 緊急通知</title>
-<style>
-    body {
-        background-color: #FFF8EE; /* オフホワイト背景 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
-
-    .card {
-        background-color: #FFFFFF;
-        border-radius: 15px; /* 角丸 */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* ソフトなシャドウ */
-        padding: 40px;
-        width: 400px; /* 画像の比率に合わせて幅を調整 */
-        text-align: center;
-    }
-
-    h1 {
-        color: #FF6B00; /* オレンジ色のタイトル */
-        font-size: 24px;
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
-
-    h2 {
-        color: #333333; /* ダークグレーの説明テキスト */
-        font-size: 16px;
-        font-weight: normal;
-        margin-bottom: 30px;
-        line-height: 1.5;
-    }
-
-    a {
-        background-color: #FF6B00; /* オレンジ色のボタン */
-        color: #FFFFFF;
-        padding: 12px 30px;
-        border-radius: 10px;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        transition: background-color 0.2s ease;
-    }
-
-    a:hover {
-        background-color: #E65C00; /* ホバー時の少し暗いオレンジ */
-    }
-</style>
+  <meta charset="UTF-8">
+  <title>ヒグマ襲来 - 緊急通知</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/lose.css}">
 </head>
 <body>
 
-<div class="card">
-    <h1>
-    🐻 ヒグマ出現！！ 🐻
-    </h1>
+  <div th:replace="~{layout/_header :: header}"></div>
 
-    <h2>
-    カートの商品が奪われました…<br>
-    （北海道ではよくあることです。）
-    </h2>
-
-    <a th:href="@{/home}">
-        商品一覧へ戻る
-    </a>
-</div>
+  <main class="main-content">
+    <div class="lose-wrapper">
+      <div class="lose-card">
+        <h1 class="lose-title">🐻 ヒグマ出現！！ 🐻</h1>
+        <img th:src="@{/image/bear.png}" alt="ヒグマ" class="lose-bear-img">
+        <p class="lose-subtitle">
+          カートの商品が奪われました…<br>
+          （北海道ではよくあることです。）
+        </p>
+        <div class="lose-btn">
+          <form th:action="@{/home}" method="get">
+            <button type="submit" class="btn btn-primary">
+              商品一覧へ戻る
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
 
 </body>
 </html>
