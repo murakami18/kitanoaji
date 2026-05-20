@@ -6,61 +6,9 @@
   <title>マップ｜北ノ味</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <link rel="stylesheet" th:href="@{/css/map.css}">
-  <style>
-    /* 地図ページ固有スタイル */
-    .map-wrapper {
-      display: flex;
-      justify-content: center;
-      padding: 32px 24px 48px;
-    }
-
-    /* 地図全体（位置・比率は変更なし） */
-    .map-container {
-      position: relative;
-      width: 800px;
-    }
-
-    /* 地図画像 */
-    .map-container img {
-      width: 100%;
-    }
-
-    /* 地域ボタン共通 */
-    .region-button {
-      position: absolute;
-      background-color: white;
-      border: 2px solid burlywood;
-      padding: 8px 16px;
-      border-radius: 10px;
-      text-decoration: none;
-      color: saddlebrown;
-      font-weight: bold;
-    }
-
-    .region-button:hover {
-      background-color: #eeeeee;
-    }
-
-    /* ===== 地域ごとの位置（変更なし） ===== */
-    .souya      { top:  15px; left: 330px; }
-    .okhotsk    { top: 170px; left: 450px; }
-    .nemuro     { top: 220px; left: 610px; }
-    .kushiro    { top: 270px; left: 510px; }
-    .tokachi    { top: 280px; left: 420px; }
-    .hidaka     { top: 360px; left: 350px; }
-    .iburi      { top: 360px; left: 265px; }
-    .oshima     { top: 440px; left: 230px; }
-    .hiyama     { top: 430px; left: 110px; }
-    .shiribeshi { top: 310px; left: 180px; }
-    .ishikari   { top: 240px; left: 235px; }
-    .sorachi    { top: 240px; left: 307px; }
-    .kamikawa   { top: 180px; left: 360px; }
-    .rumoi      { top:  85px; left: 270px; }
-  </style>
 </head>
 <body>
 
-  <!-- 共通ヘッダー -->
   <div th:replace="~{layout/_header :: header}"></div>
 
   <main class="main-content">
@@ -69,36 +17,21 @@
     <div class="map-wrapper">
       <div class="map-container">
 
-        <!-- 地図画像 -->
         <img th:src="@{/map_image/hokkaido.png}" alt="北海道地図">
 
-        <!-- 石狩 -->
         <a href="/home?regionId=1"  class="region-button ishikari">石狩</a>
-        <!-- 胆振 -->
         <a href="/home?regionId=2"  class="region-button iburi">胆振</a>
-        <!-- 渡島 -->
         <a href="/home?regionId=3"  class="region-button oshima">渡島</a>
-        <!-- オホーツク -->
         <a href="/home?regionId=4"  class="region-button okhotsk">オホーツク</a>
-        <!-- 上川 -->
         <a href="/home?regionId=5"  class="region-button kamikawa">上川</a>
-        <!-- 釧路 -->
         <a href="/home?regionId=6"  class="region-button kushiro">釧路</a>
-        <!-- 後志 -->
         <a href="/home?regionId=7"  class="region-button shiribeshi">後志</a>
-        <!-- 宗谷 -->
         <a href="/home?regionId=8"  class="region-button souya">宗谷</a>
-        <!-- 空知 -->
         <a href="/home?regionId=9"  class="region-button sorachi">空知</a>
-        <!-- 十勝 -->
         <a href="/home?regionId=10" class="region-button tokachi">十勝</a>
-        <!-- 根室 -->
         <a href="/home?regionId=11" class="region-button nemuro">根室</a>
-        <!-- 日高 -->
         <a href="/home?regionId=12" class="region-button hidaka">日高</a>
-        <!-- 檜山 -->
         <a href="/home?regionId=13" class="region-button hiyama">檜山</a>
-        <!-- 留萌 -->
         <a href="/home?regionId=14" class="region-button rumoi">留萌</a>
 
       </div>
