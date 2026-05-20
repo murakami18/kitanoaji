@@ -69,8 +69,9 @@
 
 				<!-- ガチャ商品カード -->
 				<div class="product-card product-card--gacha" th:if="${useGacha}">
-					<div class="thumb">
-						<img th:src="@{/image/gacha.jpeg}" alt="ガチャ画像">
+					<div class="thumb" style="flex-shrink: 0; width: 100px; height: 100px;">
+						<img th:src="@{/image/gacha.jpeg}"
+							style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--color-border); display: block;">n
 					</div>
 					<div class="product-info">
 						<div class="product-name">北海道ガチャ（何が届くかはお楽しみ！）</div>
@@ -80,15 +81,6 @@
 						</div>
 					</div>
 				</div>
-
-				<!-- ルーレット当選時のみ出現するチェックボックス -->
-				<div class="gacha-box" th:if="${session.rouletteResult == 'win' or (cart != null and cart.gameResult == 'win')}">
-					<label>
-						<input type="checkbox" name="useGacha" value="true" th:checked="${useGacha}">
-						🎉 ルーレット当選特典！おまけガチャを適用する（＋100円でランダムな商品を1つお届け！）
-					</label>
-				</div>
-
 				<!-- 合計金額 -->
 				<div class="total-box">
 					合計 ¥<span th:text="${#numbers.formatInteger(totalPrice, 1, 'COMMA')}">8,980</span>
