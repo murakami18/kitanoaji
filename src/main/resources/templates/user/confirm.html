@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>登録内容の確認</title>
+  <!-- register.htmlやresult.htmlと同じCSSを読み込んでデザインを統一 -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <link rel="stylesheet" th:href="@{/css/register.css}" />
+</head>
+
+<body>
+  <!-- 共通ヘッダーの埋め込み -->
+  <header th:replace="layout/_header :: header"></header>
+
+  <main class="main-content register-page">
+    <h1>入力情報の確認</h1>
+
+    <div class="register-card">
+      <p class="confirm-instruction">以下の内容で登録します。よろしければ「確定する」ボタンを押してください。</p>
+
+      <!-- 確認用テーブル（result.htmlの構造をベースにしています） -->
+      <table class="result-table" style="width: 100%; margin-bottom: 30px; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid #ddd;">
+          <th style="padding: 12px; text-align: left; width: 30%;">名前</th>
+          <td style="padding: 12px;" th:text="${form.name}"></td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <th style="padding: 12px; text-align: left;">メールアドレス</th>
+          <td style="padding: 12px;" th:text="${form.email}"></td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <th style="padding: 12px; text-align: left;">パスワード</th>
+          <!-- セキュリティのためパスワードは伏字で表示 -->
+          <td style="padding: 12px;" class="masked">••••••••</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <th style="padding: 12px; text-align: left;">気になる地域</th>
+          <!-- コントローラーから受け取った regionMap を使って「番号」を「地名」に変換 -->
+          <td style="padding: 12px;" th:text="${form.regionId != null && regionMap.containsKey(form.regionId)} ? ${regionMap[form.regionId]} : '選択なし'"></td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <th style="padding: 12px; text-align: left;">好きなカテゴリー</th>
+          <!-- コントローラーから受け取った categoryMap を使って「番号」を「カテゴリ名」に変換 -->
+          <td style="padding: 12px;" th:text="${form.categoryId != null && categoryMap.containsKey(form.categoryId)} ? ${categoryMap[form.categoryId]} : '選択なし'"></td>
+        </tr>
+      </table>
+
+      <!-- ★ここが重要！次の本番登録処理（/register）にデータを送るためのフォーム -->
+      <form th:action="@{/register}" th:object="${form}" method="post">
+        
+        <!-- 画面には見えない（hidden）状態で、ユーザーが入力したデータを裏でしっかり保持します -->
+        <input type="hidden" th:field="*{name}" />
+        <input type="hidden" th:field="*{email}" />
+        <input type="hidden" th:field="*{emailConfirm}" />
+        <input type="hidden" th:field="*{password}" />
+        <input type="hidden" th:field="*{regionId}" />
+        <input type="hidden" th:field="*{categoryId}" />
+
+        <!-- ボタンエリア -->
+        <div class="form-actions" style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+          <!-- 修正するボタン：JavaScriptで前の入力画面に戻します -->
+          <button type="button" class="btn-back" onclick="history.back()" 
+                  style="background-color: #aaa; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;">
+            修正する
+          </button>
+          
+          <!-- 確定するボタン：これをおすとJavaの submitForm メソッド（/register）が動きます -->
+          <button type="submit" class="btn-submit" 
+                  style="background-color: #4CAF50; color: white; border: none; padding: 10px 30px; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold;">
+            確定する
+          </button>
+        </div>
+
+      </form>
+    </div>
+    
+    <div style="margin-top: 20px; text-align: center;">
+      <a class="back-link" href="/login">▶ ログイン画面に戻る</a>
+    </div>
+  </main>
+</body>
+
+</html>
