@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.CartItem;
 import com.example.demo.entity.Order;
+import com.example.demo.entity.OrderHistoryRow;
 import com.example.demo.entity.OrderItem;
 import com.example.demo.mapper.OrderMapper;
 
@@ -41,7 +42,7 @@ public class OrderService {
 		List<OrderItem> items = cartItems.stream()
 				.map(c -> {
 					OrderItem item = new OrderItem();
-					// id はDBの自動採番（SERIAL等）に任せるため、Java側ではセットしない（初期値のままにする）
+					// id はDBの自動採番（SERIAL等）に任せるため、Java側ではセットしない
 					item.setOrderId(order.getId()); // 採番された最新の注文ID
 					item.setProductId(c.getProductId()); // 商品ID
 					item.setProductPrice(c.getPrice()); // 購入時の価格
@@ -55,5 +56,14 @@ public class OrderService {
 
 		// 生成された注文IDを返す
 		return order.getId();
+	} // ← 【修正点1】placeOrder メソッドをここで正しく閉じる
+
+	/** 
+	 * 指定ユーザの購入履歴を取得する 
+	 * @param userId ログイン中のユーザID
+	 * @return 購入履歴のリスト
+	 */
+	public List<OrderHistoryRow> findHistoryByUserId(int userId) { // ← 【修正点2】引数を「int userId」に修正
+		return orderMapper.findHistoryByUserId(userId);
 	}
 }
