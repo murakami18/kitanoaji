@@ -66,10 +66,10 @@
 						</div>
 
 						<div class="button-area">
-							<div class="btn-row-primary">
-								<button type="submit" class="btn btn-secondary">カートに追加</button>
-								<a class="btn btn-primary" th:href="@{/purchase}">購入する</a>
-							</div>
+						    <div class="btn-row-primary">
+						        <button type="submit" class="btn btn-secondary">カートに追加</button>
+						        <button type="submit" class="btn btn-primary" th:formaction="@{/purchase/add}">購入する</button>
+						    </div>
 						</div>
 					</form>
 					<!-- カート追加フォームの終了 -->

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.CartItem;
+import com.example.demo.entity.Product;
 import com.example.demo.entity.User;
+import com.example.demo.mapper.ProductMapper;
 import com.example.demo.service.CartService;
 import com.example.demo.service.OrderService;
 
@@ -22,10 +24,12 @@ public class PurchaseController {
 
 	private final CartService cartService;
 	private final OrderService orderService;
+	private final ProductMapper productMapper;
 
-	public PurchaseController(CartService cartService, OrderService orderService) {
+	public PurchaseController(CartService cartService, OrderService orderService, ProductMapper productMapper) {
 		this.cartService = cartService;
 		this.orderService = orderService;
+		this.productMapper = productMapper;
 	}
 
 	/**
@@ -89,5 +93,27 @@ public class PurchaseController {
 
 		model.addAttribute("orderId", orderId);
 		return "purchase/complete";
+	}
+
+	@PostMapping("/add")
+	public String addToCart(
+			@RequestParam("productId") int productId,
+			@RequestParam(value = "quantity", defaultValue = "1") int quantity, // ★引数に個数(quantity)を追加
+			HttpSession session) {
+
+		Product product = productMapper.findById(productId);
+
+		if (product != null) {
+			User loginUser = (User) session.getAttribute("loginUser");
+
+			if (loginUser != null) {
+				// ログインしている場合：データベースへ保存（引数に quantity を追加）
+				cartService.addItemToDb(loginUser.getId(), product, quantity);
+			} else {
+				// ログインしていない場合：セッションへ保存（引数に quantity を追加）
+				cartService.addItemToSession(session, product, quantity);
+			}
+		}
+		return "redirect:/purchase";
 	}
 }
