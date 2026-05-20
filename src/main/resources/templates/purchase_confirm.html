@@ -24,7 +24,17 @@ body{
 
 h1{
 	color:#ff6600;
-	margin-bottom:30px;
+	margin-bottom:20px;
+}
+
+.message{
+	font-size:18px;
+	color:#333;
+	margin-bottom:60px;
+}
+
+.footer{
+	margin-top:40px;
 }
 
 .button{
@@ -49,20 +59,18 @@ h1{
 
 <div class="box">
 
-	<h1>
-<!--		最終確認-->
-		購入確認画面
-	</h1>
+	<h1>購入確認画面</h1>
 
-	<p>
-		ご注文内容を確認してください
+	<p class="message">
+		今日も北海道は穏やかです。<br>
+		特に何も起きていません。
 	</p>
 
-	<br>
-
-	<a th:href="@{/home}" class="button">
-		HOMEへ戻る
-	</a>
+	<div class="footer">
+		<a th:href="@{/home}" class="button">
+			HOMEへ戻る
+		</a>
+	</div>
 
 </div>
 

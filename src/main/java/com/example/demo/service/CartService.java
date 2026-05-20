@@ -73,6 +73,15 @@ public class CartService {
 	// ==========================================
 	// データベース（ログイン中）用の処理
 	// ==========================================
+	/**
+	 * 
+	 * データベースからログインユーザーのユーザーIdを取得
+	 * 
+	 */
+	public Cart getCartByUserId(int userId) {
+
+		return cartMapper.findByUserId(userId);
+	}
 
 	/**
 	 * データベースからログインユーザーのカート情報を取得します。
@@ -97,7 +106,7 @@ public class CartService {
 		if (cart == null) {
 			cart = new Cart();
 			cart.setUserId(userId);
-			cart.setGameResult("NORMAL");
+			cart.setGameResult(null);
 			cartMapper.insert(cart);
 		}
 
@@ -162,7 +171,7 @@ public class CartService {
 		if (cart == null) {
 			cart = new Cart();
 			cart.setUserId(userId);
-			cart.setGameResult("NORMAL");
+			cart.setGameResult(null);
 			cartMapper.insert(cart);
 		}
 
