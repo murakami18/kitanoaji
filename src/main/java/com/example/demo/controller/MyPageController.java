@@ -57,4 +57,23 @@ public class MyPageController {
 
 	}
 
-} // 🌟 閉じカッコの過不足を修正して「構文エラー」を解消
+	@GetMapping("/mypage/terms_of_service")
+	public String showTermsOfService() {
+		return "mypage/terms_of_service";
+	}
+
+	@GetMapping("/mypage/privacy_policy")
+	public String showPrivacyPolicy() {
+		return "mypage/privacy_policy";
+	}
+
+	@GetMapping("/mypage/opinion")
+	public String opinion() {
+		return "mypage/opinion";
+	}
+
+	@GetMapping("/mypage/opinion/thanks")
+	public String thanks() {
+		return "mypage/thanks";
+	}
+}

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ご意見・ご要望 - 北ノ味</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333333;
+            background-color: #f1f4f6; /* 指定色に馴染むスッキリした淡い背景 */
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(21, 86, 102, 0.08);
+            border-top: 6px solid #155a6a; /* 指定色「#155a6a」の太線アクセント */
+        }
+        h1 {
+            font-size: 26px;
+            color: #155a6a; /* 指定色「#155a6a」 */
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .subtitle {
+            text-align: center;
+            color: #5c7880;
+            font-size: 14px;
+            margin-bottom: 35px;
+            letter-spacing: 0.05em;
+        }
+        .intro-p {
+            margin-bottom: 35px;
+            font-size: 15px;
+            color: #4a5568;
+            background-color: #eef6f8; /* 指定色を極限まで薄めた爽やかな背景 */
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #155a6a; /* 指定色の左太線 */
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 30px;
+        }
+        .form-group-label {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            color: #155a6a; /* 指定色 */
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .form-group-label .required {
+            background-color: #155a6a; /* 指定色 */
+            color: #ffffff;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        
+        /* カード型選択肢のレイアウト */
+        .card-container {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 12px;
+            margin: 0 -12px;
+        }
+        .card-wrapper {
+            display: table-cell;
+            width: 25%;
+            vertical-align: top;
+        }
+        .card-radio {
+            display: none;
+        }
+        .card-label {
+            display: block;
+            background-color: #ffffff;
+            border: 2px solid #d2dade;
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.01);
+        }
+        .card-label:hover {
+            border-color: #155a6a;
+            background-color: #f7fafb;
+            transform: translateY(-2px);
+        }
+        /* ラジオボタンがチェックされたときのスタイル */
+        .card-radio:checked + .card-label {
+            border-color: #155a6a; /* 指定色 */
+            background-color: #e6f0f2; /* 指定色をベースにした薄い背景色 */
+            box-shadow: 0 4px 12px rgba(21, 86, 102, 0.15);
+        }
+        
+        /* SVGイラストのスタイル */
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            stroke: #5c7880; /* 未選択時はブルーグレー */
+            transition: stroke 0.2s;
+        }
+        .card-label:hover .card-icon {
+            stroke: #155a6a;
+        }
+        /* 選択時のアイコン色 */
+        .card-radio:checked + .card-label .card-icon {
+            stroke: #155a6a; /* 指定色 */
+        }
+        
+        .card-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #5c7880;
+            line-height: 1.4;
+            transition: color 0.2s;
+        }
+        .card-label:hover .card-title {
+            color: #155a6a;
+        }
+        .card-radio:checked + .card-label .card-title {
+            color: #155a6a; /* 指定色 */
+        }
+
+        /* 入力エリアのスタイル */
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            font-size: 15px;
+            border: 2px solid #d2dade;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+            transition: all 0.2s;
+        }
+        .form-control:focus {
+            border-color: #155a6a; /* 指定色フォーカス */
+            outline: none;
+            background-color: #ffffff;
+            box-shadow: 0 0 8px rgba(21, 86, 102, 0.15);
+        }
+        textarea.form-control {
+            height: 180px;
+            resize: vertical;
+        }
+        
+        .privacy-box {
+            text-align: center;
+            font-size: 13px;
+            color: #5c7880;
+            margin-bottom: 30px;
+        }
+        .privacy-box a {
+            color: #155a6a; /* リンクは指定色 */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .privacy-box a:hover {
+            text-decoration: underline;
+        }
+        
+        .submit-btn-wrapper {
+            text-align: center;
+        }
+        .submit-btn {
+            display: inline-block;
+            width: 280px;
+            padding: 16px 20px;
+            background-color: #155a6a; /* ボタンも指定色 */
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(21, 86, 102, 0.2);
+            transition: all 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #0e3e4a; /* ホバー時は少し暗めのトーン */
+            box-shadow: 0 4px 14px rgba(21, 86, 102, 0.4);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ご意見・ご要望</h1>
+    <div class="subtitle">北ノ味をいっしょに育てるメッセージ</div>
+
+    <p class="intro-p">いつも「北ノ味」に美味しいお付き合いをいただき、ありがとうございます！<br>
+    お客様からの「ここが良かった！」「もっとこうして欲しいな」という声が、私たちの何よりの励みになります。<br>
+    お名前やメールアドレスの入力は不要ですので、どうぞお気軽にあなたの声をお聞かせください。</p>
+
+    <form action="/mypage/opinion/thanks" method="GET">
+        
+        <div class="form-group">
+            <span class="form-group-label">あてはまるカテゴリを選んでください<span class="required">必須</span></span>
+            
+            <div class="card-container">
+                
+                <div class="card-wrapper">
+                    <input type="radio" id="cat_product" name="category" value="商品へのリクエスト" class="card-radio" required>
+                    <label for="cat_product" class="card-label">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        <div class="card-title">商品への<br>リクエスト</div>
+                    </label>
+                </div>
+                
+                <div class="card-wrapper">
+                    <input type="radio" id="cat_delivery" name="category" value="配送・梱包について" class="card-radio">
+                    <label for="cat_delivery" class="card-label">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="3" width="15" height="13"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                        </svg>
+                        <div class="card-title">配送・梱包に<br>ついて</div>
+                    </label>
+                </div>
+                
+                <div class="card-wrapper">
+                    <input type="radio" id="cat_site" name="category" value="画面の使いやすさ" class="card-radio">
+                    <label for="cat_site" class="card-label">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <div class="card-title">画面の<br>使いやすさ</div>
+                    </label>
+                </div>
+                
+                <div class="card-wrapper">
+                    <input type="radio" id="cat_other" name="category" value="その他・応援など" class="card-radio">
+                    <label for="cat_other" class="card-label">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <div class="card-title">その他・<br>応援など</div>
+                    </label>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="message" class="form-group-label">ご意見・ご要望内容<span class="required">必須</span></label>
+            <textarea id="message" name="message" class="form-control" placeholder="ここに自由に入力してください（自動的に完全な匿名として届きます）" required></textarea>
+        </div>
+
+        <div class="privacy-box">
+            お送りいただいた内容は、サービス向上のための統計データとして大切に取扱います。<br>
+            詳しくは当ショップの<a href="/mypage/privacy_policy" target="_blank">プライバシーポリシー</a>をご確認ください。
+        </div>
+
+        <div class="submit-btn-wrapper">
+            <button type="submit" class="submit-btn">この内容で送る</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+"""
+
+file_path_updated = "contact_final_kitanoflavor.html"
+with open(file_path_updated, "w", encoding="utf-8") as f:
+    f.write(updated_contact_html)
+
+print(f"File saved to {file_path_updated}")
