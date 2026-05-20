@@ -17,267 +17,155 @@
             max-width: 750px;
             margin: 0 auto;
             background-color: #ffffff;
-            padding: 40px 30px;
+            padding: 50px 40px; /* 上下左右の余白を少し広げて上品な空間を確保 */
             border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(21, 86, 102, 0.08);
+            box-shadow: 0 10px 30px rgba(21, 86, 102, 0.05); /* 影をより柔らかく、現代的に */
             border-top: 6px solid #155a6a; /* 指定色「#155a6a」の太線アクセント */
         }
         h1 {
             font-size: 26px;
             color: #155a6a; /* 指定色「#155a6a」 */
             text-align: center;
-            margin-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 12px;
             font-weight: 700;
+            letter-spacing: 0.03em;
         }
         .subtitle {
             text-align: center;
             color: #5c7880;
             font-size: 14px;
-            margin-bottom: 35px;
-            letter-spacing: 0.05em;
+            margin-bottom: 40px;
+            letter-spacing: 0.08em;
         }
         .intro-p {
-            margin-bottom: 35px;
+            margin-bottom: 40px;
             font-size: 15px;
             color: #4a5568;
             background-color: #eef6f8; /* 指定色を極限まで薄めた爽やかな背景 */
-            padding: 20px;
+            padding: 24px 20px;
             border-radius: 12px;
             border-left: 5px solid #155a6a; /* 指定色の左太線 */
             text-align: center;
         }
-        .form-group {
-            margin-bottom: 30px;
-        }
-        .form-group-label {
-            display: block;
-            font-size: 16px;
-            font-weight: bold;
-            color: #155a6a; /* 指定色 */
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .form-group-label .required {
-            background-color: #155a6a; /* 指定色 */
-            color: #ffffff;
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 20px;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
         
-        /* カード型選択肢のレイアウト */
-        .card-container {
-            display: table;
+        /* ボタンを配置するコンテナ（PC時は絶対に横並び） */
+        .btn-container {
+            display: flex;
+            flex-direction: row;      /* ボタンを横に並べる */
+            flex-wrap: nowrap;        /* 絶対に折り返さない */
+            justify-content: center;   /* 中央寄せ */
+            align-items: center;      /* 縦方向の揃え位置を中央に */
+            gap: 20px;                /* ボタン同士の横方向の間隔 */
+            margin-top: 40px;
+            margin-bottom: 10px;
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 12px;
-            margin: 0 -12px;
-        }
-        .card-wrapper {
-            display: table-cell;
-            width: 25%;
-            vertical-align: top;
-        }
-        .card-radio {
-            display: none;
-        }
-        .card-label {
-            display: block;
-            background-color: #ffffff;
-            border: 2px solid #d2dade;
-            border-radius: 12px;
-            padding: 20px 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.01);
-        }
-        .card-label:hover {
-            border-color: #155a6a;
-            background-color: #f7fafb;
-            transform: translateY(-2px);
-        }
-        /* ラジオボタンがチェックされたときのスタイル */
-        .card-radio:checked + .card-label {
-            border-color: #155a6a; /* 指定色 */
-            background-color: #e6f0f2; /* 指定色をベースにした薄い背景色 */
-            box-shadow: 0 4px 12px rgba(21, 86, 102, 0.15);
-        }
-        
-        /* SVGイラストのスタイル */
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 12px;
-            stroke: #5c7880; /* 未選択時はブルーグレー */
-            transition: stroke 0.2s;
-        }
-        .card-label:hover .card-icon {
-            stroke: #155a6a;
-        }
-        /* 選択時のアイコン色 */
-        .card-radio:checked + .card-label .card-icon {
-            stroke: #155a6a; /* 指定色 */
-        }
-        
-        .card-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #5c7880;
-            line-height: 1.4;
-            transition: color 0.2s;
-        }
-        .card-label:hover .card-title {
-            color: #155a6a;
-        }
-        .card-radio:checked + .card-label .card-title {
-            color: #155a6a; /* 指定色 */
         }
 
-        /* 入力エリアのスタイル */
-        .form-control {
-            width: 100%;
-            padding: 16px;
-            font-size: 15px;
-            border: 2px solid #d2dade;
-            border-radius: 12px;
-            box-sizing: border-box;
-            background-color: #fafafa;
-            transition: all 0.2s;
-        }
-        .form-control:focus {
-            border-color: #155a6a; /* 指定色フォーカス */
-            outline: none;
-            background-color: #ffffff;
-            box-shadow: 0 0 8px rgba(21, 86, 102, 0.15);
-        }
-        textarea.form-control {
-            height: 180px;
-            resize: vertical;
-        }
-        
-        .privacy-box {
-            text-align: center;
-            font-size: 13px;
-            color: #5c7880;
-            margin-bottom: 30px;
-        }
-        .privacy-box a {
-            color: #155a6a; /* リンクは指定色 */
-            text-decoration: none;
+        /* 共通のボタンベーススタイル */
+        .btn-base {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex: 1;                   /* 横幅を均等に分ける */
+            max-width: 280px;          /* 大きくなりすぎない上限サイズ */
+            min-width: 180px;          /* 縮みすぎない下限サイズ */
+            white-space: nowrap;       /* ボタン内の文字を改行させない */
             font-weight: bold;
-        }
-        .privacy-box a:hover {
-            text-decoration: underline;
-        }
-        
-        .submit-btn-wrapper {
-            text-align: center;
-        }
-        .submit-btn {
-            display: inline-block;
-            width: 280px;
-            padding: 16px 20px;
-            background-color: #155a6a; /* ボタンも指定色 */
-            color: #ffffff;
-            border: none;
-            border-radius: 30px;
             font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(21, 86, 102, 0.2);
-            transition: all 0.2s;
+            border-radius: 30px;
+            text-decoration: none;
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .submit-btn:hover {
-            background-color: #0e3e4a; /* ホバー時は少し暗めのトーン */
-            box-shadow: 0 4px 14px rgba(21, 86, 102, 0.4);
+
+        /* メインの「ご意見・ご要望」ボタン */
+        .btn-submit {
+            padding: 16px 20px;
+            background-color: #155a6a; /* ブランドカラー */
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(21, 86, 102, 0.25);
+        }
+        .btn-submit:hover {
+            background-color: #1b7286;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(21, 86, 102, 0.35);
+        }
+        .btn-submit:active {
             transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(21, 86, 102, 0.2);
+        }
+
+        /* サブの「プライバシーポリシー」ボタン（枠線デザイン） */
+        .btn-privacy {
+            padding: 14px 20px;         /* 枠線分パディングを調整して高さを統一 */
+            background-color: transparent;
+            color: #155a6a;
+            border: 2px solid #155a6a;
+        }
+        .btn-privacy:hover {
+            background-color: #eef6f8;  /* ホバー時にブランドの極薄背景色を敷く */
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 16px rgba(21, 86, 102, 0.1);
+        }
+        .btn-privacy:active {
+            transform: translateY(-1px);
+        }
+
+        /* スマートフォン用の余白・レイアウト調整 */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+            .container {
+                padding: 35px 20px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .intro-p {
+                font-size: 14px;
+                text-align: left;
+                br { display: none; }
+            }
+            /* スマホでは縦並びに切り替え */
+            .btn-container {
+                flex-direction: column;
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+            .btn-base {
+                max-width: 100%; /* スマホでは画面幅いっぱいに広げる */
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>ご意見・ご要望</h1>
-    <div class="subtitle">北ノ味をいっしょに育てるメッセージ</div>
+  <h1>ご意見・ご要望</h1>
+  <div class="subtitle">北ノ味をいっしょに育てるメッセージ</div>
 
-    <p class="intro-p">いつも「北ノ味」に美味しいお付き合いをいただき、ありがとうございます！<br>
-    お客様からの「ここが良かった！」「もっとこうして欲しいな」という声が、私たちの何よりの励みになります。<br>
-    お名前やメールアドレスの入力は不要ですので、どうぞお気軽にあなたの声をお聞かせください。</p>
+  <p class="intro-p">
+    いつも「北ノ味」に美味しいお付き合いをいただき、ありがとうございます！<br>
+    「ここが良かった！」「もっとこうして欲しいな」という声が、私たちの何よりの励みになります。<br>
+    お名前やメールアドレスの入力は不要ですので、どうぞお気軽にあなたの声をお聞かせください。
+  </p>
 
-    <form action="/mypage/opinion/thanks" method="GET">
-        
-        <div class="form-group">
-            <span class="form-group-label">あてはまるカテゴリを選んでください<span class="required">必須</span></span>
-            
-            <div class="card-container">
-                
-                <div class="card-wrapper">
-                    <input type="radio" id="cat_product" name="category" value="商品へのリクエスト" class="card-radio" required>
-                    <label for="cat_product" class="card-label">
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <path d="M16 10a4 4 0 0 1-8 0"></path>
-                        </svg>
-                        <div class="card-title">商品への<br>リクエスト</div>
-                    </label>
-                </div>
-                
-                <div class="card-wrapper">
-                    <input type="radio" id="cat_delivery" name="category" value="配送・梱包について" class="card-radio">
-                    <label for="cat_delivery" class="card-label">
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="1" y="3" width="15" height="13"></rect>
-                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                        </svg>
-                        <div class="card-title">配送・梱包に<br>ついて</div>
-                    </label>
-                </div>
-                
-                <div class="card-wrapper">
-                    <input type="radio" id="cat_site" name="category" value="画面の使いやすさ" class="card-radio">
-                    <label for="cat_site" class="card-label">
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                        <div class="card-title">画面の<br>使いやすさ</div>
-                    </label>
-                </div>
-                
-                <div class="card-wrapper">
-                    <input type="radio" id="cat_other" name="category" value="その他・応援など" class="card-radio">
-                    <label for="cat_other" class="card-label">
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                        <div class="card-title">その他・<br>応援など</div>
-                    </label>
-                </div>
-                
-            </div>
-        </div>
+  <div class="btn-container">
+    <!-- メインボタン: ご意見・ご要望 -->
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSei7Ct8fQSlLLTYCZqCCDrvU-I9dz819MDrIMv40SupNr1bYw/viewform?usp=header" class="btn-base btn-submit" target="_blank" rel="noopener noreferrer">
+      <span>ご意見・ご要望フォーム</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </a>
 
-        <div class="form-group">
-            <label for="message" class="form-group-label">ご意見・ご要望内容<span class="required">必須</span></label>
-            <textarea id="message" name="message" class="form-control" placeholder="ここに自由に入力してください（自動的に完全な匿名として届きます）" required></textarea>
-        </div>
-
-        <div class="privacy-box">
-            お送りいただいた内容は、サービス向上のための統計データとして大切に取扱います。<br>
-            詳しくは当ショップの<a href="/mypage/privacy_policy" target="_blank">プライバシーポリシー</a>をご確認ください。
-        </div>
-
-        <div class="submit-btn-wrapper">
-            <button type="submit" class="submit-btn">この内容で送る</button>
-        </div>
-    </form>
+    <!-- サブボタン: プライバシーポリシー -->
+    <a href="/mypage/privacy_policy" class="btn-base btn-privacy">
+      <span>プライバシーポリシー</span>
+    </a>
+  </div>
 </div>
 
 </body>
