@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.CartItem;
+import com.example.demo.entity.Product;
 import com.example.demo.entity.User;
+import com.example.demo.mapper.ProductMapper;
 import com.example.demo.service.CartService;
 import com.example.demo.service.OrderService;
 
@@ -23,13 +25,16 @@ public class PurchaseController {
 
 	private final CartService cartService;
 	private final OrderService orderService;
+	private final ProductMapper productMapper;
 
 	public PurchaseController(
 			CartService cartService,
-			OrderService orderService) {
+			OrderService orderService,
+			ProductMapper productMapper) {
 
 		this.cartService = cartService;
 		this.orderService = orderService;
+		this.productMapper = productMapper;
 	}
 
 	/**
@@ -37,6 +42,7 @@ public class PurchaseController {
 	 */
 	@GetMapping
 	public String purchase(
+			@RequestParam(name = "useGacha", defaultValue = "false") boolean useGacha,
 			HttpSession session,
 			Model model) {
 
@@ -57,14 +63,24 @@ public class PurchaseController {
 			return "redirect:/cart";
 		}
 
-		// 合計金額
+		// ルーレット結果取得
+		Cart cart = cartService.getCartByUserId(
+				loginUser.getId());
+
+		// 商品合計
 		int totalPrice = cartItems.stream()
 				.mapToInt(CartItem::getSubtotal)
 				.sum();
 
-		// カート情報取得
-		Cart cart = cartService.getCartByUserId(
-				loginUser.getId());
+		// ★ winなら半額
+		if (cart != null && "win".equals(cart.getGameResult())) {
+			totalPrice = totalPrice / 2;
+		}
+
+		// ★ ガチャ利用なら最後に+100円
+		if (useGacha) {
+			totalPrice += 100;
+		}
 
 		// HTMLへ渡す
 		model.addAttribute(
@@ -79,6 +95,10 @@ public class PurchaseController {
 				"cart",
 				cart);
 
+		model.addAttribute(
+				"useGacha",
+				useGacha);
+
 		return "purchase/checkout";
 	}
 
@@ -91,7 +111,7 @@ public class PurchaseController {
 
 			@RequestParam(name = "address") String address,
 
-			@RequestParam(name = "useGacha", required = false) boolean useGacha,
+			@RequestParam(name = "useGacha", required = false, defaultValue = "false") boolean useGacha,
 
 			HttpSession session,
 			Model model) {
@@ -122,11 +142,46 @@ public class PurchaseController {
 		cartService.removeAllItemFromDb(
 				loginUser.getId());
 
+		// ルーレット結果リセット
+		cartService.resetGameResult(
+				loginUser.getId());
+
 		// 完了画面へ
 		model.addAttribute(
 				"orderId",
 				orderId);
 
 		return "purchase/complete";
+	}
+
+	@PostMapping("/add")
+	public String addToCart(
+			@RequestParam("productId") int productId,
+			@RequestParam(value = "quantity", defaultValue = "1") int quantity,
+			HttpSession session) {
+
+		Product product = productMapper.findById(productId);
+
+		if (product != null) {
+
+			User loginUser = (User) session.getAttribute("loginUser");
+
+			if (loginUser != null) {
+				// DB保存
+				cartService.addItemToDb(
+						loginUser.getId(),
+						product,
+						quantity);
+
+			} else {
+				// セッション保存
+				cartService.addItemToSession(
+						session,
+						product,
+						quantity);
+			}
+		}
+
+		return "redirect:/purchase";
 	}
 }

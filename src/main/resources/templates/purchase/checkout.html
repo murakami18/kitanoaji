@@ -16,6 +16,7 @@
 
 		<form th:action="@{/purchase/check}" method="post">
 
+			<!-- お届け先情報 -->
 			<div class="section">
 				<div class="section-title">お届け先情報</div>
 				<div class="info-box">
@@ -34,6 +35,7 @@
 				</div>
 			</div>
 
+			<!-- 支払い方法 -->
 			<div class="section">
 				<div class="section-title">支払い方法</div>
 				<div class="payment-method">
@@ -43,36 +45,49 @@
 				</div>
 			</div>
 
+			<!-- 購入商品 -->
 			<div class="section">
 				<div class="section-title">購入商品</div>
-
+				
+				<!-- 通常商品リスト -->
 				<div th:each="item : ${cartItems}" class="product-card">
-
-					<div class="thumb" style="flex-shrink: 0; width: 100px; height: 100px;">
-						<img th:src="@{/image/{id}.jpg(id=${item.productId})}"
-							style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--color-border); display: block;">
+					<div class="thumb">
+						<img th:src="@{/image/{id}.jpg(id=${item.productId})}" alt="商品画像">
 						<span class="no-image" style="display: none;">No Image</span>
 					</div>
-
 					<div class="product-info">
 						<div class="product-name" th:text="${item.name}">北海道海鮮セット</div>
-						<div class="product-price" th:text="'¥' + ${#numbers.formatInteger(item.price, 1, 'COMMA')}">
-							¥5,980</div>
+						<div class="product-meta">
+							<div class="product-price" th:text="'¥' + ${#numbers.formatInteger(item.price, 1, 'COMMA')}">¥5,980</div>
+							<!-- 数量表示 -->
+							<div class="product-quantity">
+								数量: <span th:text="${item.quantity}">1</span>
+							</div>
+						</div>
 					</div>
 				</div>
 
-				<div class="gacha-box" th:if="${session.rouletteResult == 'win'}">
-					<label>
-						<input type="checkbox" name="useGacha" value="true">
-						🎉 ルーレット当選特典！おまけガチャを適用する（＋100円でランダムな商品を1つお届け！）
-					</label>
+				<!-- ガチャ商品カード -->
+				<div class="product-card product-card--gacha" th:if="${useGacha}">
+					<div class="thumb" style="flex-shrink: 0; width: 100px; height: 100px;">
+						<img th:src="@{/image/gacha.jpeg}"
+							style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--color-border); display: block;">n
+					</div>
+					<div class="product-info">
+						<div class="product-name">北海道ガチャ（何が届くかはお楽しみ！）</div>
+						<div class="product-meta">
+							<div class="product-price">¥100</div>
+							<div class="product-quantity">数量: 1</div>
+						</div>
+					</div>
 				</div>
-
+				<!-- 合計金額 -->
 				<div class="total-box">
 					合計 ¥<span th:text="${#numbers.formatInteger(totalPrice, 1, 'COMMA')}">8,980</span>
 				</div>
 			</div>
 
+			<!-- ルーレットセクション -->
 			<div class="section roulette-box">
 				<div class="section-title">試される大地に挑戦</div>
 				<p>
@@ -80,18 +95,21 @@
 					10%：ヒグマ襲来（カート全消失）<br>
 					80%：なにもなし
 				</p>
+				<!-- formnovalidate を付与して、未入力でもルーレットフォームを送信可能に -->
 				<button type="submit" form="rouletteForm" class="roulette-btn"
-					th:disabled="${cart != null and cart.gameResult != null}">
+					th:disabled="${cart != null and cart.gameResult != null}" formnovalidate>
 					試される大地に挑戦
 				</button>
 			</div>
 
+			<!-- 注文確定ボタン -->
 			<div class="button-area">
 				<button type="submit" class="checkout-btn">注文確定</button>
 			</div>
 
 		</form>
 
+		<!-- ルーレット専用の独立フォーム -->
 		<form id="rouletteForm" th:action="@{/roulette}" method="post" style="display: none;"></form>
 
 	</div>
