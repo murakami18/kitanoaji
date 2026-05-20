@@ -148,6 +148,15 @@ public class CartService {
 
 	}
 
+	/**
+	 * ルーレット結果をリセット
+	 */
+	@Transactional
+	public void resetGameResult(int userId) {
+
+		cartMapper.resetGameResult(userId);
+	}
+
 	// ==========================================
 	// カートの統合（マージ）処理
 	// ==========================================

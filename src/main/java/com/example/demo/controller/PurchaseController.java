@@ -117,6 +117,10 @@ public class PurchaseController {
 		cartService.removeAllItemFromDb(
 				loginUser.getId());
 
+		// ルーレット結果リセット
+		cartService.resetGameResult(
+				loginUser.getId());
+
 		// 完了画面へ
 		model.addAttribute(
 				"orderId",
