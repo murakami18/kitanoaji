@@ -1,24 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>大当たり</title>
+  <meta charset="UTF-8">
+  <title>大当たり</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/win.css}">
 </head>
 <body>
 
-<h1>
-🎉 大当たり！！ 🎉
-</h1>
+  <div th:replace="~{layout/_header :: header}"></div>
 
-<h2>
-合計金額が半額になりました！
-</h2>
-
-<form th:action="@{/purchase}" method="get">
-	<button type="submit">
-		注文確認画面へ進む
-	</button>
-</form>
+  <main class="main-content">
+    <div class="win-wrapper">
+      <div class="win-card">
+        <h1 class="win-title">🎉 大当たり！！ 🎉</h1>
+        <h2 class="win-subtitle">合計金額が半額になりました！</h2>
+        <div class="win-btn">
+          <form th:action="@{/purchase}" method="get">
+            <button type="submit" class="btn btn-primary">
+              注文確認画面へ進む
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
 
 </body>
 </html>
