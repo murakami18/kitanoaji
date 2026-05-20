@@ -37,7 +37,9 @@ public class PurchaseController {
 	 * カート情報と合計金額を動的に取得する
 	 */
 	@GetMapping
-	public String purchase(HttpSession session, Model model) {
+	public String purchase(
+			@RequestParam(name = "useGacha", defaultValue = "false") boolean useGacha,
+			HttpSession session, Model model) {
 
 		// 1. セッションからログインユーザー情報を取得
 		User loginUser = (User) session.getAttribute("loginUser");
@@ -53,13 +55,18 @@ public class PurchaseController {
 			return "redirect:/cart";
 		}
 
-		// 3. 【要件】合計金額の計算（CartControllerと同じく小計の合計を算出）
+		// 3. 合計金額の計算
 		int totalPrice = cart.stream().mapToInt(CartItem::getSubtotal).sum();
+
+		// ★ガチャチェックが入っていたら+100円
+		if (useGacha) {
+			totalPrice += 100;
+		}
 
 		// 4. HTML(Thymeleaf)にデータを渡す
 		model.addAttribute("cart", cart);
 		model.addAttribute("totalPrice", totalPrice);
-
+		model.addAttribute("useGacha", useGacha); // ★購入確認画面にも引き継ぐ
 		return "purchase/checkout";
 	}
 
@@ -84,8 +91,7 @@ public class PurchaseController {
 			return "redirect:/cart";
 		}
 
-		// 注文処理を実行（おまけガチャフラグを連携させる想定）
-		// 必要に応じて、orderService.placeOrder(..., useGacha) のように引数を拡張してください
+		// 注文処理を実行
 		int orderId = orderService.placeOrder(loginUser.getId(), cart);
 
 		// カートのクリア処理
@@ -98,19 +104,17 @@ public class PurchaseController {
 	@PostMapping("/add")
 	public String addToCart(
 			@RequestParam("productId") int productId,
-			@RequestParam(value = "quantity", defaultValue = "1") int quantity, // ★引数に個数(quantity)を追加
+			@RequestParam(value = "quantity", defaultValue = "1") int quantity,
 			HttpSession session) {
 
 		Product product = productMapper.findById(productId);
-
 		if (product != null) {
 			User loginUser = (User) session.getAttribute("loginUser");
-
 			if (loginUser != null) {
-				// ログインしている場合：データベースへ保存（引数に quantity を追加）
+				// ログインしている場合：データベースへ保存
 				cartService.addItemToDb(loginUser.getId(), product, quantity);
 			} else {
-				// ログインしていない場合：セッションへ保存（引数に quantity を追加）
+				// ログインしていない場合：セッションへ保存
 				cartService.addItemToSession(session, product, quantity);
 			}
 		}
