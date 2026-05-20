@@ -6,16 +6,16 @@
 :root {
 
   /* メイン */
-  --color-primary: #8b8177;
+  --color-primary: #7d7d7d;
 
-  /* 濃いめ */
-  --color-primary-dk: #72685f;
+  /* 濃いグレー */
+  --color-primary-dk: #5f5f5f;
 
-  /* 超薄いアクセント */
-  --color-primary-lt: #faf8f5;
+  /* 超薄グレー */
+  --color-primary-lt: #fafafa;
 
-  /* ← 全体背景をかなり白く */
-  --color-bg: #fcfbf9;
+  /* 背景 */
+  --color-bg: #fcfcfc;
 
   /* ヘッダー */
   --color-header: #ffffff;
@@ -23,17 +23,17 @@
   /* カード */
   --color-surface: #ffffff;
 
-  /* 線 */
-  --color-border: #ece8e2;
+  /* 枠線 */
+  --color-border: #eeeeee;
 
-  /* 文字 */
-  --color-text: #7a7066;
+  /* ← 文字をグレーに */
+  --color-text: #8d8d8d;
 
   /* 薄文字 */
-  --color-text-muted: #b1a79d;
+  --color-text-muted: #bdbdbd;
 
   /* 価格 */
-  --color-price: #85796e;
+  --color-price: #6f6f6f;
 
   --header-h:          56px;
   --sidebar-w:         240px;
@@ -46,7 +46,7 @@
 /* ---------- リセット ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
   background: var(--color-bg);
   color: var(--color-text);
   font-size: 14px;
