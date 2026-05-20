@@ -1,78 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>購入確認</title>
-
-<style>
-
-body{
-	background:#fff8f0;
-	font-family:sans-serif;
-	text-align:center;
-	padding-top:100px;
-}
-
-.box{
-	width:500px;
-	margin:auto;
-	background:white;
-	padding:40px;
-	border-radius:20px;
-	box-shadow:0 0 15px rgba(0,0,0,0.2);
-}
-
-h1{
-	color:#ff6600;
-	margin-bottom:20px;
-}
-
-.message{
-	font-size:18px;
-	color:#333;
-	margin-bottom:60px;
-}
-
-.footer{
-	margin-top:40px;
-}
-
-.button{
-	display:inline-block;
-	padding:15px 40px;
-	background:#ff6600;
-	color:white;
-	text-decoration:none;
-	border-radius:10px;
-	font-size:20px;
-	font-weight:bold;
-}
-
-.button:hover{
-	background:#e65c00;
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <title>購入確認</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/purchase_confirm.css}">
 </head>
 <body>
 
-<div class="box">
+  <div th:replace="~{layout/_header :: header}"></div>
 
-	<h1>購入確認画面</h1>
-
-	<p class="message">
-		今日も北海道は穏やかです。<br>
-		特に何も起きていません。
-	</p>
-
-	<div class="footer">
-		<a th:href="@{/purchase}" class="button">
-			注文確認画面に戻る
-		</a>
-	</div>
-
-</div>
+  <main class="main-content">
+    <div class="confirm-wrapper">
+      <div class="confirm-card">
+        <h1 class="confirm-title">本日の北海道</h1>
+        <p class="confirm-message">
+          今日も北海道は穏やかです。<br>
+          特に何も起きていません。
+        </p>
+        <div class="confirm-btn">
+          <form th:action="@{/purchase}" method="get">
+            <button type="submit" class="btn btn-primary">
+              注文確認画面に戻る
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
 
 </body>
 </html>

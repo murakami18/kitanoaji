@@ -1,0 +1,39 @@
+/* ============================================================
+   北ノ味 — win.css（大当たりページ専用スタイル）
+   ============================================================ */
+
+.win-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - var(--header-h));
+  padding: 24px;
+}
+
+.win-card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+}
+
+.win-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+}
+
+.win-subtitle {
+  font-size: 18px;
+  color: var(--color-text);
+  margin-bottom: 32px;
+}
+
+.win-btn {
+  max-width: 280px;
+  margin: 0 auto;
+}
