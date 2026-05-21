@@ -5,17 +5,17 @@
 /* ---------- CSS 変数 ---------- */
 :root {
 
-	/* メインカラー（おいしそうな深緑） */
-	--color-primary: #5f7f63;
+	/* メインカラー（若くてフレッシュ） */
+	--color-primary: #6fa36d;
 
 	/* 濃い色 */
-	--color-primary-dk: #49624d;
+	--color-primary-dk: #588457;
 
 	/* 超薄背景 */
-	--color-primary-lt: #f6f8f4;
+	--color-primary-lt: #f5faf3;
 
 	/* 全体背景 */
-	--color-bg: #fbfbf8;
+	--color-bg: #fcfdfb;
 
 	/* ヘッダー */
 	--color-header: #ffffff;
@@ -24,17 +24,17 @@
 	--color-surface: #ffffff;
 
 	/* 枠線 */
-	--color-border: #e5e9e2;
+	--color-border: #e3ede0;
 
 	/* 文字 */
-	--color-text: #4f564f;
+	--color-text: #4d5b4d;
 
 	/* 補助文字 */
-	--color-text-muted: #8c958a;
+	--color-text-muted: #8ea08d;
 
-	/* 価格（肉と相性のいい赤茶） */
-	--color-price: #b45a3c;
-
+	/* 価格 */
+	--color-price: #cf5c3f;
+	
 	--header-h: 56px;
 	--sidebar-w: 240px;
 	--radius: 8px;
