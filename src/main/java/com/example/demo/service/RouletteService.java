@@ -86,7 +86,7 @@ public class RouletteService {
 
 		Random random = new Random();
 
-		int value = random.nextInt(9);
+		int value = random.nextInt(100);
 
 		// 10%
 		if (value < 10) {
