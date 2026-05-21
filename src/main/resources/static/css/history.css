@@ -110,3 +110,13 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
 }
+/* 合計行のスタイル */
+.total-row {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.total-label {
+  text-align: right;
+  padding-right: 1rem;
+}

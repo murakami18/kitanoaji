@@ -13,13 +13,11 @@
 
     <h1 class="history-title">注文履歴</h1>
 
-    <!-- 履歴が空、またはデータ自体が渡されなかった(null)場合 -->
     <p class="history-empty"
        th:if="${historyRows == null || #lists.isEmpty(historyRows)}">
       購入履歴はまだありません。
     </p>
 
-    <!-- 履歴が存在する場合 -->
     <table class="history-table"
            th:unless="${historyRows == null || #lists.isEmpty(historyRows)}">
       <thead>
@@ -29,18 +27,34 @@
           <th class="col-name">商品名</th>
           <th class="col-price">単価</th>
           <th class="col-qty">数量</th>
-          <th class="col-subtotal">小計</th>
+          <th class="col-subtotal">小計</th>  <!-- 🌟 合計金額列を削除 -->
         </tr>
       </thead>
       <tbody>
-        <tr th:each="row : ${historyRows}">
-          <td class="col-order-id" th:text="${row.orderId}">注文番号</td>
-          <td class="col-date"     th:text="${#temporals.format(row.createdAt, 'yyyy-MM-dd HH:mm')}">注文日時</td>
-          <td class="col-name"     th:text="${row.productName}">商品名</td>
-          <td class="col-price"    th:text="${#numbers.formatInteger(row.price, 3, 'COMMA')} + '円'">単価</td>
-          <td class="col-qty"      th:text="${row.quantity}">数量</td>
-          <td class="col-subtotal" th:text="${#numbers.formatInteger(row.subtotal, 3, 'COMMA')} + '円'">小計</td>
-        </tr>
+        <th:block th:each="row, iterStat : ${historyRows}">
+
+          <tr>
+            <td class="col-order-id"
+                th:text="${(iterStat.first || historyRows[iterStat.index - 1].orderId != row.orderId) ? row.orderId : ''}">
+            </td>
+            <td class="col-date"
+                th:text="${(iterStat.first || historyRows[iterStat.index - 1].orderId != row.orderId) ? #temporals.format(row.createdAt, 'yyyy-MM-dd HH:mm') : ''}">
+            </td>
+            <td class="col-name"     th:text="${row.productName}">商品名</td>
+            <td class="col-price"    th:text="${#numbers.formatInteger(row.price, 3, 'COMMA')} + '円'">単価</td>
+            <td class="col-qty"      th:text="${row.quantity}">数量</td>
+            <td class="col-subtotal" th:text="${#numbers.formatInteger(row.subtotal, 3, 'COMMA')} + '円'">小計</td>
+          </tr>
+
+          <!-- 🌟 合計行：colspan="6" で全列を使い「合計金額：〇〇円」と表示 -->
+          <tr class="total-row"
+              th:if="${iterStat.last || historyRows[iterStat.index + 1].orderId != row.orderId}">
+            <td colspan="6" class="total-label"
+                th:text="'合計金額：' + ${#numbers.formatInteger(row.totalAmount, 3, 'COMMA')} + '円'">
+            </td>
+          </tr>
+
+        </th:block>
       </tbody>
     </table>
 
