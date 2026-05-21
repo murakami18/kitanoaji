@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ヘルプ・よくある質問 - 北ノ味</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333333;
+            background-color: #f1f4f6; /* 指定色に馴染むスッキリした淡い背景 */
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(21, 86, 102, 0.08);
+            border-top: 6px solid #155a6a; /* 指定色「#155a6a」の太線アクセント */
+        }
+        h1 {
+            font-size: 26px;
+            color: #155a6a; /* 指定色「#155a6a」 */
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .subtitle {
+            text-align: center;
+            color: #5c7880;
+            font-size: 14px;
+            margin-bottom: 35px;
+            letter-spacing: 0.05em;
+        }
+        .intro-p {
+            margin-bottom: 35px;
+            font-size: 15px;
+            color: #4a5568;
+            background-color: #eef6f8; /* 指定色を薄めた背景 */
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #155a6a;
+            text-align: center;
+        }
+        .faq-section {
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #155a6a;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e6f0f2;
+        }
+        
+        /* アコーディオンのスタイル */
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #d2dade;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+        .faq-question {
+            padding: 18px 20px;
+            background-color: #ffffff;
+            font-weight: bold;
+            font-size: 15px;
+            color: #333333;
+            cursor: pointer;
+            position: relative;
+            padding-right: 50px; /* 矢印スペース */
+            transition: background-color 0.2s;
+            user-select: none;
+        }
+        .faq-question:hover {
+            background-color: #f7fafb;
+        }
+        /* Qの頭文字スタイル */
+        .faq-question::before {
+            content: "Q.";
+            color: #155a6a;
+            font-size: 18px;
+            margin-right: 10px;
+            font-weight: 800;
+        }
+        /* 矢印アイコン（CSSで描画） */
+        .faq-question::after {
+            content: "";
+            position: absolute;
+            right: 22px;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            border-top: 2px solid #155a6a;
+            border-right: 2px solid #155a6a;
+            transform: translateY(-50%) rotate(135deg);
+            transition: transform 0.3s;
+        }
+        
+        /* 回答エリアの初期状態（非表示） */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fafafa;
+        }
+        .faq-answer-content {
+            padding: 20px;
+            font-size: 15px;
+            color: #4a5568;
+            border-top: 1px dashed #d2dade;
+            line-height: 1.7;
+        }
+        /* Aの頭文字スタイル */
+        .faq-answer-content::before {
+            content: "A.";
+            color: #e06a3b; /* 回答は少し目立つ暖色系アクセント */
+            font-size: 18px;
+            margin-right: 10px;
+            font-weight: 800;
+            float: left;
+        }
+        
+        /* アクティブ状態（JavaScript連動用） */
+        .faq-item.active .faq-question {
+            background-color: #e6f0f2;
+            color: #155a6a;
+        }
+        .faq-item.active .faq-question::after {
+            transform: translateY(-30%) rotate(-45deg); /* 矢印が上を向く */
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px; /* 十分な高さを確保 */
+            transition: max-height 0.3s ease-in;
+        }
+
+        /* お問い合わせ導線 */
+        .contact-box {
+            text-align: center;
+            background-color: #e6f0f2;
+            padding: 30px 20px;
+            border-radius: 12px;
+            margin-top: 50px;
+        }
+        .contact-box p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #155a6a;
+            font-weight: bold;
+        }
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background-color: #155a6a;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(21, 86, 102, 0.2);
+            transition: all 0.2s;
+        }
+        .contact-btn:hover {
+            background-color: #0e3e4a;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ヘルプ・よくある質問</h1>
+    <div class="subtitle">お問い合わせの前にこちらをご確認ください</div>
+
+    <p class="intro-p">「北ノ味」をご利用いただき、誠にありがとうございます。<br>
+    お客様から多く寄せられるご質問と回答をまとめました。<br>
+    調べたい項目をクリックすると、詳細な回答をご覧いただけます。</p>
+
+    <div class="faq-section">
+        <div class="section-title">ご注文・お支払いについて</div>
+        
+        <div class="faq-item">
+            <div class="faq-question">どのようなお支払い方法が利用できますか？</div>
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    クレジットカード決済（Visa, Mastercard, JCB, American Express）、あと払い（ペイディ）、Amazon Pay、およびApple Payがご利用いただけます。
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">注文後のキャンセルや変更はできますか？</div>
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    商品の発送準備前（ご注文後1時間以内）であれば、マイページのご注文履歴よりキャンセルが可能です。発送準備に入った後のキャンセル・変更は承ることができませんのでご了承ください。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-section">
+        <div class="section-title">配送・送料について</div>
+        
+        <div class="faq-item">
+            <div class="faq-question">送料はいくらですか？</div>
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    通常便は全国一律800円（税込）です。クール便（冷蔵・冷凍）対象商品が含まれる場合は、クール便送料として1,100円（税込）を頂戴いたします。なお、1回のご注文合計金額が10,000円（税込）以上の場合は送料無料となります。
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">注文してからどのくらいで届きますか？</div>
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    通常、ご注文受付後2〜4営業日以内に発送いたします（土日祝を除く）。発送完了後、追跡番号を記載したメールをお送りいたします。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="contact-box">
+        <p>解決しない場合は、お気軽に意見・要望フォームからお知らせください</p>
+        <a href="/mypage/opinion" class="contact-btn">ご意見・ご要望を送る</a>
+    </div>
+</div>
+
+<script>
+    // アコーディオンの開閉を制御するシンプルなJavaScript
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.parentElement;
+            
+            // クリックされたアイテムのactiveクラスを切り替え
+            faqItem.classList.toggle('active');
+        });
+    });
+</script>
+
+</body>
+</html>

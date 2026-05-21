@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.List; // 🌟 これが抜けていたため「List を型に解決できません」が発生
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -24,6 +24,7 @@ public class MyPageController {
 	public String showMyPage(HttpSession session) {
 
 		// 1. セッションからログインユーザー情報を取得
+		//User型のloginUserを
 		User loginUser = (User) session.getAttribute("loginUser");
 
 		// 2. ログイン状態でなければ（nullなら） /login にリダイレクト
@@ -38,6 +39,7 @@ public class MyPageController {
 	public String showOrderHistory(HttpSession session, Model model) {
 
 		// 1. セッションからログインユーザー情報を取得
+		//authControllerでsetAttributeしてるloginUserをgetAttributeしてUser型にキャスト
 		User loginUser = (User) session.getAttribute("loginUser");
 
 		// 2. ログイン状態でなければ（nullなら） /login にリダイレクト
@@ -46,8 +48,7 @@ public class MyPageController {
 		}
 
 		// 3. ログインユーザーのIDを使って、DBから本物の注文履歴を取得
-		// ⚠️ もし loginUser.getId() の部分で赤線が消えない場合は、
-		// 実際の User.java に定義されているID取得メソッド名（getUserId() など）に変更してください。
+
 		List<OrderHistoryRow> historyRows = orderMapper.findHistoryByUserId(loginUser.getId());
 
 		// 4. HTML側の ${historyRows} に取得したデータを渡す
@@ -57,4 +58,28 @@ public class MyPageController {
 
 	}
 
-} // 🌟 閉じカッコの過不足を修正して「構文エラー」を解消
+	@GetMapping("/mypage/terms_of_service")
+	public String showTermsOfService() {
+		return "mypage/terms_of_service";
+	}
+
+	@GetMapping("/mypage/privacy_policy")
+	public String showPrivacyPolicy() {
+		return "mypage/privacy_policy";
+	}
+
+	@GetMapping("/mypage/opinion")
+	public String opinion() {
+		return "mypage/opinion";
+	}
+
+	@GetMapping("/mypage/opinion/thanks")
+	public String thanks() {
+		return "mypage/thanks";
+	}
+
+	@GetMapping("/mypage/question")
+	public String question() {
+		return "mypage/question";
+	}
+}
