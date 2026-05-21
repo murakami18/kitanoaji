@@ -20,6 +20,7 @@ public interface OrderMapper {
 
 	//	/** 指定ユーザの購入履歴を取得する */
 	//	List<OrderHistoryRow> findHistoryByUserId(int userId);
-	// 🌟 注文履歴をユーザーIDで取得する
+	//@Paramで名前を指定することで安全に渡せる
+	// 
 	List<OrderHistoryRow> findHistoryByUserId(@Param("userId") int userId);
 }

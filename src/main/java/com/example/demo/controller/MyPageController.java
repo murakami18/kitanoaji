@@ -24,6 +24,7 @@ public class MyPageController {
 	public String showMyPage(HttpSession session) {
 
 		// 1. セッションからログインユーザー情報を取得
+		//User型のloginUserを
 		User loginUser = (User) session.getAttribute("loginUser");
 
 		// 2. ログイン状態でなければ（nullなら） /login にリダイレクト
@@ -38,6 +39,7 @@ public class MyPageController {
 	public String showOrderHistory(HttpSession session, Model model) {
 
 		// 1. セッションからログインユーザー情報を取得
+		//authControllerでsetAttributeしてるloginUserをgetAttributeしてUser型にキャスト
 		User loginUser = (User) session.getAttribute("loginUser");
 
 		// 2. ログイン状態でなければ（nullなら） /login にリダイレクト
@@ -46,8 +48,7 @@ public class MyPageController {
 		}
 
 		// 3. ログインユーザーのIDを使って、DBから本物の注文履歴を取得
-		// ⚠️ もし loginUser.getId() の部分で赤線が消えない場合は、
-		// 実際の User.java に定義されているID取得メソッド名（getUserId() など）に変更してください。
+
 		List<OrderHistoryRow> historyRows = orderMapper.findHistoryByUserId(loginUser.getId());
 
 		// 4. HTML側の ${historyRows} に取得したデータを渡す
