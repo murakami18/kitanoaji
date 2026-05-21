@@ -19,6 +19,7 @@ import com.example.demo.entity.User;
 import com.example.demo.mapper.CategoryMapper;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.mapper.RegionMapper;
+import com.example.demo.service.UseGachaService;
 
 @Controller
 public class HomeController {
@@ -26,11 +27,15 @@ public class HomeController {
 	private final ProductMapper productMapper;
 	private final RegionMapper regionMapper;
 	private final CategoryMapper categoryMapper;
+	private final UseGachaService useGachaService;
 
-	public HomeController(ProductMapper productMapper, RegionMapper regionMapper, CategoryMapper categoryMapper) {
+	public HomeController(ProductMapper productMapper, RegionMapper regionMapper, CategoryMapper categoryMapper,
+			UseGachaService useGachaService) {
 		this.productMapper = productMapper;
 		this.regionMapper = regionMapper;
 		this.categoryMapper = categoryMapper;
+		this.useGachaService = useGachaService;
+
 	}
 
 	@GetMapping("/home")
@@ -39,6 +44,8 @@ public class HomeController {
 			@RequestParam(name = "categoryIds", required = false) List<Integer> categoryIds,
 			HttpSession session,
 			Model model) {
+
+		useGachaService.setFalse(session);
 
 		boolean hasCategories = (categoryIds != null && !categoryIds.isEmpty());
 

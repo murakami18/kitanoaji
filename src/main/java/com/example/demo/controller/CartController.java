@@ -17,6 +17,7 @@ import com.example.demo.entity.Product;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.service.CartService;
+import com.example.demo.service.UseGachaService;
 
 @Controller
 @RequestMapping("/cart")
@@ -24,16 +25,19 @@ public class CartController {
 
 	private final CartService cartService;
 	private final ProductMapper productMapper;
+	private final UseGachaService useGachaService;
 
-	public CartController(CartService cartService, ProductMapper productMapper) {
+	public CartController(CartService cartService, ProductMapper productMapper, UseGachaService useGachaService) {
 		this.cartService = cartService;
 		this.productMapper = productMapper;
+		this.useGachaService = useGachaService;
 	}
 
 	/** カート一覧を表示する */
 	@GetMapping
 	public String showCart(HttpSession session, Model model) {
 		List<CartItem> cart = new ArrayList<>();
+		useGachaService.setFalse(session);
 
 		// セッションからログインユーザー情報を取得
 		User loginUser = (User) session.getAttribute("loginUser");
