@@ -23,15 +23,17 @@
     SELECT
       o.id AS order_id,
       o.created_at,
-      p.name AS product_name,              <!-- 🌟 productsテーブル(p)から商品名を取得 -->
-      oi.product_price AS price,          <!-- 🌟 カラム名 product_price を Javaの price にマッピング -->
+      p.name AS product_name,
+      oi.product_price AS price,
       oi.quantity,
-      (oi.product_price * oi.quantity) AS subtotal <!-- 🌟 正しいカラム名で小計を計算 -->
+      (oi.product_price * oi.quantity) AS subtotal,
+      SUM(oi.product_price * oi.quantity)
+        OVER (PARTITION BY o.id) AS total_amount
     FROM orders o
     INNER JOIN order_items oi ON o.id = oi.order_id
-    INNER JOIN products p ON oi.product_id = p.id  <!-- 🌟 ここで商品マスタテーブルを結合！ -->
+    INNER JOIN products p ON oi.product_id = p.id
     WHERE o.user_id = #{userId}
     ORDER BY o.id DESC, oi.id ASC
-  </select>
+</select>
 
 </mapper>
