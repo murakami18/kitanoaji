@@ -16,6 +16,7 @@ import com.example.demo.entity.User;
 import com.example.demo.form.LoginForm;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.CartService;
+import com.example.demo.service.UseGachaService;
 
 @Controller
 public class AuthController {
@@ -23,10 +24,12 @@ public class AuthController {
 	private final UserMapper userMapper;
 	private final CartService cartService;
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	private final UseGachaService gachaService;
 
-	public AuthController(UserMapper userMapper, CartService cartService) {
+	public AuthController(UserMapper userMapper, CartService cartService, UseGachaService gachaService) {
 		this.userMapper = userMapper;
 		this.cartService = cartService;
+		this.gachaService = gachaService;
 	}
 
 	/** ログイン画面を表示する */
@@ -62,6 +65,7 @@ public class AuthController {
 		// ログイン成功：セッションにユーザ情報を保存する
 		// これにより、HomeController側で「session.getAttribute("loginUser")」から安全にUser情報を取得できます
 		session.setAttribute("loginUser", user);
+		gachaService.setFalse(session);
 
 		// ========================================================
 		// セッションにあったカートの中身をDBにマージする
