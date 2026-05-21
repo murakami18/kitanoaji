@@ -50,7 +50,7 @@
           <tr class="total-row"
               th:if="${iterStat.last || historyRows[iterStat.index + 1].orderId != row.orderId}">
             <td colspan="6" class="total-label"
-                th:text="'合計金額：' + ${#numbers.formatInteger(row.totalAmount, 3, 'COMMA')} + '円'">
+                th:text="'合計金額           ：  ' + ${#numbers.formatInteger(row.totalAmount, 3, 'COMMA')} + '円'">
             </td>
           </tr>
 
