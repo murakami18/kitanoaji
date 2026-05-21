@@ -18,6 +18,8 @@ import com.example.demo.entity.User;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.service.CartService;
 import com.example.demo.service.OrderService;
+import com.example.demo.service.RouletteService;
+import com.example.demo.service.UseGachaService;
 
 @Controller
 @RequestMapping("/purchase")
@@ -25,16 +27,22 @@ public class PurchaseController {
 
 	private final CartService cartService;
 	private final OrderService orderService;
+	private final UseGachaService useGachaService;
 	private final ProductMapper productMapper;
+	private final RouletteService rouletteService;
 
 	public PurchaseController(
 			CartService cartService,
 			OrderService orderService,
-			ProductMapper productMapper) {
+			UseGachaService useGachaService,
+			ProductMapper productMapper,
+			RouletteService rouletteService) {
 
 		this.cartService = cartService;
 		this.orderService = orderService;
+		this.useGachaService = useGachaService;
 		this.productMapper = productMapper;
+		this.rouletteService = rouletteService;
 	}
 
 	/**
@@ -46,12 +54,29 @@ public class PurchaseController {
 			HttpSession session,
 			Model model) {
 
+		//		boolean gachaResult = useGachaService.init(session);
+		//
+		//		if (useGacha) {
+		//			gachaResult = useGachaService.setTrue(session);
+		//		}
+		//		//		if (!useGacha) {
+		//		//			gachaResult = useGachaService.setFalse(session);
+		//		//		}
+
 		// ログインユーザー取得
 		User loginUser = (User) session.getAttribute("loginUser");
 
 		// 未ログイン
 		if (loginUser == null) {
 			return "redirect:/login";
+		}
+
+		//ログインしてなかったときはsessionに値が入らない
+
+		boolean gachaResult = useGachaService.init(session);
+
+		if (useGacha) {
+			gachaResult = useGachaService.setTrue(session);
 		}
 
 		// カート商品取得
@@ -73,12 +98,16 @@ public class PurchaseController {
 				.sum();
 
 		// ★ winなら半額
-		if (cart != null && "win".equals(cart.getGameResult())) {
+		//		if (cart != null && "win".equals(cart.getGameResult())) {
+		//			totalPrice = totalPrice / 2;
+		//		}
+
+		if (cart != null && rouletteService.get(session)) {
 			totalPrice = totalPrice / 2;
 		}
 
 		// ★ ガチャ利用なら最後に+100円
-		if (useGacha) {
+		if (gachaResult) {
 			totalPrice += 100;
 		}
 
@@ -96,8 +125,8 @@ public class PurchaseController {
 				cart);
 
 		model.addAttribute(
-				"useGacha",
-				useGacha);
+				"gachaResult",
+				gachaResult);
 
 		return "purchase/checkout";
 	}
@@ -145,6 +174,10 @@ public class PurchaseController {
 		// ルーレット結果リセット
 		cartService.resetGameResult(
 				loginUser.getId());
+
+		useGachaService.clear(session);
+
+		rouletteService.clear(session);
 
 		// 完了画面へ
 		model.addAttribute(

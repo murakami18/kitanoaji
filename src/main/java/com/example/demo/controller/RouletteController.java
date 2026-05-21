@@ -33,8 +33,10 @@ public class RouletteController {
 			return "redirect:/login";
 		}
 
+		boolean useRoulette = rouletteService.init(session);
+
 		String result = rouletteService.challenge(
-				loginUser.getId());
+				loginUser.getId(), session);
 
 		model.addAttribute(
 				"result",
@@ -52,6 +54,7 @@ public class RouletteController {
 
 		// 当たり
 		if (result.equals("win")) {
+			rouletteService.setTrue(session);
 			return "roulette/win";
 		}
 
